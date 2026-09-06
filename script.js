@@ -114,7 +114,7 @@ function highlightActiveNavLink() {
     const navLinks = document.querySelectorAll('header nav a');
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
-        if (!href) return;
+        if (!href || href.startsWith('#')) return;
 
         // Clean link href from hash & query params
         const cleanHref = href.split('#')[0].split('?')[0];
@@ -125,13 +125,11 @@ function highlightActiveNavLink() {
         }
 
         // Compare current filename with link destination
-        const isMatch = (linkFileName === currentFileName) ||
-            (currentFileName === 'index.html' && (linkFileName === '' || linkFileName === 'index.html'));
+        const isMatch = (linkFileName === currentFileName);
 
         if (isMatch) {
             link.classList.add('active');
             link.setAttribute('aria-current', 'page');
-            // Remove hardcoded inline styles to let design system CSS shine
             link.style.textDecoration = '';
             link.style.fontWeight = '';
         } else {
@@ -139,6 +137,39 @@ function highlightActiveNavLink() {
             link.removeAttribute('aria-current');
         }
     });
+
+    // ScrollSpy for in-page hash links
+    const hashLinks = document.querySelectorAll('header nav a[href^="#"]');
+    if (hashLinks.length > 0) {
+        const sections = [];
+        hashLinks.forEach(link => {
+            const id = link.getAttribute('href');
+            if (id && id.length > 1) {
+                const sec = document.querySelector(id);
+                if (sec) sections.push({ link, sec });
+            }
+        });
+
+        const onScrollSpy = () => {
+            const scrollPos = window.pageYOffset + 120;
+            let current = null;
+            sections.forEach(({ link, sec }) => {
+                const top = sec.offsetTop;
+                const height = sec.offsetHeight;
+                if (scrollPos >= top && scrollPos < top + height) {
+                    current = link;
+                }
+            });
+
+            hashLinks.forEach(l => l.classList.remove('active'));
+            if (current) {
+                current.classList.add('active');
+            }
+        };
+
+        window.addEventListener('scroll', onScrollSpy, { passive: true });
+        onScrollSpy();
+    }
 }
 
 /**
