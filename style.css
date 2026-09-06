@@ -474,80 +474,6 @@ header .header-logo-img {
     display: none;
 }
 
-/* --- Technical Architecture & Capabilities Spec Strip (.flagship-spec-strip, .hero-spec-strip) --- */
-.flagship-spec-strip,
-.hero-spec-strip {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-top: 36px;
-    text-align: left;
-}
-
-.hero-spec-card {
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    padding: 22px 20px;
-    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.hero-spec-card:hover {
-    border-color: #cbd5e1;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px -4px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
-}
-
-.hero-spec-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-}
-
-.hero-spec-icon-box {
-    width: 38px;
-    height: 38px;
-    border-radius: 6px;
-    background: #f0f9ff;
-    border: 1px solid #e0f2fe;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.hero-spec-badge {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #0369a1;
-    background: #f8fafc;
-    border: 1px solid var(--border-color);
-    padding: 3px 8px;
-    border-radius: var(--border-radius-badge);
-}
-
-.hero-spec-title {
-    font-size: 0.98rem;
-    font-weight: 700;
-    color: var(--text-color-dark);
-    margin: 0 0 6px;
-    letter-spacing: -0.01em;
-}
-
-.hero-spec-desc {
-    font-size: 0.82rem;
-    color: var(--text-color-muted);
-    line-height: 1.55;
-    margin: 0;
-}
 
 /* --- 8. Bio & Categorized Skills Matrix (#bio) --- */
 .bio-section {
@@ -1616,32 +1542,6 @@ footer {
     transform: translateX(3px);
 }
 
-.footer-portal-item {
-    margin-top: 8px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.footer-portal-link {
-    color: #38bdf8 !important;
-    font-weight: 600 !important;
-    background: rgba(2, 132, 199, 0.12);
-    border: 1px solid rgba(2, 132, 199, 0.3);
-    padding: 6px 14px;
-    border-radius: 6px;
-    display: inline-flex !important;
-    align-items: center;
-    gap: 7px;
-    transition: all 0.15s ease;
-}
-
-.footer-portal-link:hover {
-    background: var(--primary-color);
-    color: #ffffff !important;
-    border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
-    transform: translateY(-1px) !important;
-}
 
 /* Footer Contact Column */
 .footer-contact-item {
@@ -1772,27 +1672,41 @@ footer {
     user-select: none;
 }
 
-.footer-auth-badge {
+/* Stealth Portal Links in Footer ("Hidden where no one can see") */
+.stealth-login-lock {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 5px 12px;
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    color: #cbd5e1;
-    font-weight: 600;
-    font-size: 0.82rem;
+    justify-content: center;
+    vertical-align: middle;
+    margin-left: 6px;
+    color: #64748b;
+    opacity: 0.15;
     text-decoration: none;
-    transition: all 0.15s ease;
+    transition: opacity 0.2s ease, color 0.2s ease;
+    cursor: default;
+    user-select: none;
 }
 
-.footer-auth-badge:hover {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
-    transform: translateY(-1px);
+.stealth-login-lock:hover {
+    opacity: 0.85;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.stealth-login-dot {
+    color: #64748b;
+    opacity: 0.25;
+    text-decoration: none;
+    margin-left: 6px;
+    cursor: default;
+    user-select: none;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.stealth-login-dot:hover {
+    opacity: 0.85;
+    color: var(--primary-color);
+    cursor: pointer;
 }
 
 /* --- 13. Responsive Media Queries (Mobile & Tablet) --- */
@@ -1917,12 +1831,6 @@ footer {
     .btn,
     .btn-nested-pill {
         width: 100%;
-    }
-
-    .flagship-spec-strip,
-    .hero-spec-strip {
-        grid-template-columns: 1fr;
-        gap: 12px;
     }
 
     .bio-section, .standards-section, .quick-contact-section {
