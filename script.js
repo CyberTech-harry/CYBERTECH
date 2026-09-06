@@ -311,7 +311,7 @@ function initFooterCopyright() {
         const bottomBar = document.createElement('div');
         bottomBar.className = 'footer-bottom';
         bottomBar.innerHTML = `
-            <p>&copy; ${new Date().getFullYear()} htechnologies. All rights reserved. <a href="login/login.html" class="stealth-login-lock" title="Staff Portal" aria-label="Portal Access">[Portal]</a></p>
+            <p>&copy; ${new Date().getFullYear()} htechnologies. All rights reserved. <a href="login/login.html" class="stealth-login-lock" title="Staff Portal" aria-label="Portal Access"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></a></p>
             <p>Crafted with engineering precision <a href="login/login.html" class="stealth-login-dot" title="Staff Portal" aria-label="Portal Access">&bull;</a> Busia, Kenya</p>
         `;
         footer.appendChild(bottomBar);
