@@ -11,6 +11,7 @@ const ASSETS_TO_CACHE = [
   './script.js',
   './manifest.json',
   './htechnologies-logo.png',
+  './htechnologies-logo-white.png',
   './htechnologies-icon-192.png',
   './htechnologies-icon-512.png',
   './KSM_Half.jpeg',
