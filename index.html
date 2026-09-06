@@ -18,7 +18,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="htechnologies">
-    <link rel="icon" type="image/png" href="htechnologies-icon-192.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="htechnologies-icon-192.png">
     <link rel="apple-touch-icon" href="htechnologies-icon-192.png">
 
     <!-- Open Graph Protocol (Facebook, LinkedIn, Slack) -->
@@ -112,17 +114,17 @@
     <!-- Global Backend Outage & Network Degradation Notification Bar (Graceful Recovery) -->
     <div id="service-status-banner" class="status-banner hidden" role="alert" aria-live="polite">
         <div class="status-banner-content">
-            <span class="status-banner-icon" id="banner-icon">⚠️</span>
+            <span class="status-banner-icon" id="banner-icon">[Status]</span>
             <span class="status-banner-text" id="banner-text">
                 Notice: Backend services or network connection are temporarily offline. Cached features and UI remain fully operational.
             </span>
             <button id="banner-retry-btn" class="status-banner-btn" onclick="retryConnectionHealth()">
-                🔄 Refresh Status
+                Refresh Status
             </button>
         </div>
     </div>
-    <!-- Floating Glass Header & Brand Island -->
-    <header class="header-island">
+    <!-- Full-Width Top Bar Header -->
+    <header>
         <a href="index.html" class="logo" aria-label="htechnologies home">
             <img src="htechnologies-logo.png" alt="htechnologies logo" class="header-logo-img">
         </a>
@@ -137,57 +139,18 @@
                     Available for IT Support &amp; Systems Development
                 </div>
                 <h1 class="hero-title">
-                    Where Technology Meets <span class="gradient-text">Creative Engineering</span>
+                    Enterprise IT Systems Diagnostics, Hardware Support &amp; Custom Web Engineering
                 </h1>
                 <p class="hero-subtitle">
-                    Greetings! I'm <strong>Harrison</strong> — an <strong>IT System Support Technician</strong>, <strong>Full-Stack Web Developer</strong>, <strong>Commercial Graphic Designer</strong>, and <strong>Computer Software Tutor</strong> delivering mission-critical tech solutions, resilient FinTech architectures, and transformative digital training.
+                    Harrison delivers component-level IT hardware repairs, production Point of Sale systems, localized Safaricom M-Pesa FinTech integrations, and secure web applications for businesses in Kenya and worldwide.
                 </p>
                 <div class="hero-cta-group">
-                    <a href="#flagship-projects" class="btn-primary btn-nested-pill">
-                        <span>Explore Featured Projects</span>
-                        <span class="btn-icon-circle">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </span>
+                    <a href="#flagship-projects" class="btn btn-primary">
+                        Explore Featured Systems
                     </a>
-                    <a href="#contact" class="btn-secondary btn-nested-pill">
-                        <span>Get Direct IT Support</span>
-                        <span class="btn-icon-circle">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg>
-                        </span>
+                    <a href="#contact" class="btn btn-secondary">
+                        Get Direct IT Support
                     </a>
-                </div>
-
-                <!-- Quick Stats Counter Bar (Double-Bezel Hardware Architecture) -->
-                <div class="hero-stats-bar">
-                    <div class="stat-card">
-                        <div class="stat-card-inner">
-                            <span class="stat-number">4+</span>
-                            <span class="stat-label">Enterprise Systems</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-inner">
-                            <span class="stat-number">117+</span>
-                            <span class="stat-label">Technical IT Guides</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-inner">
-                            <span class="stat-number">50+</span>
-                            <span class="stat-label">Students &amp; Staff Trained</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-inner">
-                            <span class="stat-number">99.8%</span>
-                            <span class="stat-label">Client Satisfaction &amp; Uptime</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -204,7 +167,7 @@
                         <h3 class="bio-meta-name">Harrison</h3>
                         <p class="bio-meta-role">Lead Solutions Engineer &amp; Tech Tutor</p>
                         <p class="bio-meta-location">
-                            <span>📍</span> ABSA Bank Building, Busia (Kenya)
+                            ABSA Bank Building, Busia (Kenya)
                         </p>
                     </div>
                 </div>
@@ -213,7 +176,7 @@
                 <div class="bio-content">
                     <div>
                         <span class="section-pill-tag">Professional Profile</span>
-                        <h2>Engineering Digital Reliability &amp; Creative Clarity</h2>
+                        <h2>Engineering Digital Reliability &amp; Technical Precision</h2>
                     </div>
 
                     <p>
@@ -221,7 +184,7 @@
                     </p>
 
                     <p>
-                        As the founder of <strong>htechnologies</strong>, I bridge the gap between technical complexity and everyday usability — empowering organizations across East Africa to scale with reliable, modern digital tools.
+                        As the founder of <strong>htechnologies</strong>, I bridge the gap between technical complexity and everyday usability, empowering organizations across East Africa to scale with reliable, modern digital tools.
                     </p>
 
                     <!-- Categorized Skill Matrix -->
@@ -229,7 +192,7 @@
                         <!-- Domain 1 -->
                         <div class="skill-group">
                             <h4 class="skill-group-title">
-                                <span class="icon">🛠️</span> IT Systems Support &amp; Hardware Diagnostics
+                                IT Systems Support &amp; Hardware Diagnostics
                             </h4>
                             <div class="skill-badges">
                                 <span class="skill-pill">Component-Level PC Diagnostics</span>
@@ -244,7 +207,7 @@
                         <!-- Domain 2 -->
                         <div class="skill-group">
                             <h4 class="skill-group-title">
-                                <span class="icon">💻</span> Full-Stack Web Engineering
+                                Full-Stack Web Engineering
                             </h4>
                             <div class="skill-badges">
                                 <span class="skill-pill">React (Vite)</span>
@@ -260,7 +223,7 @@
                         <!-- Domain 3 -->
                         <div class="skill-group">
                             <h4 class="skill-group-title">
-                                <span class="icon">💳</span> M-Pesa FinTech Gateways &amp; Automation
+                                M-Pesa FinTech Gateways &amp; Automation
                             </h4>
                             <div class="skill-badges">
                                 <span class="skill-pill">Safaricom Daraja API 2.0</span>
@@ -274,7 +237,7 @@
                         <!-- Domain 4 -->
                         <div class="skill-group">
                             <h4 class="skill-group-title">
-                                <span class="icon">🎨</span> Creative Graphic Design &amp; Brand Identity
+                                Creative Graphic Design &amp; Brand Identity
                             </h4>
                             <div class="skill-badges">
                                 <span class="skill-pill">Adobe Illustrator (Vector Art)</span>
@@ -288,7 +251,7 @@
                         <!-- Domain 5 -->
                         <div class="skill-group">
                             <h4 class="skill-group-title">
-                                <span class="icon">🎓</span> MS Office &amp; Google Workspace Tutoring
+                                MS Office &amp; Google Workspace Tutoring
                             </h4>
                             <div class="skill-badges">
                                 <span class="skill-pill">Advanced Microsoft Excel (VLOOKUP, Pivot, Macros)</span>
@@ -309,7 +272,7 @@
                 <span class="section-pill-tag">Production Portfolios</span>
                 <h2 class="section-title">Featured Flagship Systems</h2>
                 <p class="section-subtitle">
-                    Explore production-grade enterprise platforms engineered by Harrison — spanning offline-first Point of Sale, comprehensive IT troubleshooting knowledge bases, small-business operations hubs, and property management software.
+                    Explore production-grade enterprise platforms engineered by Harrison, spanning offline-first Point of Sale, comprehensive IT troubleshooting knowledge bases, small-business operations hubs, and property management software.
                 </p>
             </div>
 
@@ -336,9 +299,8 @@
                         </div>
                     </div>
                     <div class="flagship-actions">
-                        <a href="https://pos.cybertechcomps.com" target="_blank" rel="noopener" class="flagship-link-primary btn-nested-pill">
-                            <span>Launch pos.cybertechcomps.com</span>
-                            <span class="btn-icon-circle">&nearr;</span>
+                        <a href="https://pos.cybertechcomps.com" target="_blank" rel="noopener" class="btn btn-primary">
+                            Launch pos.cybertechcomps.com
                         </a>
                     </div>
                 </article>
@@ -365,9 +327,8 @@
                         </div>
                     </div>
                     <div class="flagship-actions">
-                        <a href="https://fixit.cybertechcomps.com" target="_blank" rel="noopener" class="flagship-link-primary btn-nested-pill">
-                            <span>Launch fixit.cybertechcomps.com</span>
-                            <span class="btn-icon-circle">&nearr;</span>
+                        <a href="https://fixit.cybertechcomps.com" target="_blank" rel="noopener" class="btn btn-primary">
+                            Launch fixit.cybertechcomps.com
                         </a>
                     </div>
                 </article>
@@ -394,9 +355,8 @@
                         </div>
                     </div>
                     <div class="flagship-actions">
-                        <a href="https://cybertechcomps.com" target="_blank" rel="noopener" class="flagship-link-primary btn-nested-pill">
-                            <span>Launch cybertechcomps.com</span>
-                            <span class="btn-icon-circle">&nearr;</span>
+                        <a href="https://cybertechcomps.com" target="_blank" rel="noopener" class="btn btn-primary">
+                            Launch cybertechcomps.com
                         </a>
                     </div>
                 </article>
@@ -423,9 +383,8 @@
                         </div>
                     </div>
                     <div class="flagship-actions">
-                        <a href="#contact" class="flagship-link-primary btn-nested-pill">
-                            <span>Request Rental System Demo</span>
-                            <span class="btn-icon-circle">&rarr;</span>
+                        <a href="#contact" class="btn btn-primary">
+                            Request Rental System Demo
                         </a>
                     </div>
                 </article>
@@ -438,66 +397,46 @@
                         <h3>Looking for a custom enterprise platform, M-Pesa integration, or tailored business automation?</h3>
                         <p>Harrison provides direct architecture design, rapid implementation, and ongoing SLA maintenance.</p>
                     </div>
-                    <a href="#contact" class="cta-link btn-nested-pill">
-                        <span>Discuss Your Project</span>
-                        <span class="btn-icon-circle">&rarr;</span>
+                    <a href="#contact" class="btn btn-primary">
+                        Discuss Your Project
                     </a>
                 </div>
             </div>
         </section>
 
-
-        <!-- Client Testimonials Snippet -->
-        <section class="testimonials" style="flex-direction: column; gap: 0;">
+        <!-- Engineering Standards & Service Commitments Section -->
+        <section class="standards-section" id="standards">
             <div class="section-header">
-                <span class="section-pill-tag">Verified Client Feedback</span>
-                <h2 class="section-title">What Clients &amp; Students Say</h2>
+                <span class="section-pill-tag">Engineering Rigor</span>
+                <h2 class="section-title">Standards &amp; Operational Commitments</h2>
                 <p class="section-subtitle">
-                    Proven reliability across enterprise hardware diagnostics, custom web systems, corporate training workshops, and commercial graphic design.
+                    Every hardware repair, software deployment, and network integration is governed by verifiable engineering standards and transparent client accountability.
                 </p>
             </div>
 
-            <div class="testimonials-grid" style="display: flex; gap: 24px; width: 100%;">
-                <!-- Testimonial 1 -->
-                <div class="testimonial" id="testimonial-wanyama">
-                    <div>
-                        <img src="Customer_A.png" alt="Stephen Wanyama">
-                        <div class="star-rating" aria-label="5 out of 5 stars">★★★★★</div>
-                        <p>"Harrison's IT support is unparalleled! He restored our entire inventory system, set up automated daily cloud backups, and our store checkout downtime is now zero. Dependable and deeply knowledgeable."</p>
-                    </div>
-                    <div class="testimonial-author-meta">
-                        <h4 class="testimonial-author-name">Stephen Wanyama</h4>
-                        <p class="testimonial-author-role">Managing Director, Busia Commercial Enterprises</p>
-                        <span class="section-pill-tag" style="margin-top: 12px; display: inline-block; font-size: 0.78rem;">Verified Client ✓</span>
-                    </div>
+            <div class="standards-grid">
+                <div class="standard-card">
+                    <span class="standard-badge">Diagnostics</span>
+                    <h3 class="standard-title">Component-Level Hardware Verification</h3>
+                    <p class="standard-desc">
+                        Rigorous hardware inspection using multimeters, diagnostic boot environments, and stress benchmarks before and after repairs. No guesswork, no superficial component swaps.
+                    </p>
                 </div>
 
-                <!-- Testimonial 2 -->
-                <div class="testimonial" id="testimonial-achieng">
-                    <div>
-                        <img src="Customer_B.png" alt="Brenda Achieng">
-                        <div class="star-rating" aria-label="5 out of 5 stars">★★★★★</div>
-                        <p>"I learned so much from Harrison's software training. He demystified complex Excel formulas, pivot tables, and Google Workspace automations for our entire logistics department. Highly recommended!"</p>
-                    </div>
-                    <div class="testimonial-author-meta">
-                        <h4 class="testimonial-author-name">Brenda Achieng</h4>
-                        <p class="testimonial-author-role">Executive Assistant, Lake Region Logistics</p>
-                        <span class="section-pill-tag" style="margin-top: 12px; display: inline-block; font-size: 0.78rem;">Verified Client ✓</span>
-                    </div>
+                <div class="standard-card">
+                    <span class="standard-badge">Security</span>
+                    <h3 class="standard-title">Hardened Web &amp; FinTech Architecture</h3>
+                    <p class="standard-desc">
+                        Zero exposure of administrative keys on client side, strict SQL query parameterization to prevent injection, and cryptographic HMAC verification on all M-Pesa webhook endpoints.
+                    </p>
                 </div>
 
-                <!-- Testimonial 3 -->
-                <div class="testimonial" id="testimonial-omondi">
-                    <div>
-                        <img src="Customer_C.png" alt="Kevin Omondi">
-                        <div class="star-rating" aria-label="5 out of 5 stars">★★★★★</div>
-                        <p>"The brand identity and marketing graphics Harrison created for my company were simply outstanding. Crisp, modern, and aligned with our target market. Our customer trust surged immediately."</p>
-                    </div>
-                    <div class="testimonial-author-meta">
-                        <h4 class="testimonial-author-name">Kevin Omondi</h4>
-                        <p class="testimonial-author-role">Founder, Apex Dynamics Solutions</p>
-                        <span class="section-pill-tag" style="margin-top: 12px; display: inline-block; font-size: 0.78rem;">Verified Client ✓</span>
-                    </div>
+                <div class="standard-card">
+                    <span class="standard-badge">Privacy</span>
+                    <h3 class="standard-title">Kenya DPA 2019 Compliance</h3>
+                    <p class="standard-desc">
+                        Full compliance with Kenya Data Protection Act 2019 guidelines. All customer diagnostic data and records are handled with strict confidentiality, encrypted at rest, and never shared.
+                    </p>
                 </div>
             </div>
         </section>
@@ -505,7 +444,7 @@
         <!-- Quick Contact & Office Strip -->
         <section class="quick-contact-section" id="contact">
             <div class="section-header">
-                <span class="section-pill-tag">⚡ Fast Direct Response</span>
+                <span class="section-pill-tag">Direct Response</span>
                 <h2 class="section-title">Let's Connect &amp; Solve It</h2>
                 <p class="section-subtitle">
                     Have an urgent IT system issue, need a custom software quote, or want to schedule software training? Visit our Busia office or send an instant inquiry below.
@@ -538,13 +477,13 @@
                             <div class="select-wrapper">
                                 <select id="service" name="service" required>
                                     <option value="" disabled selected>Select a service or requirement...</option>
-                                    <option value="IT Systems Support & PC Diagnostics">💻 IT Systems Support &amp; PC Diagnostics</option>
-                                    <option value="Custom Full-Stack Web Development">🌐 Custom Full-Stack Web Development</option>
-                                    <option value="Cybertech POS & Retail System Implementation">🛒 Cybertech POS &amp; Retail Systems</option>
-                                    <option value="M-Pesa FinTech & Payment Gateway">💳 M-Pesa FinTech &amp; Payment Gateway</option>
-                                    <option value="Graphic Design & Branding">🎨 Graphic Design &amp; Brand Identity</option>
-                                    <option value="Software Tutoring & Corporate Training">📚 Software Tutoring &amp; Corporate Training</option>
-                                    <option value="General Technical Consultation">📩 General Technical Consultation</option>
+                                    <option value="IT Systems Support & PC Diagnostics">IT Systems Support &amp; PC Diagnostics</option>
+                                    <option value="Custom Full-Stack Web Development">Custom Full-Stack Web Development</option>
+                                    <option value="Cybertech POS & Retail System Implementation">Cybertech POS &amp; Retail Systems</option>
+                                    <option value="M-Pesa FinTech & Payment Gateway">M-Pesa FinTech &amp; Payment Gateway</option>
+                                    <option value="Graphic Design & Branding">Graphic Design &amp; Brand Identity</option>
+                                    <option value="Software Tutoring & Corporate Training">Software Tutoring &amp; Corporate Training</option>
+                                    <option value="General Technical Consultation">General Technical Consultation</option>
                                 </select>
                             </div>
                         </div>
@@ -560,11 +499,11 @@
                         </button>
 
                         <div class="form-trust-strip">
-                            <span>🔒 Encrypted Data</span>
+                            <span>Encrypted Data</span>
                             <span class="trust-dot">•</span>
-                            <span>⚡ Offline Resilient</span>
+                            <span>Offline Resilient</span>
                             <span class="trust-dot">•</span>
-                            <span>⏱️ 24h Response</span>
+                            <span>24h Response</span>
                         </div>
                     </form>
                 </div>
@@ -574,20 +513,18 @@
                     <div class="office-header-bar">
                         <div>
                             <div class="office-badge-title">
-                                <span class="office-title-icon">🏢</span>
                                 <h3>Physical Headquarters</h3>
                             </div>
                             <p class="office-sub">htechnologies</p>
                         </div>
                         <span class="office-status-pill">
-                            <span class="pulse-dot"></span> Open Mon – Sat
+                            <span class="pulse-dot"></span> Open Mon - Sat
                         </span>
                     </div>
 
                     <div class="office-cards-stack">
                         <!-- Office Location -->
                         <div class="office-card-item">
-                            <div class="card-item-icon">📍</div>
                             <div class="card-item-body">
                                 <span class="card-item-label">Office Location</span>
                                 <div class="card-item-value">
@@ -599,7 +536,6 @@
 
                         <!-- Direct Lines -->
                         <div class="office-card-item">
-                            <div class="card-item-icon">📞</div>
                             <div class="card-item-body">
                                 <span class="card-item-label">Direct Phone Lines</span>
                                 <div class="card-item-value phone-links">
@@ -612,7 +548,6 @@
 
                         <!-- Official Email -->
                         <div class="office-card-item">
-                            <div class="card-item-icon">✉️</div>
                             <div class="card-item-body">
                                 <span class="card-item-label">Official Email</span>
                                 <div class="card-item-value">
@@ -623,17 +558,16 @@
 
                         <!-- Operating Hours -->
                         <div class="office-card-item">
-                            <div class="card-item-icon">🕒</div>
                             <div class="card-item-body">
                                 <span class="card-item-label">Operating Hours</span>
                                 <div class="hours-schedule">
                                     <div class="sched-row">
-                                        <span class="sched-day">Monday – Friday:</span>
-                                        <span class="sched-time">8:00 am – 7:00 pm</span>
+                                        <span class="sched-day">Monday - Friday:</span>
+                                        <span class="sched-time">8:00 am - 7:00 pm</span>
                                     </div>
                                     <div class="sched-row">
                                         <span class="sched-day">Saturday:</span>
-                                        <span class="sched-time">9:00 am – 6:00 pm</span>
+                                        <span class="sched-time">9:00 am - 6:00 pm</span>
                                     </div>
                                     <div class="sched-row">
                                         <span class="sched-day">Sunday:</span>
@@ -646,13 +580,13 @@
 
                     <div class="office-quick-actions">
                         <a href="tel:+254798830470" class="office-action-btn call-btn">
-                            📞 Call Now
+                            Call Now
                         </a>
                         <a href="https://wa.me/+254798830470" target="_blank" rel="noopener" class="office-action-btn wa-btn">
-                            💬 WhatsApp Chat
+                            WhatsApp Chat
                         </a>
                         <a href="https://maps.google.com/?q=ABSA+Bank+Busia+Kenya" target="_blank" rel="noopener" class="office-action-btn map-btn">
-                            📍 Google Maps
+                            Google Maps
                         </a>
                     </div>
                 </div>
@@ -710,9 +644,13 @@
         </div>
 
         <div class="footer-bottom">
+            <div class="footer-legal-links" style="margin-bottom: 10px;">
+                <a href="privacy.html" style="color: var(--text-color-muted); text-decoration: none; font-size: 0.84rem; margin-right: 18px;">Privacy Policy</a>
+                <a href="terms.html" style="color: var(--text-color-muted); text-decoration: none; font-size: 0.84rem;">Terms &amp; Conditions</a>
+            </div>
             <p>
                 &copy; <span id="current-year">2026</span> htechnologies. All rights reserved.
-                <a href="login/login.html" class="stealth-login-lock" title="Staff Portal" aria-label="Portal Access">🔒</a>
+                <a href="login/login.html" class="stealth-login-lock" title="Staff Portal" aria-label="Portal Access">[Portal]</a>
             </p>
             <p>Crafted with engineering precision <a href="login/login.html" class="stealth-login-dot" title="Staff Portal" aria-label="Portal Access">&bull;</a> Busia, Kenya</p>
         </div>

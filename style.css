@@ -17,9 +17,8 @@
     --primary-glow: rgba(2, 132, 199, 0.35);
 
     /* Kinetic Tech Accents */
-    --accent-cyan: #00e5ff;               /* Cyber Cyan for badges & halo glows */
-    --accent-emerald: #10b981;            /* Emerald for live operational uptime */
-    --accent-indigo: #6366f1;             /* Modern Indigo Nuance */
+    --accent-cyan: #0284c7;               /* Brand Steel / Sky 600 */
+    --accent-emerald: #059669;            /* Emerald for live operational uptime */
 
     /* Typography & Contrast System */
     --text-color-dark: #0f172a;           /* Slate 900: High-contrast headings */
@@ -30,38 +29,39 @@
     /* Surfaces & Elevating Backgrounds */
     --background-color-body: #f8fafc;     /* Slate 50 Canvas */
     --background-color-light: #ffffff;    /* Card Surface */
-    --surface-glass: rgba(255, 255, 255, 0.85);
-    --surface-dark: #090e1a;              /* Deep OLED Tech Slate */
+    --surface-glass: rgba(255, 255, 255, 0.95);
+    --surface-dark: #0f172a;              /* Deep Solid Slate */
     --surface-dark-card: #0f172a;         /* Slate 900 Surface */
     --surface-dark-accent: #1e293b;       /* Slate 800 Surface */
 
     /* Hairline Concentric Borders */
     --border-color: #e2e8f0;              /* Hairline Card Border */
-    --border-color-subtle: rgba(226, 232, 240, 0.7);
-    --border-dark: rgba(255, 255, 255, 0.08);
-    --border-dark-hover: rgba(0, 229, 255, 0.3);
+    --border-color-subtle: #cbd5e1;
+    --border-dark: rgba(255, 255, 255, 0.12);
+    --border-dark-hover: rgba(2, 132, 199, 0.5);
 
-    /* Concentric Radii */
-    --border-radius-sm: 8px;
-    --border-radius: 16px;                /* Standard Card Radius */
-    --border-radius-lg: 24px;             /* Section Containers */
-    --border-radius-pill: 9999px;         /* Fully Rounded Pills & Buttons */
+    /* Concentric Radii (Grounded & Modern, No Pills) */
+    --border-radius-sm: 4px;
+    --border-radius-btn: 6px;
+    --border-radius-badge: 4px;
+    --border-radius: 8px;                 /* Standard Card Radius */
+    --border-radius-lg: 12px;             /* Section Containers */
+    --border-radius-pill: 6px;            /* Replaced pill with clean modern 6px */
 
-    /* Multi-Layered Soft Ambient Shadows & Glows */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-    --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
-    --shadow-lg: 0 12px 28px -6px rgba(2, 132, 199, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
-    --shadow-xl: 0 20px 40px -12px rgba(2, 132, 199, 0.12), 0 1px 3px rgba(0, 0, 0, 0.04);
-    --shadow-dark: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
-    --halo-cyan: 0 0 25px rgba(0, 229, 255, 0.25);
+    /* Multi-Layered Soft Ambient Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.07), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+    --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    --shadow-dark: 0 15px 30px -10px rgba(0, 0, 0, 0.4);
     --box-shadow-color: rgba(15, 23, 42, 0.06);
 
     /* Layout & Font Specs */
     --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
-    --container-padding: 40px;
+    --container-padding: 32px;
     --max-content-width: 1240px;
-    --physics-transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    --physics-transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
 /* --- 3. Global Reset & Base Styles --- */
@@ -76,13 +76,12 @@ html {
 body {
     font-family: var(--font-family);
     margin: 0;
-    padding: 0 16px 40px;
+    padding: 0 0 60px;
     background-color: var(--background-color-body);
     color: var(--text-color-medium);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: clip;
 }
 
 img {
@@ -111,12 +110,12 @@ a {
     font-size: 0.76rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    background: var(--primary-light);
-    color: var(--primary-color);
-    border: 1px solid rgba(2, 132, 199, 0.2);
-    padding: 5px 14px;
-    border-radius: var(--border-radius-pill);
+    letter-spacing: 0.05em;
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+    padding: 4px 10px;
+    border-radius: var(--border-radius-badge);
     margin-bottom: 12px;
 }
 
@@ -137,9 +136,8 @@ a {
 }
 
 .gradient-text {
-    background: linear-gradient(135deg, #0284c7 0%, #00e5ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--primary-color);
+    font-weight: 800;
 }
 
 /* --- 5. Backend Outage & Network Health Banner --- */
@@ -189,30 +187,29 @@ a {
     background: #b45309;
 }
 
-/* --- 6. Floating Glass Header (Left-Aligned Brand Header) --- */
+/* --- 6. Top Navigation Bar (Full-Width, Left-Aligned Brand Header) --- */
 header {
     position: sticky;
-    top: 14px;
-    margin: 14px auto 28px;
-    max-width: var(--max-content-width);
+    top: 0;
+    left: 0;
     width: 100%;
+    margin: 0;
     z-index: 1000;
-    background: var(--surface-glass);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--border-color-subtle);
-    border-radius: var(--border-radius-pill);
-    padding: 10px 24px;
-    box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.06);
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 0;
+    padding: 12px 32px;
+    box-sizing: border-box;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    box-shadow: var(--shadow-sm);
     transition: var(--physics-transition);
 }
 
 header:hover {
-    border-color: rgba(2, 132, 199, 0.3);
-    box-shadow: 0 12px 32px -8px rgba(2, 132, 199, 0.12);
+    border-color: var(--border-color);
+    box-shadow: var(--shadow-sm);
 }
 
 header .logo {
@@ -225,17 +222,11 @@ header .logo {
 
 header .logo img,
 header .header-logo-img {
-    height: 40px;
+    height: 38px;
     width: auto;
     max-width: 210px;
     object-fit: contain;
     display: block;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-header .logo:hover img,
-header .logo:hover .header-logo-img {
-    transform: scale(1.03);
 }
 
 /* Stealth Portal Links in Footer ("Hidden where no one can see") */
@@ -288,7 +279,7 @@ header .logo:hover .header-logo-img {
     transition: var(--physics-transition);
 }
 
-/* --- 7. Hero Section with Button-in-Button CTAs --- */
+/* --- 7. Hero Section with Engineering CTAs --- */
 .hero-section {
     padding: 64px 20px 48px;
     max-width: 1100px;
@@ -300,11 +291,11 @@ header .logo:hover .header-logo-img {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(16, 185, 129, 0.1);
+    background: #ecfdf5;
     color: #065f46;
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    padding: 6px 16px;
-    border-radius: var(--border-radius-pill);
+    border: 1px solid #a7f3d0;
+    padding: 6px 14px;
+    border-radius: var(--border-radius-badge);
     font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.02em;
@@ -314,28 +305,21 @@ header .logo:hover .header-logo-img {
 .status-indicator-dot {
     width: 8px;
     height: 8px;
-    background: #10b981;
+    background: #059669;
     border-radius: 50%;
-    box-shadow: 0 0 10px #10b981;
-    animation: pulseGlow 2s infinite ease-in-out;
-}
-
-@keyframes pulseGlow {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.35); opacity: 0.6; }
 }
 
 .hero-title {
-    font-size: clamp(2.4rem, 5.2vw, 3.85rem);
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
     font-weight: 800;
-    letter-spacing: -0.035em;
-    line-height: 1.15;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
     color: var(--text-color-dark);
     margin: 0 0 20px;
 }
 
 .hero-subtitle {
-    font-size: clamp(1.05rem, 2vw, 1.22rem);
+    font-size: clamp(1.02rem, 1.8vw, 1.18rem);
     color: var(--text-color-medium);
     max-width: 840px;
     margin: 0 auto 36px;
@@ -346,137 +330,64 @@ header .logo:hover .header-logo-img {
     color: var(--text-color-dark);
 }
 
-/* Button-in-Button CTA Architecture */
+/* Clean Engineering Buttons (Grounded Rectangular 6px Radius) */
 .hero-cta-group {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     flex-wrap: wrap;
-    margin-bottom: 56px;
+    margin-bottom: 32px;
 }
 
+.btn,
 .btn-nested-pill {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 8px 10px 8px 24px;
-    border-radius: var(--border-radius-pill);
-    font-weight: 700;
-    font-size: 0.96rem;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: var(--border-radius-btn);
+    font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
+    text-decoration: none;
     transition: var(--physics-transition);
 }
 
+.btn-primary,
 .btn-primary.btn-nested-pill {
-    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    background: var(--primary-color);
     color: #ffffff;
-    border: none;
-    box-shadow: 0 10px 25px -4px rgba(2, 132, 199, 0.45);
+    border: 1px solid var(--primary-color);
+    box-shadow: var(--shadow-sm);
 }
 
+.btn-primary:hover,
 .btn-primary.btn-nested-pill:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 30px -4px rgba(2, 132, 199, 0.55);
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    box-shadow: var(--shadow-md);
 }
 
-.btn-primary.btn-nested-pill:active {
-    transform: translateY(0) scale(0.98);
-}
-
-.btn-icon-circle {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease;
-    flex-shrink: 0;
-}
-
-.btn-primary.btn-nested-pill:hover .btn-icon-circle {
-    transform: translateX(3px) scale(1.06);
-    background: rgba(255, 255, 255, 0.32);
-}
-
+.btn-secondary,
 .btn-secondary.btn-nested-pill {
     background: #ffffff;
     color: var(--text-color-dark);
-    border: 1.5px solid var(--border-color);
+    border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
 }
 
+.btn-secondary:hover,
 .btn-secondary.btn-nested-pill:hover {
-    border-color: var(--primary-color);
+    border-color: #cbd5e1;
     color: var(--primary-color);
-    background: var(--primary-light);
-    transform: translateY(-2px);
+    background: #f8fafc;
     box-shadow: var(--shadow-md);
 }
 
-.btn-secondary.btn-nested-pill .btn-icon-circle {
-    background: rgba(2, 132, 199, 0.08);
-    color: var(--primary-color);
-}
-
-.btn-secondary.btn-nested-pill:hover .btn-icon-circle {
-    background: var(--primary-color);
-    color: #ffffff;
-    transform: translateX(3px);
-}
-
-/* Double-Bezel Hardware Stats Bar */
-.hero-stats-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin: 0 auto;
-    max-width: 1080px;
-}
-
-.stat-card {
-    background: rgba(255, 255, 255, 0.65);
-    border: 1px solid var(--border-color-subtle);
-    border-radius: 20px;
-    padding: 6px;
-    box-shadow: var(--shadow-sm);
-    backdrop-filter: blur(8px);
-}
-
-.stat-card-inner {
-    background: #ffffff;
-    border-radius: 14px;
-    padding: 22px 14px;
-    text-align: center;
-    border: 1px solid rgba(226, 232, 240, 0.6);
-    transition: var(--physics-transition);
-}
-
-.stat-card-inner:hover {
-    border-color: rgba(2, 132, 199, 0.3);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-}
-
-.stat-number {
-    display: block;
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 6px;
-    font-variant-numeric: tabular-nums;
-}
-
-.stat-label {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--text-color-muted);
-    line-height: 1.35;
-    display: block;
+.btn-icon-circle {
+    display: none;
 }
 
 /* --- 8. Bio & Categorized Skills Matrix (#bio) --- */
@@ -866,76 +777,70 @@ header .logo:hover .header-logo-img {
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-lg);
     padding: 60px 48px;
-    margin: 56px auto;
+/* --- 10. Engineering Standards & Service Commitments Section --- */
+.standards-section,
+.testimonials {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 56px 40px;
+    margin: 48px auto;
     max-width: var(--max-content-width);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-sm);
 }
 
+.standards-grid,
 .testimonials-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
 }
 
+.standard-card,
 .testimonial {
     background: #f8fafc;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    padding: 32px 26px;
+    padding: 28px 24px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     transition: var(--physics-transition);
 }
 
+.standard-card:hover,
 .testimonial:hover {
     background: #ffffff;
-    border-color: rgba(2, 132, 199, 0.35);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
+    border-color: #cbd5e1;
+    box-shadow: var(--shadow-md);
 }
 
-.testimonial img {
-    width: 68px;
-    height: 68px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-bottom: 14px;
+.standard-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 4px 10px;
+    border-radius: var(--border-radius-badge);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 16px;
+    align-self: flex-start;
 }
 
-.star-rating {
-    color: #f59e0b;
-    font-size: 1.15rem;
-    letter-spacing: 2px;
-    margin-bottom: 12px;
-}
-
-.testimonial p {
-    font-size: 0.94rem;
-    color: var(--text-color-medium);
-    line-height: 1.65;
-    font-style: italic;
-    margin: 0 0 20px;
-}
-
-.testimonial-author-meta {
-    border-top: 1px solid var(--border-color-subtle);
-    padding-top: 14px;
-    margin-top: auto;
-}
-
-.testimonial-author-name {
-    font-size: 1rem;
-    font-weight: 800;
+.standard-title {
+    font-size: 1.12rem;
+    font-weight: 700;
     color: var(--text-color-dark);
-    margin: 0 0 2px;
+    margin: 0 0 10px;
 }
 
-.testimonial-author-role {
-    font-size: 0.8rem;
-    color: var(--text-color-muted);
+.standard-desc {
+    font-size: 0.92rem;
+    color: var(--text-color-medium);
+    line-height: 1.6;
     margin: 0;
 }
 
@@ -1649,16 +1554,73 @@ footer {
     }
 }
 
-/* --- 14. Scroll Entry Animations --- */
+/* --- 14. Subtle Transitions --- */
 .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.3s ease;
 }
 
-.reveal-on-scroll.is-revealed {
-    opacity: 1;
-    transform: translateY(0);
+/* --- 15. Legal Pages (Privacy Policy & Terms of Service) --- */
+.legal-page {
+    background-color: var(--background-color-body);
 }
+
+.legal-container {
+    max-width: 920px;
+    margin: 40px auto;
+    padding: 0 24px;
+}
+
+.legal-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 48px;
+    box-shadow: var(--shadow-sm);
+}
+
+.legal-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+}
+
+.legal-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-color-dark);
+    margin: 0 0 12px;
+    letter-spacing: -0.03em;
+}
+
+.legal-meta {
+    font-size: 0.88rem;
+    color: var(--text-color-muted);
+}
+
+.legal-content h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-color-dark);
+    margin: 32px 0 12px;
+    letter-spacing: -0.01em;
+}
+
+.legal-content p,
+.legal-content li {
+    font-size: 0.96rem;
+    color: var(--text-color-medium);
+    line-height: 1.7;
+}
+
+.legal-content ul {
+    margin: 12px 0 20px 20px;
+    padding: 0;
+}
+
+.legal-content li {
+    margin-bottom: 8px;
+}
+
 

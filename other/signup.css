@@ -59,7 +59,7 @@
 }
 
 .signup-form .input-group .input:focus {
-    border-color: #6a11cb;
+    border-color: #0284c7;
     outline: none;
 }
 
@@ -67,18 +67,18 @@
 .signup-form .button.sign-up {
     width: 100%;
     padding: 12px;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: #0284c7;
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.2s ease;
 }
 
 .signup-form .button.sign-up:hover {
-    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    background: #0369a1;
 }
 
 /* Divider styling */
@@ -133,7 +133,7 @@
 
 /* Footer link */
 .signup-form .footer .link {
-    color: #6a11cb;
+    color: #0284c7;
     text-decoration: none;
     font-weight: bold;
 }
