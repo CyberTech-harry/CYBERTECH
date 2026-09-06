@@ -1,0 +1,25 @@
+{
+  "name": "CyberTech Hexperts Solutions",
+  "short_name": "CyberTech",
+  "description": "Enterprise IT Systems, Point of Sale, FinTech & Custom Web Architecture by Harrison",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#0284c7",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "CYBERTECH_LOGO.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "CYBERTECH_LOGO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

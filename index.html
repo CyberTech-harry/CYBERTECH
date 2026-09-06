@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberTech | Harrison's Technical Portfolio &amp; Systems Architecture</title>
+    
+    <!-- Core SEO & Search Discovery -->
+    <meta name="description" content="CyberTech Hexperts Solutions - Harrison's Portfolio: Enterprise Web Systems, Point of Sale (POS), IT Diagnostics, M-Pesa FinTech Integrations, Decoupled PWA Architecture, and Hardened Database Security.">
+    <meta name="keywords" content="CyberTech Hexperts Solutions, Harrison Busia Kenya, IT Systems Support, POS System Kenya, M-Pesa Integration, Full Stack Developer, FixIt IT Knowledge Base, Cybertech Biashara, Rentals SaaS, SQL Injection Prevention, Broken Access Control Prevention, Progressive Web App Busia">
+    <meta name="author" content="Harrison">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://cybertechcomps.com/">
+
+    <!-- PWA & Mobile Web App Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0284c7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CyberTech">
+    <link rel="icon" type="image/png" href="CYBERTECH_LOGO.png">
+    <link rel="apple-touch-icon" href="CYBERTECH_LOGO.png">
+
+    <!-- Open Graph Protocol (Facebook, LinkedIn, Slack) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cybertechcomps.com/">
+    <meta property="og:title" content="CyberTech Hexperts Solutions | Harrison's Technical Portfolio">
+    <meta property="og:description" content="Explore Harrison's enterprise systems: Point of Sale (pos.cybertechcomps.com), FixIt IT Knowledge Base (fixit.cybertechcomps.com), Biashara Platform, and Rentals SaaS. Built with resilient PWA architecture and hardened cybersecurity.">
+    <meta property="og:image" content="https://cybertechcomps.com/CYBERTECH_LOGO.png">
+    <meta property="og:site_name" content="CyberTech Hexperts Solutions">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CyberTech Hexperts Solutions | Enterprise Systems &amp; IT Support">
+    <meta name="twitter:description" content="Production Point of Sale, IT diagnostics portal, localized M-Pesa FinTech integration, and decoupled web architectures.">
+    <meta name="twitter:image" content="https://cybertechcomps.com/CYBERTECH_LOGO.png">
+
+    <!-- Schema.org JSON-LD Structured Data for Google & AI Bots -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://cybertechcomps.com/#organization",
+          "name": "CyberTech Hexperts Solutions",
+          "url": "https://cybertechcomps.com/",
+          "logo": "https://cybertechcomps.com/CYBERTECH_LOGO.png",
+          "image": "https://cybertechcomps.com/CYBERTECH_LOGO.png",
+          "description": "Enterprise IT support, Point of Sale systems, Safaricom M-Pesa FinTech integrations, full-stack software development, and technical consulting.",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "ABSA Bank Building",
+            "postOfficeBoxNumber": "313 - 50400",
+            "addressLocality": "Busia",
+            "addressCountry": "KE"
+          },
+          "telephone": ["+254775953282", "+254798830470"],
+          "email": "contact.htechnologies@gmail.com",
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "08:00",
+              "closes": "19:00"
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Saturday"],
+              "opens": "09:00",
+              "closes": "18:00"
+            }
+          ],
+          "priceRange": "$$"
+        },
+        {
+          "@type": "Person",
+          "@id": "https://cybertechcomps.com/#harrison",
+          "name": "Harrison",
+          "jobTitle": "Lead IT Systems Support Technician & Full-Stack Systems Engineer",
+          "worksFor": { "@id": "https://cybertechcomps.com/#organization" },
+          "url": "https://cybertechcomps.com/",
+          "knowsAbout": [
+            "Enterprise IT Hardware Diagnostics & Repair",
+            "Point of Sale (POS) Architecture",
+            "Full-Stack Web Development (React, FastAPI, Node)",
+            "Safaricom M-Pesa Daraja FinTech Integration",
+            "Database Injection & SQL Parameterization",
+            "Broken Access Control Defense",
+            "Progressive Web Apps (PWA) & Offline Shells"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://cybertechcomps.com/#website",
+          "url": "https://cybertechcomps.com/",
+          "name": "CyberTech Hexperts Solutions",
+          "publisher": { "@id": "https://cybertechcomps.com/#organization" }
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="loader.css">
+    <script src="script.js" defer></script>
+    <script src="loader.js" defer></script>
+</head>
+<body>
+    <!-- Global Backend Outage & Network Degradation Notification Bar (Graceful Recovery) -->
+    <div id="service-status-banner" class="status-banner hidden" role="alert" aria-live="polite">
+        <div class="status-banner-content">
+            <span class="status-banner-icon" id="banner-icon">⚠️</span>
+            <span class="status-banner-text" id="banner-text">
+                Notice: Backend services or network connection are temporarily offline. Cached features and UI remain fully operational.
+            </span>
+            <button id="banner-retry-btn" class="status-banner-btn" onclick="retryConnectionHealth()">
+                🔄 Refresh Status
+            </button>
+        </div>
+    </div>
+    <!-- Floating Glass Header & Modern Navigation -->
+    <header>
+        <a href="index.html" class="logo">
+            <img src="CYBERTECH LOGO 1.jpg" alt="CyberTech Hexperts Solutions Logo">
+            CyberTech Hexperts Solutions
+        </a>
+        <nav>
+            <a href="index.html" class="active">Home</a>
+        </nav>
+        <a href="login/login.html" class="login-button">Login</a>
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+        </button>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="hero-status-pill">
+                    <span class="status-indicator-dot"></span>
+                    Available for IT Support &amp; Systems Development
+                </div>
+                <h1 class="hero-title">
+                    Where Technology Meets <span class="gradient-text">Creative Engineering</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Greetings! I'm <strong>Harrison</strong> — an <strong>IT System Support Technician</strong>, <strong>Full-Stack Web Developer</strong>, <strong>Commercial Graphic Designer</strong>, and <strong>Computer Software Tutor</strong> delivering mission-critical tech solutions, resilient FinTech architectures, and transformative digital training.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="#flagship-projects" class="btn-primary btn-nested-pill">
+                        <span>Explore Featured Projects</span>
+                        <span class="btn-icon-circle">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </span>
+                    </a>
+                    <a href="#contact" class="btn-secondary btn-nested-pill">
+                        <span>Get Direct IT Support</span>
+                        <span class="btn-icon-circle">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Quick Stats Counter Bar (Double-Bezel Hardware Architecture) -->
+                <div class="hero-stats-bar">
+                    <div class="stat-card">
+                        <div class="stat-card-inner">
+                            <span class="stat-number">4+</span>
+                            <span class="stat-label">Enterprise Systems</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-inner">
+                            <span class="stat-number">117+</span>
+                            <span class="stat-label">Technical IT Guides</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-inner">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Students &amp; Staff Trained</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-inner">
+                            <span class="stat-number">99.8%</span>
+                            <span class="stat-label">Client Satisfaction &amp; Uptime</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Harrison Bio & Categorized Skills Matrix -->
+        <section class="bio-section" id="bio">
+            <div class="bio-grid">
+                <!-- Left: Profile Card -->
+                <div class="bio-profile-card">
+                    <div class="bio-image-frame">
+                        <img src="KSM_Half.jpeg" alt="Harrison - Lead Solutions Engineer">
+                    </div>
+                    <div class="bio-card-meta">
+                        <h3 class="bio-meta-name">Harrison</h3>
+                        <p class="bio-meta-role">Lead Solutions Engineer &amp; Tech Tutor</p>
+                        <p class="bio-meta-location">
+                            <span>📍</span> ABSA Bank Building, Busia (Kenya)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right: Bio Narrative & Categorized Skills Matrix -->
+                <div class="bio-content">
+                    <div>
+                        <span class="section-pill-tag">Professional Profile</span>
+                        <h2>Engineering Digital Reliability &amp; Creative Clarity</h2>
+                    </div>
+
+                    <p>
+                        With deep expertise spanning hardware diagnostics, full-stack cloud software engineering, and visual brand identity, I solve high-friction technological challenges for businesses and individuals. Whether diagnosing critical motherboard faults, engineering custom M-Pesa payment pipelines, or training corporate staff on advanced spreadsheet workflows, my approach is grounded in precision, performance, and clear communication.
+                    </p>
+
+                    <p>
+                        As the founder of <strong>CyberTech Hexperts Solutions</strong>, I bridge the gap between technical complexity and everyday usability — empowering organizations across East Africa to scale with reliable, modern digital tools.
+                    </p>
+
+                    <!-- Categorized Skill Matrix -->
+                    <div class="skills-matrix">
+                        <!-- Domain 1 -->
+                        <div class="skill-group">
+                            <h4 class="skill-group-title">
+                                <span class="icon">🛠️</span> IT Systems Support &amp; Hardware Diagnostics
+                            </h4>
+                            <div class="skill-badges">
+                                <span class="skill-pill">Component-Level PC Diagnostics</span>
+                                <span class="skill-pill">Windows &amp; Linux Maintenance</span>
+                                <span class="skill-pill">LAN / Wi-Fi &amp; Router Configuration</span>
+                                <span class="skill-pill">Remote IT Helpdesk</span>
+                                <span class="skill-pill">Data Recovery &amp; System Imaging</span>
+                                <span class="skill-pill">Antivirus &amp; Malware Remediation</span>
+                            </div>
+                        </div>
+
+                        <!-- Domain 2 -->
+                        <div class="skill-group">
+                            <h4 class="skill-group-title">
+                                <span class="icon">💻</span> Full-Stack Web Engineering
+                            </h4>
+                            <div class="skill-badges">
+                                <span class="skill-pill">React (Vite)</span>
+                                <span class="skill-pill">Node.js / Express</span>
+                                <span class="skill-pill">Python / FastAPI</span>
+                                <span class="skill-pill">RESTful APIs</span>
+                                <span class="skill-pill">SQLite (WAL) &amp; PostgreSQL</span>
+                                <span class="skill-pill">Tailwind CSS &amp; Modern UI/UX</span>
+                                <span class="skill-pill">cPanel &amp; Cloudflare CDN</span>
+                            </div>
+                        </div>
+
+                        <!-- Domain 3 -->
+                        <div class="skill-group">
+                            <h4 class="skill-group-title">
+                                <span class="icon">💳</span> M-Pesa FinTech Gateways &amp; Automation
+                            </h4>
+                            <div class="skill-badges">
+                                <span class="skill-pill">Safaricom Daraja API 2.0</span>
+                                <span class="skill-pill">PayHero Lipa Na M-Pesa STK</span>
+                                <span class="skill-pill">Real-Time Webhook Reconciliation</span>
+                                <span class="skill-pill">Automated Ledger Accounting</span>
+                                <span class="skill-pill">KRA eTIMS Compliance Readiness</span>
+                            </div>
+                        </div>
+
+                        <!-- Domain 4 -->
+                        <div class="skill-group">
+                            <h4 class="skill-group-title">
+                                <span class="icon">🎨</span> Creative Graphic Design &amp; Brand Identity
+                            </h4>
+                            <div class="skill-badges">
+                                <span class="skill-pill">Adobe Illustrator (Vector Art)</span>
+                                <span class="skill-pill">Photoshop (Digital Imaging)</span>
+                                <span class="skill-pill">Brand Identity &amp; Logo Systems</span>
+                                <span class="skill-pill">Print &amp; Stationery Collateral</span>
+                                <span class="skill-pill">Social Media &amp; E-Commerce Banners</span>
+                            </div>
+                        </div>
+
+                        <!-- Domain 5 -->
+                        <div class="skill-group">
+                            <h4 class="skill-group-title">
+                                <span class="icon">🎓</span> MS Office &amp; Google Workspace Tutoring
+                            </h4>
+                            <div class="skill-badges">
+                                <span class="skill-pill">Advanced Microsoft Excel (VLOOKUP, Pivot, Macros)</span>
+                                <span class="skill-pill">Microsoft Word, PowerPoint &amp; Access</span>
+                                <span class="skill-pill">Google Docs, Sheets &amp; Workspace</span>
+                                <span class="skill-pill">Corporate Staff Upskilling</span>
+                                <span class="skill-pill">1-on-1 Student Coaching</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Flagship Projects Bento Preview -->
+        <section class="flagship-section" id="flagship-projects">
+            <div class="section-header">
+                <span class="section-pill-tag">Production Portfolios</span>
+                <h2 class="section-title">Featured Flagship Systems</h2>
+                <p class="section-subtitle">
+                    Explore production-grade enterprise platforms engineered by Harrison — spanning offline-first Point of Sale, comprehensive IT troubleshooting knowledge bases, small-business operations hubs, and property management software.
+                </p>
+            </div>
+
+            <div class="flagship-grid">
+                <!-- Project 1: POS -->
+                <article class="flagship-card">
+                    <div>
+                        <div class="flagship-meta">
+                            <span class="flagship-badge">FinTech &amp; Retail POS</span>
+                            <span class="flagship-status">
+                                <span class="flagship-status-dot"></span> Production Ready
+                            </span>
+                        </div>
+                        <h3>Cybertech Point of Sale (POS) Web Platform</h3>
+                        <p class="flagship-desc">
+                            A multi-tenant Point of Sale system engineered for retail and hospitality with offline-first IndexedDB resilience, automated Safaricom Lipa Na M-Pesa reconciliation, and cryptographic Ed25519 licensing.
+                        </p>
+                        <div class="flagship-tags">
+                            <span class="flagship-tag">React (Vite)</span>
+                            <span class="flagship-tag">Python / FastAPI</span>
+                            <span class="flagship-tag">Tailwind CSS</span>
+                            <span class="flagship-tag">PayHero M-Pesa</span>
+                            <span class="flagship-tag">IndexedDB Offline Sync</span>
+                        </div>
+                    </div>
+                    <div class="flagship-actions">
+                        <a href="https://pos.cybertechcomps.com" target="_blank" rel="noopener" class="flagship-link-primary btn-nested-pill">
+                            <span>Launch pos.cybertechcomps.com</span>
+                            <span class="btn-icon-circle">&nearr;</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project 2: IT Knowledge Base -->
+                <article class="flagship-card">
+                    <div>
+                        <div class="flagship-meta">
+                            <span class="flagship-badge">Documentation &amp; CMS</span>
+                            <span class="flagship-status">
+                                <span class="flagship-status-dot"></span> Live in Production
+                            </span>
+                        </div>
+                        <h3>Full-Stack IT Knowledge Base Portal</h3>
+                        <p class="flagship-desc">
+                            High-performance technical documentation and troubleshooting engine serving 117 deep-dive guides across 10 IT domains with sub-100ms global search (Ctrl + K) and interactive terminal command runners.
+                        </p>
+                        <div class="flagship-tags">
+                            <span class="flagship-tag">React</span>
+                            <span class="flagship-tag">Firebase Auth</span>
+                            <span class="flagship-tag">MDX Live Editor</span>
+                            <span class="flagship-tag">Sub-100ms Search</span>
+                            <span class="flagship-tag">JSON-LD SEO</span>
+                        </div>
+                    </div>
+                    <div class="flagship-actions">
+                        <a href="https://fixit.cybertechcomps.com" target="_blank" rel="noopener" class="flagship-link-primary btn-nested-pill">
+                            <span>Launch fixit.cybertechcomps.com</span>
+                            <span class="btn-icon-circle">&nearr;</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project 3: Biashara Platform -->
+                <article class="flagship-card">
+                    <div>
+                        <div class="flagship-meta">
+                            <span class="flagship-badge">E-Commerce &amp; Operations</span>
+                            <span class="flagship-status">
+                                <span class="flagship-status-dot"></span> Live in Production
+                            </span>
+                        </div>
+                        <h3>Cybertech Comps Biashara Platform</h3>
+                        <p class="flagship-desc">
+                            Complete small business automation hub featuring live PayHero transaction matching, 8-stage repair job lifecycle tracking with customer PIN lookup, walk-in cyber cafe timers, and automated billing documents.
+                        </p>
+                        <div class="flagship-tags">
+                            <span class="flagship-tag">Node.js / Express</span>
+                            <span class="flagship-tag">Cloudflare CDN</span>
+                            <span class="flagship-tag">PayHero API</span>
+                            <span class="flagship-tag">6-Tier RBAC</span>
+                            <span class="flagship-tag">DPA 2019 Privacy</span>
+                        </div>
+                    </div>
+                    <div class="flagship-actions">
+                        <a href="https://cybertechcomps.com" target="_blank" rel="noopener" class="flagship-link-primary btn-nested-pill">
+                            <span>Launch cybertechcomps.com</span>
+                            <span class="btn-icon-circle">&nearr;</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project 4: Rental Property Management -->
+                <article class="flagship-card">
+                    <div>
+                        <div class="flagship-meta">
+                            <span class="flagship-badge">Real Estate SaaS</span>
+                            <span class="flagship-status">
+                                <span class="flagship-status-dot"></span> QA Verified (100%)
+                            </span>
+                        </div>
+                        <h3>Cybertech Rentals Property Platform</h3>
+                        <p class="flagship-desc">
+                            Multi-tenant property management platform spanning 20 dedicated routes with native Light/Dark theme switching, automated rent invoicing, tenant KYC, maintenance SLA ticketing, and PayHero payment channels.
+                        </p>
+                        <div class="flagship-tags">
+                            <span class="flagship-tag">React (Vite)</span>
+                            <span class="flagship-tag">Tailwind CSS</span>
+                            <span class="flagship-tag">Dark / Light Modes</span>
+                            <span class="flagship-tag">WCAG 2.2 AA</span>
+                            <span class="flagship-tag">PayHero Channels</span>
+                        </div>
+                    </div>
+                    <div class="flagship-actions">
+                        <a href="#contact" class="flagship-link-primary btn-nested-pill">
+                            <span>Request Rental System Demo</span>
+                            <span class="btn-icon-circle">&rarr;</span>
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Bento Bottom CTA -->
+            <div class="flagship-bottom-cta">
+                <div class="cta-inner-shell">
+                    <div class="cta-text-content">
+                        <h3>Looking for a custom enterprise platform, M-Pesa integration, or tailored business automation?</h3>
+                        <p>Harrison provides direct architecture design, rapid implementation, and ongoing SLA maintenance.</p>
+                    </div>
+                    <a href="#contact" class="cta-link btn-nested-pill">
+                        <span>Discuss Your Project</span>
+                        <span class="btn-icon-circle">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Client Testimonials Snippet -->
+        <section class="testimonials" style="flex-direction: column; gap: 0;">
+            <div class="section-header">
+                <span class="section-pill-tag">Verified Client Feedback</span>
+                <h2 class="section-title">What Clients &amp; Students Say</h2>
+                <p class="section-subtitle">
+                    Proven reliability across enterprise hardware diagnostics, custom web systems, corporate training workshops, and commercial graphic design.
+                </p>
+            </div>
+
+            <div class="testimonials-grid" style="display: flex; gap: 24px; width: 100%;">
+                <!-- Testimonial 1 -->
+                <div class="testimonial" id="testimonial-wanyama">
+                    <div>
+                        <img src="Customer_A.png" alt="Stephen Wanyama">
+                        <div class="star-rating" aria-label="5 out of 5 stars">★★★★★</div>
+                        <p>"Harrison's IT support is unparalleled! He restored our entire inventory system, set up automated daily cloud backups, and our store checkout downtime is now zero. Dependable and deeply knowledgeable."</p>
+                    </div>
+                    <div class="testimonial-author-meta">
+                        <h4 class="testimonial-author-name">Stephen Wanyama</h4>
+                        <p class="testimonial-author-role">Managing Director, Busia Commercial Enterprises</p>
+                        <span class="section-pill-tag" style="margin-top: 12px; display: inline-block; font-size: 0.78rem;">Verified Client ✓</span>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial" id="testimonial-achieng">
+                    <div>
+                        <img src="Customer_B.png" alt="Brenda Achieng">
+                        <div class="star-rating" aria-label="5 out of 5 stars">★★★★★</div>
+                        <p>"I learned so much from Harrison's software training. He demystified complex Excel formulas, pivot tables, and Google Workspace automations for our entire logistics department. Highly recommended!"</p>
+                    </div>
+                    <div class="testimonial-author-meta">
+                        <h4 class="testimonial-author-name">Brenda Achieng</h4>
+                        <p class="testimonial-author-role">Executive Assistant, Lake Region Logistics</p>
+                        <span class="section-pill-tag" style="margin-top: 12px; display: inline-block; font-size: 0.78rem;">Verified Client ✓</span>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial" id="testimonial-omondi">
+                    <div>
+                        <img src="Customer_C.png" alt="Kevin Omondi">
+                        <div class="star-rating" aria-label="5 out of 5 stars">★★★★★</div>
+                        <p>"The brand identity and marketing graphics Harrison created for my company were simply outstanding. Crisp, modern, and aligned with our target market. Our customer trust surged immediately."</p>
+                    </div>
+                    <div class="testimonial-author-meta">
+                        <h4 class="testimonial-author-name">Kevin Omondi</h4>
+                        <p class="testimonial-author-role">Founder, Apex Dynamics Solutions</p>
+                        <span class="section-pill-tag" style="margin-top: 12px; display: inline-block; font-size: 0.78rem;">Verified Client ✓</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Contact & Office Strip -->
+        <section class="quick-contact-section" id="contact">
+            <div class="section-header">
+                <span class="section-pill-tag">⚡ Fast Direct Response</span>
+                <h2 class="section-title">Let's Connect &amp; Solve It</h2>
+                <p class="section-subtitle">
+                    Have an urgent IT system issue, need a custom software quote, or want to schedule software training? Visit our Busia office or send an instant inquiry below.
+                </p>
+            </div>
+
+            <div class="quick-contact-layout">
+                <!-- Left: Contact Form Card -->
+                <div class="contact-form-container">
+                    <div class="form-card-header">
+                        <span class="form-badge">Direct Desk Inquiry</span>
+                        <h3>Send an Online Inquiry</h3>
+                        <p class="form-subtitle">Fill in your details below and Harrison will respond within 24 hours.</p>
+                    </div>
+
+                    <form id="inquiry-form" action="#" method="post">
+                        <div class="form-grid-2">
+                            <div class="form-field">
+                                <label for="name">Your Name <span class="req-star">*</span></label>
+                                <input type="text" id="name" name="name" placeholder="e.g. John Doe" required autocomplete="name">
+                            </div>
+                            <div class="form-field">
+                                <label for="email">Email Address <span class="req-star">*</span></label>
+                                <input type="email" id="email" name="email" placeholder="e.g. john@example.com" required autocomplete="email">
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="service">Service Required <span class="req-star">*</span></label>
+                            <div class="select-wrapper">
+                                <select id="service" name="service" required>
+                                    <option value="" disabled selected>Select a service or requirement...</option>
+                                    <option value="IT Systems Support & PC Diagnostics">💻 IT Systems Support &amp; PC Diagnostics</option>
+                                    <option value="Custom Full-Stack Web Development">🌐 Custom Full-Stack Web Development</option>
+                                    <option value="Cybertech POS & Retail System Implementation">🛒 Cybertech POS &amp; Retail Systems</option>
+                                    <option value="M-Pesa FinTech & Payment Gateway">💳 M-Pesa FinTech &amp; Payment Gateway</option>
+                                    <option value="Graphic Design & Branding">🎨 Graphic Design &amp; Brand Identity</option>
+                                    <option value="Software Tutoring & Corporate Training">📚 Software Tutoring &amp; Corporate Training</option>
+                                    <option value="General Technical Consultation">📩 General Technical Consultation</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="message">Your Message / Problem Description <span class="req-star">*</span></label>
+                            <textarea id="message" name="message" rows="4" placeholder="Describe your technical needs, project requirements, or system issues..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit-inquiry" id="btn-submit-inquiry">
+                            <span>Submit Direct Inquiry</span>
+                            <span class="btn-arrow">&rarr;</span>
+                        </button>
+
+                        <div class="form-trust-strip">
+                            <span>🔒 Encrypted Data</span>
+                            <span class="trust-dot">•</span>
+                            <span>⚡ Offline Resilient</span>
+                            <span class="trust-dot">•</span>
+                            <span>⏱️ 24h Response</span>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right: Physical Headquarters Info Card -->
+                <div class="office-info-strip">
+                    <div class="office-header-bar">
+                        <div>
+                            <div class="office-badge-title">
+                                <span class="office-title-icon">🏢</span>
+                                <h3>Physical Headquarters</h3>
+                            </div>
+                            <p class="office-sub">CyberTech Hexperts Solutions</p>
+                        </div>
+                        <span class="office-status-pill">
+                            <span class="pulse-dot"></span> Open Mon – Sat
+                        </span>
+                    </div>
+
+                    <div class="office-cards-stack">
+                        <!-- Office Location -->
+                        <div class="office-card-item">
+                            <div class="card-item-icon">📍</div>
+                            <div class="card-item-body">
+                                <span class="card-item-label">Office Location</span>
+                                <div class="card-item-value">
+                                    <strong>ABSA BANK BUILDING</strong> (Busia Branch)<br>
+                                    P.O. BOX 313 - 50400 BUSIA (K)
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Direct Lines -->
+                        <div class="office-card-item">
+                            <div class="card-item-icon">📞</div>
+                            <div class="card-item-body">
+                                <span class="card-item-label">Direct Phone Lines</span>
+                                <div class="card-item-value phone-links">
+                                    <a href="tel:+254775953282" class="office-link">+254 775 953 282</a>
+                                    <span class="phone-div">|</span>
+                                    <a href="tel:+254798830470" class="office-link">+254 798 830 470</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Official Email -->
+                        <div class="office-card-item">
+                            <div class="card-item-icon">✉️</div>
+                            <div class="card-item-body">
+                                <span class="card-item-label">Official Email</span>
+                                <div class="card-item-value">
+                                    <a href="mailto:contact.htechnologies@gmail.com" class="office-link">contact.htechnologies@gmail.com</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Operating Hours -->
+                        <div class="office-card-item">
+                            <div class="card-item-icon">🕒</div>
+                            <div class="card-item-body">
+                                <span class="card-item-label">Operating Hours</span>
+                                <div class="hours-schedule">
+                                    <div class="sched-row">
+                                        <span class="sched-day">Monday – Friday:</span>
+                                        <span class="sched-time">8:00 am – 7:00 pm</span>
+                                    </div>
+                                    <div class="sched-row">
+                                        <span class="sched-day">Saturday:</span>
+                                        <span class="sched-time">9:00 am – 6:00 pm</span>
+                                    </div>
+                                    <div class="sched-row">
+                                        <span class="sched-day">Sunday:</span>
+                                        <span class="sched-closed">Closed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="office-quick-actions">
+                        <a href="tel:+254798830470" class="office-action-btn call-btn">
+                            📞 Call Now
+                        </a>
+                        <a href="https://wa.me/+254798830470" target="_blank" rel="noopener" class="office-action-btn wa-btn">
+                            💬 WhatsApp Chat
+                        </a>
+                        <a href="https://maps.google.com/?q=ABSA+Bank+Busia+Kenya" target="_blank" rel="noopener" class="office-action-btn map-btn">
+                            📍 Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Unified Modern 4-Column Footer -->
+    <footer>
+        <div class="footer-section">
+            <h3>Follow Us</h3>
+            <p>
+                <a href="https://wa.me/+254798830470" target="_blank" rel="noopener">
+                    <img src="whatsapp-svgrepo-com.svg" alt="WhatsApp" style="height: 20px; vertical-align: middle;"> WhatsApp
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61553165412647" target="_blank" rel="noopener">
+                    <img src="facebook-svgrepo-com.svg" alt="Facebook" style="height: 20px; vertical-align: middle;"> Facebook
+                </a>
+                <a href="https://www.youtube.com/channel/UCPw_hJpTrNnYbvwcvfyyv2Q" target="_blank" rel="noopener">
+                    <img src="youtube-color-svgrepo-com.svg" alt="YouTube" style="height: 20px; vertical-align: middle;"> YouTube
+                </a>
+            </p>
+            <p>Stay connected on social media for tech updates &amp; guides.</p>
+        </div>
+
+        <div class="footer-section">
+            <h3>Subscribe to Newsletter</h3>
+            <form action="#" method="post">
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+            <p>Get the latest cybersecurity insights and system optimization tips.</p>
+        </div>
+
+        <div class="footer-section">
+            <h3>Get in Touch</h3>
+            <p>Have questions or need emergency support?<br>Contact our desk anytime.</p>
+            <p>
+                <img src="phone-call-communication-svgrepo-com.svg" alt="Phone" style="height: 18px; vertical-align: middle; margin-right: 5px;">
+                <a href="tel:+254798830470">+254 798 830 470</a><br>
+                <img src="email-opened-svgrepo-com.svg" alt="Email" style="height: 18px; vertical-align: middle; margin-right: 5px;">
+                <a href="mailto:contact.htechnologies@gmail.com">contact.htechnologies@gmail.com</a>
+            </p>
+        </div>
+
+        <div class="footer-section">
+            <h3>Need Help?</h3>
+            <p>We're here to assist with diagnostics &amp; solutions.</p>
+            <p>
+                <a href="https://wa.me/+254798830470" target="_blank" rel="noopener">
+                    <img src="live-chat-headset-svgrepo-com.svg" alt="Live Chat" style="height: 18px; vertical-align: middle; margin-right: 5px;">
+                    Start a Live Chat
+                </a>
+            </p>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year">2026</span> CyberTech Hexperts Solutions. All rights reserved.</p>
+            <p>Crafted with engineering precision &bull; Busia, Kenya</p>
+        </div>
+    </footer>
+</body>
+</html>

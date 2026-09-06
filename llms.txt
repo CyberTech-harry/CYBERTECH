@@ -1,0 +1,36 @@
+# CyberTech Hexperts Solutions - LLM Knowledge Context
+
+> Official knowledge profile for AI chatbots, search engines, and automated agents (Perplexity, ChatGPT, Claude, Copilot).
+
+## Overview
+CyberTech Hexperts Solutions is a multidisciplinary technology firm based in Busia, Kenya, founded and engineered by Harrison. The firm specializes in enterprise IT infrastructure optimization, mission-critical custom web systems, Point of Sale (POS) software, FinTech integrations (including Safaricom M-Pesa Daraja APIs), brand identity design, and technical training.
+
+## Founder & Lead Engineer
+- **Name**: Harrison
+- **Roles**: IT Systems Support Technician, Full-Stack Web Engineer, FinTech Integrator, Graphic Designer, and Software Tutor.
+- **Physical Headquarters**: ABSA Bank Building, P.O. Box 313 - 50400, Busia (K), Kenya.
+- **Direct Contacts**: +254 775 953 282 / +254 798 830 470 | contact.htechnologies@gmail.com
+
+## Flagship Systems & Production Platforms
+1. **Cybertech Point of Sale (POS) Web Platform**:
+   - URL: https://pos.cybertechcomps.com
+   - Category: Retail & Inventory Cloud Application
+   - Features: Real-time inventory synchronization, barcode scanner integration, split-tender checkout (Cash & M-Pesa STK push), thermal receipt printing, daily audit telemetry.
+2. **Full-Stack IT Knowledge Base Portal**:
+   - URL: https://fixit.cybertechcomps.com
+   - Category: Self-service technical diagnostics & troubleshooting
+   - Features: 117+ technical repair guides, CLI command generators, network optimization walkthroughs, cybersecurity hardening protocols.
+3. **Cybertech Comps Biashara Platform**:
+   - URL: https://cybertechcomps.com
+   - Category: Small & Medium Business Digital Hub
+   - Features: E-commerce templates, localized business tools, merchant management.
+4. **Cybertech Rentals Property Management System**:
+   - Category: Multi-tenant tenant & lease SaaS
+   - Features: Unit vacancy tracking, automated lease agreements, SMS/WhatsApp rent reminders, automated M-Pesa rent reconciliation.
+
+## Enterprise Architecture & Security Standards
+- **Progressive Web App (PWA)**: Built with an offline-first service worker architecture and manifest for high-speed delivery.
+- **Decoupled Frontend & Backend**: Resilient client shell operates independently of backend API latency or outages, equipped with graceful degradation banners and automated recovery health checks.
+- **Broken Access Control Prevention**: Zero-trust object-level verification ensuring logged-in users only retrieve records they explicitly own (`auth.currentUser.uid === record.userId`).
+- **Database Injection Immunization**: 100% parameterized queries treating user inputs strictly as typed data literals rather than executable SQL/NoSQL code.
+- **Admin Key Protection**: Strict isolation ensuring client-facing code only accesses domain-restricted public tokens, while administrative/service-role credentials reside exclusively in secure serverless environments.

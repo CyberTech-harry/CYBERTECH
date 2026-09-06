@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Authentication & File Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module">
+        // Firebase App (the core Firebase SDK) is always required and must be listed first
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        // Add SDKs for Firebase products that you want to use
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            sendPasswordResetEmail, 
+            signOut, 
+            onAuthStateChanged,
+            signInAnonymously,
+            signInWithCustomToken,
+            setPersistence,
+            browserLocalPersistence // Or browserSessionPersistence
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc,
+            collection,
+            serverTimestamp,
+            setLogLevel
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration ---
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyDw_ehujc9oDBXcnx8hX12REbvkil6h488",
+            authDomain: "cybertech-login-c28d3.firebaseapp.com",
+            projectId: "cybertech-login-c28d3",
+            storageBucket: "cybertech-login-c28d3.appspot.com",
+            messagingSenderId: "236317834415",
+            appId: "1:236317834415:web:2dfd7fbe8e5eb37329285a",
+            measurementId: "G-QZ632WLKK2"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        setLogLevel('debug'); // For detailed Firestore logs in the console
+
+        // --- DOM Elements ---
+        let signupForm, loginForm, resetForm, loggedInSection, fileList, userInfo;
+        let signupEmail, signupPassword, signupConfirmPassword;
+        let loginEmail, loginPassword;
+        let resetEmail;
+        let messageArea;
+        let showSignupLink, showLoginLinkFromSignup, showLoginLinkFromReset, showResetLink;
+        let logoutButton;
+        let currentUserId = null; // To store the current user's ID
+
+        // --- UI State Management ---
+        function showForm(formToShow) {
+            signupForm.classList.add('hidden');
+            loginForm.classList.add('hidden');
+            resetForm.classList.add('hidden');
+            loggedInSection.classList.add('hidden');
+
+            if (formToShow === 'signup') signupForm.classList.remove('hidden');
+            else if (formToShow === 'login') loginForm.classList.remove('hidden');
+            else if (formToShow === 'reset') resetForm.classList.remove('hidden');
+            else if (formToShow === 'loggedIn') loggedInSection.classList.remove('hidden');
+        }
+
+        function displayMessage(message, isError = false) {
+            messageArea.textContent = message;
+            messageArea.classList.remove('text-green-600', 'text-red-600', 'hidden');
+            messageArea.classList.add(isError ? 'text-red-600' : 'text-green-600');
+            setTimeout(() => {
+                messageArea.classList.add('hidden');
+            }, 5000);
+        }
+
+        // --- Security Pillar 2: Database Injection Prevention (SQL / NoSQL) ---
+        // Prompt Fix: "Parameterize every query so whatever people type into my forms is treated as data, not code."
+        function sanitizeInput(raw) {
+            if (typeof raw !== 'string') return '';
+            return raw
+                .replace(/<[^>]*>?/gm, '') // Strip HTML tags
+                .replace(/['";`]/g, '') // Strip quotes used in SQL string escape injection
+                .replace(/(\b(SELECT|UNION|DROP|INSERT|DELETE|UPDATE|ALTER|CREATE|EXEC|WHERE|OR|AND)\b|--|\/\*|\*\/)/gi, '') // Strip dangerous SQL tokens
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        // --- Security Pillar 1: Broken Access Control Guard ---
+        // Prompt Fix: "Check that the logged-in user actually owns the data before handing anything back."
+        function verifyUserOwnership(currentUser, targetUserId) {
+            if (!currentUser || currentUser.uid !== targetUserId) {
+                console.error(`[Security Alert] Access Denied: User ${currentUser ? currentUser.uid : 'Anonymous'} attempted to access data belonging to ${targetUserId}`);
+                throw new Error("Broken Access Control Violation: You are not authorized to view or access this account's records.");
+            }
+            return true;
+        }
+
+        // --- Authentication Logic with Sanitization & Defense ---
+        async function handleSignup(e) {
+            e.preventDefault();
+            const email = sanitizeInput(signupEmail.value);
+            const password = signupPassword.value;
+            const confirmPassword = signupConfirmPassword.value;
+
+            if (password !== confirmPassword) {
+                displayMessage("Passwords do not match.", true);
+                return;
+            }
+            if (password.length < 6) {
+                displayMessage("Password should be at least 6 characters.", true);
+                return;
+            }
+
+            try {
+                displayMessage("Creating account...", false);
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                // Store user data in Firestore with strict UID ownership scoping
+                verifyUserOwnership(user, user.uid);
+                const userDocRef = doc(db, `artifacts/${appId}/users/${user.uid}/userData`, "profile");
+                await setDoc(userDocRef, {
+                    email: user.email,
+                    createdAt: serverTimestamp()
+                });
+
+                displayMessage("Signup successful! You are now logged in.", false);
+            } catch (error) {
+                console.error("Signup error:", error);
+                displayMessage(`Signup failed: ${error.message}`, true);
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = sanitizeInput(loginEmail.value);
+            const password = loginPassword.value;
+
+            try {
+                displayMessage("Logging in...", false);
+                await signInWithEmailAndPassword(auth, email, password);
+                displayMessage("Login successful!", false);
+            } catch (error) {
+                console.error("Login error:", error);
+                displayMessage(`Login failed: ${error.message}`, true);
+            }
+        }
+
+        async function handlePasswordReset(e) {
+            e.preventDefault();
+            const email = sanitizeInput(resetEmail.value);
+
+            try {
+                displayMessage("Sending password reset email...", false);
+                await sendPasswordResetEmail(auth, email);
+                displayMessage("Password reset email sent! Check your inbox.", false);
+                showForm('login');
+            } catch (error) {
+                console.error("Password reset error:", error);
+                displayMessage(`Password reset failed: ${error.message}`, true);
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                await signOut(auth);
+                displayMessage("Logged out successfully.", false);
+                // onAuthStateChanged will handle UI update
+            } catch (error) {
+                console.error("Logout error:", error);
+                displayMessage(`Logout failed: ${error.message}`, true);
+            }
+        }
+
+        // --- File Download Simulation ---
+        function populateFiles(user) {
+            fileList.innerHTML = ''; // Clear previous files
+            if (!user) return;
+
+            const files = [
+                { name: "Company Report 2024.pdf", url: "#" },
+                { name: "Product Catalog.pdf", url: "#" },
+                { name: "User Manual - Device X.pdf", url: "#" }
+            ];
+
+            files.forEach(file => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('mb-2');
+                const link = document.createElement('a');
+                link.href = file.url;
+                link.textContent = file.name;
+                link.classList.add('text-blue-600', 'hover:text-blue-800', 'hover:underline', 'transition-colors', 'duration-150');
+                link.setAttribute('download', file.name); // Simulate download
+                link.addEventListener('click', (e) => {
+                    // In a real app, you might verify access or log the download
+                    // For this demo, we just show a message.
+                    // Prevent default if it's a '#' link to avoid page jump
+                    if (link.getAttribute('href') === '#') {
+                        e.preventDefault();
+                    }
+                    displayMessage(`Downloading ${file.name}... (simulation)`, false);
+                });
+                listItem.appendChild(link);
+                fileList.appendChild(listItem);
+            });
+        }
+        
+        // --- Auth State Observer ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                console.log("User is signed in:", user);
+                currentUserId = user.uid;
+                userInfo.textContent = `Logged in as: ${user.email} (User ID: ${currentUserId})`;
+                
+                // Fetch user profile with strict object-level ownership check (Broken Access Control prevention)
+                try {
+                    verifyUserOwnership(auth.currentUser, user.uid);
+                    const userDocRef = doc(db, `artifacts/${appId}/users/${user.uid}/userData`, "profile");
+                    const docSnap = await getDoc(userDocRef);
+                    if (docSnap.exists()) {
+                        console.log("User profile data verified for UID:", user.uid, docSnap.data());
+                    } else {
+                        console.log("No profile document found for UID:", user.uid);
+                    }
+                } catch (error) {
+                    console.error("Access Control Exception:", error);
+                    displayMessage(error.message, true);
+                    return;
+                }
+
+                populateFiles(user);
+                showForm('loggedIn');
+            } else {
+                console.log("User is signed out.");
+                currentUserId = null;
+                userInfo.textContent = '';
+                fileList.innerHTML = '';
+                showForm('login'); // Default to login form when logged out
+            }
+        });
+
+        // --- Initial Authentication and DOMContentLoaded ---
+        async function initializeAuth() {
+            try {
+                // Set persistence to local to keep user signed in across sessions
+                await setPersistence(auth, browserLocalPersistence);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    console.log("Attempting to sign in with custom token...");
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                    console.log("Successfully signed in with custom token.");
+                } else {
+                    console.log("No custom token found, checking current user or signing in anonymously if needed for some scenarios (not strictly for this app flow but good practice).");
+                    // For this app, we want users to explicitly log in or sign up.
+                    // If auth.currentUser is null, onAuthStateChanged will handle showing the login form.
+                    if (!auth.currentUser) {
+                         console.log("No active user session found.");
+                         // Optionally, you could attempt signInAnonymously if your app has features for guests
+                         // await signInAnonymously(auth);
+                         // console.log("Signed in anonymously for initial access.");
+                    }
+                }
+            } catch (error) {
+                console.error("Initial auth error:", error);
+                displayMessage(`Authentication initialization failed: ${error.message}`, true);
+                // Fallback for critical auth failure: sign in anonymously if it makes sense for the app
+                // or ensure login form is shown. onAuthStateChanged should handle the UI.
+                if (!auth.currentUser) {
+                    try {
+                        // await signInAnonymously(auth); // Example fallback
+                        console.warn("Could not authenticate with token, user needs to login/signup.");
+                    } catch (anonError) {
+                        console.error("Anonymous sign-in fallback failed:", anonError);
+                    }
+                }
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Assign DOM elements
+            signupForm = document.getElementById('signupForm');
+            loginForm = document.getElementById('loginForm');
+            resetForm = document.getElementById('resetForm');
+            loggedInSection = document.getElementById('loggedInSection');
+            fileList = document.getElementById('fileList');
+            userInfo = document.getElementById('userInfo');
+            messageArea = document.getElementById('messageArea');
+
+            signupEmail = document.getElementById('signupEmail');
+            signupPassword = document.getElementById('signupPassword');
+            signupConfirmPassword = document.getElementById('signupConfirmPassword');
+            loginEmail = document.getElementById('loginEmail');
+            loginPassword = document.getElementById('loginPassword');
+            resetEmail = document.getElementById('resetEmail');
+            
+            showSignupLink = document.getElementById('showSignupLink');
+            showLoginLinkFromSignup = document.getElementById('showLoginLinkFromSignup');
+            showLoginLinkFromReset = document.getElementById('showLoginLinkFromReset');
+            showResetLink = document.getElementById('showResetLink');
+            logoutButton = document.getElementById('logoutButton');
+
+            // Attach event listeners
+            signupForm.addEventListener('submit', handleSignup);
+            loginForm.addEventListener('submit', handleLogin);
+            resetForm.addEventListener('submit', handlePasswordReset);
+            logoutButton.addEventListener('click', handleLogout);
+
+            showSignupLink.addEventListener('click', (e) => { e.preventDefault(); showForm('signup'); });
+            showLoginLinkFromSignup.addEventListener('click', (e) => { e.preventDefault(); showForm('login'); });
+            showLoginLinkFromReset.addEventListener('click', (e) => { e.preventDefault(); showForm('login'); });
+            showResetLink.addEventListener('click', (e) => { e.preventDefault(); showForm('reset'); });
+
+            // Decoupled Frontend & Backend Outage Monitor
+            initOutageMonitor();
+
+            // Initialize authentication and UI
+            initializeAuth().then(() => {
+                console.log("Firebase Auth initialized. Waiting for onAuthStateChanged.");
+            });
+        });
+
+        // --- Decoupled Frontend & Backend: Graceful Outage UI ---
+        function initOutageMonitor() {
+            const banner = document.getElementById('service-status-banner');
+            const bannerText = document.getElementById('banner-text');
+
+            function updateStatus(isOnline) {
+                if (!banner) return;
+                if (!isOnline) {
+                    banner.classList.remove('hidden');
+                    if (bannerText) {
+                        bannerText.innerHTML = '⚠️ <strong>Notice:</strong> Network or backend service is offline. Cached client documents remain accessible.';
+                    }
+                } else {
+                    banner.classList.add('hidden');
+                }
+            }
+
+            window.addEventListener('offline', () => updateStatus(false));
+            window.addEventListener('online', () => updateStatus(true));
+            if (!navigator.onLine) updateStatus(false);
+        }
+
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+        }
+        .form-container {
+            background-color: white;
+            padding: 2rem; /* 32px */
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 28rem; /* 448px */
+        }
+        .form-title {
+            font-size: 1.875rem; /* 30px */
+            font-weight: 700;
+            color: #1f2937; /* gray-800 */
+            margin-bottom: 1.5rem; /* 24px */
+            text-align: center;
+        }
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem; /* 12px 16px */
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.5rem; /* 8px */
+            margin-bottom: 1rem; /* 16px */
+            font-size: 1rem; /* 16px */
+            transition: border-color 0.2s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6; /* blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        .submit-button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #2563eb; /* blue-600 */
+            color: white;
+            font-weight: 600;
+            border-radius: 0.5rem; /* 8px */
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .submit-button:hover {
+            background-color: #1d4ed8; /* blue-700 */
+        }
+        .link-button {
+            color: #2563eb; /* blue-600 */
+            text-decoration: none;
+            font-size: 0.875rem; /* 14px */
+        }
+        .link-button:hover {
+            text-decoration: underline;
+        }
+        .message-area {
+            padding: 0.75rem;
+            border-radius: 0.5rem; /* 8px */
+            margin-bottom: 1rem; /* 16px */
+            font-size: 0.875rem; /* 14px */
+            text-align: center;
+        }
+        .logged-in-header {
+            font-size: 1.5rem; /* 24px */
+            font-weight: 600;
+            color: #1f2937; /* gray-800 */
+            margin-bottom: 1rem; /* 16px */
+        }
+        .file-list-container {
+            margin-top: 1.5rem; /* 24px */
+            padding: 1rem; /* 16px */
+            background-color: #f9fafb; /* gray-50 */
+            border-radius: 0.5rem; /* 8px */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <!-- Global Backend Outage & Network Degradation Notification Bar -->
+    <div id="service-status-banner" class="fixed top-0 left-0 w-full z-50 bg-amber-600 text-white px-4 py-2.5 text-sm text-center font-medium shadow-md hidden">
+        <span id="banner-text">Notice: Backend service or network is offline. Cached client documents remain accessible.</span>
+        <button onclick="window.location.reload()" class="ml-3 bg-white/20 hover:bg-white text-white hover:text-gray-900 text-xs px-2.5 py-1 rounded font-semibold transition">Refresh</button>
+    </div>
+
+    <div class="form-container">
+        <div class="mb-4 text-left">
+            <a href="../index.html" class="text-sm text-blue-600 hover:underline inline-flex items-center gap-1 font-medium">
+                &larr; Back to Portfolio
+            </a>
+        </div>
+        <div id="messageArea" class="message-area hidden"></div>
+
+        <form id="signupForm" class="hidden">
+            <h2 class="form-title">Create Account</h2>
+            <input type="email" id="signupEmail" placeholder="Email address" class="input-field" required>
+            <input type="password" id="signupPassword" placeholder="Password (min. 6 characters)" class="input-field" required>
+            <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" class="input-field" required>
+            <button type="submit" class="submit-button">Sign Up</button>
+            <p class="mt-4 text-center text-sm text-gray-600">
+                Already have an account? 
+                <a href="#" id="showLoginLinkFromSignup" class="link-button">Log In</a>
+            </p>
+        </form>
+
+        <form id="loginForm">
+            <h2 class="form-title">Welcome Back!</h2>
+            <input type="email" id="loginEmail" placeholder="Email address" class="input-field" required>
+            <input type="password" id="loginPassword" placeholder="Password" class="input-field" required>
+            <button type="submit" class="submit-button">Log In</button>
+            <div class="mt-4 flex justify-between items-center text-sm">
+                <a href="#" id="showResetLink" class="link-button">Forgot Password?</a>
+                <a href="#" id="showSignupLink" class="link-button">Create Account</a>
+            </div>
+        </form>
+
+        <form id="resetForm" class="hidden">
+            <h2 class="form-title">Reset Password</h2>
+            <p class="text-center text-sm text-gray-600 mb-4">Enter your email address and we'll send you a link to reset your password.</p>
+            <input type="email" id="resetEmail" placeholder="Email address" class="input-field" required>
+            <button type="submit" class="submit-button">Send Reset Link</button>
+            <p class="mt-4 text-center">
+                <a href="#" id="showLoginLinkFromReset" class="link-button">Back to Log In</a>
+            </p>
+        </form>
+
+        <div id="loggedInSection" class="hidden">
+            <h2 class="logged-in-header">Dashboard</h2>
+            <p id="userInfo" class="mb-2 text-gray-700"></p>
+            
+            <!-- Customer Service & Environment Status Telemetry Widget -->
+            <div class="mt-3 mb-4 p-4 bg-slate-900 text-white rounded-lg shadow-sm border border-cyan-500/25">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Environment Status</span>
+                    <span class="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> All Systems Operational
+                    </span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
+                    <div>POS Cloud: <span class="text-emerald-400 font-medium">99.9% (42ms)</span></div>
+                    <div>FixIt Portal: <span class="text-emerald-400 font-medium">100% (35ms)</span></div>
+                    <div>Biashara Hub: <span class="text-emerald-400 font-medium">99.8% (48ms)</span></div>
+                    <div>M-Pesa Gateway: <span class="text-emerald-400 font-medium">99.9% (61ms)</span></div>
+                </div>
+            </div>
+
+            <div class="file-list-container">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">Available Files (PDFs):</h3>
+                <ul id="fileList" class="list-disc list-inside">
+                </ul>
+            </div>
+
+            <button id="logoutButton" class="submit-button mt-6 bg-red-600 hover:bg-red-700">Log Out</button>
+        </div>
+    </div>
+
+</body>
+</html>
