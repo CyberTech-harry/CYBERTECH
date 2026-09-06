@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initInquiryForm();
     initFooterCopyright();
     initScrollReveal();
-    initProfileCardMotion();
 });
 
 /**
@@ -115,7 +114,7 @@ function highlightActiveNavLink() {
     const navLinks = document.querySelectorAll('header nav a');
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
-        if (!href) return;
+        if (!href || href.startsWith('#')) return;
 
         // Clean link href from hash & query params
         const cleanHref = href.split('#')[0].split('?')[0];
@@ -126,13 +125,11 @@ function highlightActiveNavLink() {
         }
 
         // Compare current filename with link destination
-        const isMatch = (linkFileName === currentFileName) ||
-            (currentFileName === 'index.html' && (linkFileName === '' || linkFileName === 'index.html'));
+        const isMatch = (linkFileName === currentFileName);
 
         if (isMatch) {
             link.classList.add('active');
             link.setAttribute('aria-current', 'page');
-            // Remove hardcoded inline styles to let design system CSS shine
             link.style.textDecoration = '';
             link.style.fontWeight = '';
         } else {
@@ -140,6 +137,39 @@ function highlightActiveNavLink() {
             link.removeAttribute('aria-current');
         }
     });
+
+    // ScrollSpy for in-page hash links
+    const hashLinks = document.querySelectorAll('header nav a[href^="#"]');
+    if (hashLinks.length > 0) {
+        const sections = [];
+        hashLinks.forEach(link => {
+            const id = link.getAttribute('href');
+            if (id && id.length > 1) {
+                const sec = document.querySelector(id);
+                if (sec) sections.push({ link, sec });
+            }
+        });
+
+        const onScrollSpy = () => {
+            const scrollPos = window.pageYOffset + 120;
+            let current = null;
+            sections.forEach(({ link, sec }) => {
+                const top = sec.offsetTop;
+                const height = sec.offsetHeight;
+                if (scrollPos >= top && scrollPos < top + height) {
+                    current = link;
+                }
+            });
+
+            hashLinks.forEach(l => l.classList.remove('active'));
+            if (current) {
+                current.classList.add('active');
+            }
+        };
+
+        window.addEventListener('scroll', onScrollSpy, { passive: true });
+        onScrollSpy();
+    }
 }
 
 /**
@@ -251,11 +281,11 @@ function initNewsletterForm() {
             const existingFeedback = form.parentElement.querySelector('.newsletter-feedback');
             if (existingFeedback) existingFeedback.remove();
 
-            // Create modern feedback banner
+            // Create clean feedback banner
             const feedback = document.createElement('div');
             feedback.className = 'newsletter-feedback';
-            feedback.innerHTML = '✨ Thank you for subscribing to CyberTech updates!';
-            feedback.style.color = '#00e5ff';
+            feedback.innerHTML = 'Thank you for subscribing to htechnologies updates.';
+            feedback.style.color = '#0284c7';
             feedback.style.fontSize = '14px';
             feedback.style.fontWeight = '600';
             feedback.style.marginTop = '10px';
@@ -281,7 +311,7 @@ function initFooterCopyright() {
         const bottomBar = document.createElement('div');
         bottomBar.className = 'footer-bottom';
         bottomBar.innerHTML = `
-            <p>&copy; ${new Date().getFullYear()} htechnologies. All rights reserved. <a href="login/login.html" class="stealth-login-lock" title="Staff Portal" aria-label="Portal Access">🔒</a></p>
+            <p>&copy; ${new Date().getFullYear()} htechnologies. All rights reserved. <a href="login/login.html" class="stealth-login-lock" title="Staff Portal" aria-label="Portal Access"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></a></p>
             <p>Crafted with engineering precision <a href="login/login.html" class="stealth-login-dot" title="Staff Portal" aria-label="Portal Access">&bull;</a> Busia, Kenya</p>
         `;
         footer.appendChild(bottomBar);
@@ -322,7 +352,7 @@ function initInquiryForm() {
         alertBox.className = 'form-status-alert';
         alertBox.style.marginTop = '16px';
         alertBox.style.padding = '14px 18px';
-        alertBox.style.borderRadius = '10px';
+        alertBox.style.borderRadius = '6px';
         alertBox.style.fontSize = '14px';
         alertBox.style.lineHeight = '1.5';
 
@@ -335,19 +365,19 @@ function initInquiryForm() {
                 message: sanitizedMessage
             });
 
-            alertBox.style.background = 'rgba(217, 119, 6, 0.12)';
-            alertBox.style.border = '1px solid rgba(217, 119, 6, 0.35)';
+            alertBox.style.background = '#fef3c7';
+            alertBox.style.border = '1px solid #fde68a';
             alertBox.style.color = '#92400e';
             alertBox.innerHTML = `
-                <strong>💾 Saved to Offline Cache, ${sanitizedName}!</strong><br>
+                <strong>Saved to Offline Storage, ${sanitizedName}!</strong><br>
                 You are currently offline. Your inquiry has been secured locally in your browser storage and will transmit to Harrison automatically as soon as internet connectivity is restored.
             `;
         } else {
-            alertBox.style.background = 'rgba(16, 185, 129, 0.12)';
-            alertBox.style.border = '1px solid rgba(16, 185, 129, 0.35)';
+            alertBox.style.background = '#ecfdf5';
+            alertBox.style.border = '1px solid #a7f3d0';
             alertBox.style.color = '#065f46';
             alertBox.innerHTML = `
-                <strong>✅ Thank you, ${sanitizedName}!</strong><br>
+                <strong>Thank you, ${sanitizedName}!</strong><br>
                 Your inquiry has been logged securely. Harrison will contact you directly at <em>${sanitizedEmail || 'your email'}</em> within 24 hours.
             `;
         }
@@ -395,15 +425,15 @@ function initConnectivityMonitor() {
         if (!isOnline) {
             banner.className = 'status-banner offline';
             banner.classList.remove('hidden');
-            if (bannerIcon) bannerIcon.textContent = '🔌';
+            if (bannerIcon) bannerIcon.textContent = '[Offline]';
             if (bannerText) {
                 bannerText.innerHTML = '<strong>Offline Mode Active:</strong> Operating via cached PWA shell. Browsing and forms remain fully responsive; changes will sync automatically once reconnected.';
             }
-            if (retryBtn) retryBtn.textContent = '🔄 Check Connection';
+            if (retryBtn) retryBtn.textContent = 'Check Connection';
         } else {
             if (!banner.classList.contains('hidden')) {
                 banner.className = 'status-banner success';
-                if (bannerIcon) bannerIcon.textContent = '✅';
+                if (bannerIcon) bannerIcon.textContent = '[Online]';
                 if (bannerText) {
                     bannerText.innerHTML = '<strong>Services Reconnected:</strong> Network connection restored. Live environment data streaming resumed.';
                 }
@@ -434,7 +464,7 @@ function retryConnectionHealth() {
         retryBtn.disabled = true;
     }
     if (bannerText) {
-        bannerText.textContent = 'Testing connection to CyberTech production clusters...';
+        bannerText.textContent = 'Testing connection to production clusters...';
     }
 
     setTimeout(() => {
@@ -443,7 +473,7 @@ function retryConnectionHealth() {
             if (banner) {
                 banner.className = 'status-banner success';
                 const bannerIcon = document.getElementById('banner-icon');
-                if (bannerIcon) bannerIcon.textContent = '✅';
+                if (bannerIcon) bannerIcon.textContent = '[Online]';
                 if (bannerText) {
                     bannerText.innerHTML = '<strong>Connection Verified:</strong> All systems responding with nominal latency.';
                 }
@@ -459,7 +489,7 @@ function retryConnectionHealth() {
             }
         }
         if (retryBtn) {
-            retryBtn.textContent = '🔄 Refresh Status';
+            retryBtn.textContent = 'Refresh Status';
             retryBtn.disabled = false;
         }
     }, 500);
@@ -513,7 +543,7 @@ function runManualHealthPing() {
 
     if (pingBtn) {
         pingBtn.classList.add('running');
-        pingBtn.textContent = '⏳ Pinging Nodes...';
+        pingBtn.textContent = 'Pinging Nodes...';
     }
 
     const nodes = [
@@ -533,7 +563,7 @@ function runManualHealthPing() {
                 const latency = Math.max(18, node.base + jitter);
                 el.textContent = `${latency}ms`;
                 el.style.transition = 'color 0.3s ease';
-                el.style.color = '#10b981';
+                el.style.color = '#059669';
                 setTimeout(() => { el.style.color = '#0284c7'; }, 1200);
             }
         });
@@ -545,9 +575,9 @@ function runManualHealthPing() {
         }
 
         if (pingBtn) {
-            pingBtn.textContent = '✓ Ping Verified';
+            pingBtn.textContent = 'Ping Verified';
             setTimeout(() => {
-                pingBtn.textContent = '⚡ Run Health Check Ping';
+                pingBtn.textContent = 'Run Health Check Ping';
                 pingBtn.classList.remove('running');
             }, 1200);
         }
@@ -596,12 +626,12 @@ function syncOfflineInquiries() {
 
 /**
  * 13. Smooth Scroll Entry Observer (IntersectionObserver)
- * Subtle fade-up reveal on scroll without performance penalty
+ * Clean, subtle reveal without cursor or over-the-top animations
  */
 function initScrollReveal() {
     if (!('IntersectionObserver' in window)) return;
 
-    const targets = document.querySelectorAll('.hero-content, .stat-card, .bio-section, .flagship-card, .flagship-bottom-cta, .testimonial, .quick-contact-section, footer');
+    const targets = document.querySelectorAll('.hero-content, .bio-section, .flagship-card, .standards-section, .standard-card, .quick-contact-section, footer');
     
     targets.forEach(target => {
         target.classList.add('reveal-on-scroll');
@@ -620,77 +650,4 @@ function initScrollReveal() {
     });
 
     targets.forEach(target => observer.observe(target));
-}
-
-/**
- * 14. Bio Profile Card Sticky & Interactive 3D Motion
- * Features subtle 3D perspective tilt on hover and smooth scroll parallax for the portrait.
- */
-function initProfileCardMotion() {
-    const card = document.querySelector('.bio-profile-card');
-    if (!card) return;
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile = window.matchMedia('(max-width: 1024px)').matches;
-
-    if (prefersReducedMotion || isMobile) return;
-
-    let isHovered = false;
-    const img = card.querySelector('.bio-image-frame img');
-
-    // Smooth 3D perspective tilt following cursor
-    card.addEventListener('mouseenter', () => {
-        isHovered = true;
-        card.style.transition = 'transform 0.12s ease-out, box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
-    });
-
-    card.addEventListener('mousemove', (e) => {
-        if (!isHovered) return;
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        // Subtle 5-degree maximum tilt
-        const rotateX = ((y - centerY) / centerY) * -5;
-        const rotateY = ((x - centerX) / centerX) * 5;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(0)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-        isHovered = false;
-        card.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)';
-    });
-
-    // Scroll-linked dynamic depth parallax on image
-    if (img) {
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const bioSection = document.getElementById('bio');
-                    if (bioSection) {
-                        const rect = bioSection.getBoundingClientRect();
-                        const vh = window.innerHeight;
-
-                        if (rect.top < vh && rect.bottom > 0) {
-                            const progress = (vh - rect.top) / (vh + rect.height);
-                            const clamped = Math.min(Math.max(progress, 0), 1);
-                            // Shift image by -10px to +10px
-                            const offsetY = ((clamped - 0.5) * 20).toFixed(1);
-                            if (!isHovered) {
-                                img.style.transform = `translateY(${offsetY}px) scale(1.03)`;
-                            }
-                        }
-                    }
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
-    }
 }

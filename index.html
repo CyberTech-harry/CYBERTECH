@@ -18,7 +18,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="htechnologies">
-    <link rel="icon" type="image/png" href="htechnologies-icon-192.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="htechnologies-icon-192.png">
     <link rel="apple-touch-icon" href="htechnologies-icon-192.png">
 
     <!-- Open Graph Protocol (Facebook, LinkedIn, Slack) -->
@@ -104,28 +106,32 @@
     </script>
 
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="loader.css">
     <script src="script.js" defer></script>
-    <script src="loader.js" defer></script>
 </head>
 <body>
     <!-- Global Backend Outage & Network Degradation Notification Bar (Graceful Recovery) -->
     <div id="service-status-banner" class="status-banner hidden" role="alert" aria-live="polite">
         <div class="status-banner-content">
-            <span class="status-banner-icon" id="banner-icon">⚠️</span>
+            <span class="status-banner-icon" id="banner-icon">[Status]</span>
             <span class="status-banner-text" id="banner-text">
                 Notice: Backend services or network connection are temporarily offline. Cached features and UI remain fully operational.
             </span>
             <button id="banner-retry-btn" class="status-banner-btn" onclick="retryConnectionHealth()">
-                🔄 Refresh Status
+                Refresh Status
             </button>
         </div>
     </div>
-    <!-- Floating Glass Header & Brand Island -->
-    <header class="header-island">
+    <!-- Full-Width Top Bar Header -->
+    <header>
         <a href="index.html" class="logo" aria-label="htechnologies home">
             <img src="htechnologies-logo.png" alt="htechnologies logo" class="header-logo-img">
         </a>
+        <div class="header-cta-wrapper">
+            <a href="#contact" class="btn btn-header-cta">
+                <span>Get Support</span>
+                <svg class="btn-cta-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+        </div>
     </header>
 
     <main>
@@ -137,57 +143,20 @@
                     Available for IT Support &amp; Systems Development
                 </div>
                 <h1 class="hero-title">
-                    Where Technology Meets <span class="gradient-text">Creative Engineering</span>
+                    Enterprise IT Systems Diagnostics, Hardware Support &amp; Custom Web Engineering
                 </h1>
                 <p class="hero-subtitle">
-                    Greetings! I'm <strong>Harrison</strong> — an <strong>IT System Support Technician</strong>, <strong>Full-Stack Web Developer</strong>, <strong>Commercial Graphic Designer</strong>, and <strong>Computer Software Tutor</strong> delivering mission-critical tech solutions, resilient FinTech architectures, and transformative digital training.
+                    Harrison delivers component-level IT hardware repairs, production Point of Sale systems, localized Safaricom M-Pesa FinTech integrations, and secure web applications for businesses in Kenya and worldwide.
                 </p>
                 <div class="hero-cta-group">
-                    <a href="#flagship-projects" class="btn-primary btn-nested-pill">
-                        <span>Explore Featured Projects</span>
-                        <span class="btn-icon-circle">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </span>
+                    <a href="#flagship-projects" class="btn btn-primary">
+                        <span>Explore Featured Systems</span>
+                        <svg class="btn-arrow-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </a>
-                    <a href="#contact" class="btn-secondary btn-nested-pill">
+                    <a href="#contact" class="btn btn-secondary">
                         <span>Get Direct IT Support</span>
-                        <span class="btn-icon-circle">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg>
-                        </span>
+                        <svg class="btn-arrow-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </a>
-                </div>
-
-                <!-- Quick Stats Counter Bar (Double-Bezel Hardware Architecture) -->
-                <div class="hero-stats-bar">
-                    <div class="stat-card">
-                        <div class="stat-card-inner">
-                            <span class="stat-number">4+</span>
-                            <span class="stat-label">Enterprise Systems</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-inner">
-                            <span class="stat-number">117+</span>
-                            <span class="stat-label">Technical IT Guides</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-inner">
-                            <span class="stat-number">50+</span>
-                            <span class="stat-label">Students &amp; Staff Trained</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-inner">
-                            <span class="stat-number">99.8%</span>
-                            <span class="stat-label">Client Satisfaction &amp; Uptime</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -204,7 +173,8 @@
                         <h3 class="bio-meta-name">Harrison</h3>
                         <p class="bio-meta-role">Lead Solutions Engineer &amp; Tech Tutor</p>
                         <p class="bio-meta-location">
-                            <span>📍</span> ABSA Bank Building, Busia (Kenya)
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <span>ABSA Bank Building, Busia (Kenya)</span>
                         </p>
                     </div>
                 </div>
@@ -213,7 +183,7 @@
                 <div class="bio-content">
                     <div>
                         <span class="section-pill-tag">Professional Profile</span>
-                        <h2>Engineering Digital Reliability &amp; Creative Clarity</h2>
+                        <h2>Engineering Digital Reliability &amp; Technical Precision</h2>
                     </div>
 
                     <p>
@@ -221,7 +191,7 @@
                     </p>
 
                     <p>
-                        As the founder of <strong>htechnologies</strong>, I bridge the gap between technical complexity and everyday usability — empowering organizations across East Africa to scale with reliable, modern digital tools.
+                        As the founder of <strong>htechnologies</strong>, I bridge the gap between technical complexity and everyday usability, empowering organizations across East Africa to scale with reliable, modern digital tools.
                     </p>
 
                     <!-- Categorized Skill Matrix -->
@@ -229,7 +199,8 @@
                         <!-- Domain 1 -->
                         <div class="skill-group">
                             <h4 class="skill-group-title">
-                                <span class="icon">🛠️</span> IT Systems Support &amp; Hardware Diagnostics
+                                <svg class="skill-title-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                                <span>IT Systems Support &amp; Hardware Diagnostics</span>
                             </h4>
                             <div class="skill-badges">
                                 <span class="skill-pill">Component-Level PC Diagnostics</span>
@@ -244,7 +215,8 @@
                         <!-- Domain 2 -->
                         <div class="skill-group">
                             <h4 class="skill-group-title">
-                                <span class="icon">💻</span> Full-Stack Web Engineering
+                                <svg class="skill-title-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                                <span>Full-Stack Web Engineering</span>
                             </h4>
                             <div class="skill-badges">
                                 <span class="skill-pill">React (Vite)</span>
@@ -260,7 +232,8 @@
                         <!-- Domain 3 -->
                         <div class="skill-group">
                             <h4 class="skill-group-title">
-                                <span class="icon">💳</span> M-Pesa FinTech Gateways &amp; Automation
+                                <svg class="skill-title-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                <span>M-Pesa FinTech Gateways &amp; Automation</span>
                             </h4>
                             <div class="skill-badges">
                                 <span class="skill-pill">Safaricom Daraja API 2.0</span>
@@ -274,7 +247,8 @@
                         <!-- Domain 4 -->
                         <div class="skill-group">
                             <h4 class="skill-group-title">
-                                <span class="icon">🎨</span> Creative Graphic Design &amp; Brand Identity
+                                <svg class="skill-title-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                                <span>Creative Graphic Design &amp; Brand Identity</span>
                             </h4>
                             <div class="skill-badges">
                                 <span class="skill-pill">Adobe Illustrator (Vector Art)</span>
@@ -288,7 +262,8 @@
                         <!-- Domain 5 -->
                         <div class="skill-group">
                             <h4 class="skill-group-title">
-                                <span class="icon">🎓</span> MS Office &amp; Google Workspace Tutoring
+                                <svg class="skill-title-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                                <span>MS Office &amp; Google Workspace Tutoring</span>
                             </h4>
                             <div class="skill-badges">
                                 <span class="skill-pill">Advanced Microsoft Excel (VLOOKUP, Pivot, Macros)</span>
@@ -309,7 +284,7 @@
                 <span class="section-pill-tag">Production Portfolios</span>
                 <h2 class="section-title">Featured Flagship Systems</h2>
                 <p class="section-subtitle">
-                    Explore production-grade enterprise platforms engineered by Harrison — spanning offline-first Point of Sale, comprehensive IT troubleshooting knowledge bases, small-business operations hubs, and property management software.
+                    Explore production-grade enterprise platforms engineered by Harrison, spanning offline-first Point of Sale, comprehensive IT troubleshooting knowledge bases, small-business operations hubs, and property management software.
                 </p>
             </div>
 
@@ -336,9 +311,9 @@
                         </div>
                     </div>
                     <div class="flagship-actions">
-                        <a href="https://pos.cybertechcomps.com" target="_blank" rel="noopener" class="flagship-link-primary btn-nested-pill">
+                        <a href="https://pos.cybertechcomps.com" target="_blank" rel="noopener" class="btn btn-primary">
                             <span>Launch pos.cybertechcomps.com</span>
-                            <span class="btn-icon-circle">&nearr;</span>
+                            <svg class="btn-arrow-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </a>
                     </div>
                 </article>
@@ -365,9 +340,9 @@
                         </div>
                     </div>
                     <div class="flagship-actions">
-                        <a href="https://fixit.cybertechcomps.com" target="_blank" rel="noopener" class="flagship-link-primary btn-nested-pill">
+                        <a href="https://fixit.cybertechcomps.com" target="_blank" rel="noopener" class="btn btn-primary">
                             <span>Launch fixit.cybertechcomps.com</span>
-                            <span class="btn-icon-circle">&nearr;</span>
+                            <svg class="btn-arrow-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </a>
                     </div>
                 </article>
@@ -394,9 +369,9 @@
                         </div>
                     </div>
                     <div class="flagship-actions">
-                        <a href="https://cybertechcomps.com" target="_blank" rel="noopener" class="flagship-link-primary btn-nested-pill">
+                        <a href="https://cybertechcomps.com" target="_blank" rel="noopener" class="btn btn-primary">
                             <span>Launch cybertechcomps.com</span>
-                            <span class="btn-icon-circle">&nearr;</span>
+                            <svg class="btn-arrow-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </a>
                     </div>
                 </article>
@@ -423,81 +398,84 @@
                         </div>
                     </div>
                     <div class="flagship-actions">
-                        <a href="#contact" class="flagship-link-primary btn-nested-pill">
-                            <span>Request Rental System Demo</span>
-                            <span class="btn-icon-circle">&rarr;</span>
+                        <a href="#contact" class="btn btn-primary">
+                            <span>Request Rental Demo</span>
+                            <svg class="btn-arrow-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </a>
                     </div>
                 </article>
             </div>
 
-            <!-- Bento Bottom CTA -->
-            <div class="flagship-bottom-cta">
-                <div class="cta-inner-shell">
-                    <div class="cta-text-content">
-                        <h3>Looking for a custom enterprise platform, M-Pesa integration, or tailored business automation?</h3>
-                        <p>Harrison provides direct architecture design, rapid implementation, and ongoing SLA maintenance.</p>
-                    </div>
-                    <a href="#contact" class="cta-link btn-nested-pill">
-                        <span>Discuss Your Project</span>
-                        <span class="btn-icon-circle">&rarr;</span>
-                    </a>
-                </div>
-            </div>
         </section>
 
-
-        <!-- Client Testimonials Snippet -->
-        <section class="testimonials" style="flex-direction: column; gap: 0;">
+        <!-- Engineering Standards & Service Commitments Section -->
+        <section class="standards-section" id="standards">
             <div class="section-header">
-                <span class="section-pill-tag">Verified Client Feedback</span>
-                <h2 class="section-title">What Clients &amp; Students Say</h2>
+                <span class="section-pill-tag">Engineering Rigor</span>
+                <h2 class="section-title">Standards &amp; Operational Commitments</h2>
                 <p class="section-subtitle">
-                    Proven reliability across enterprise hardware diagnostics, custom web systems, corporate training workshops, and commercial graphic design.
+                    Every hardware repair, software deployment, and network integration is governed by verifiable engineering standards and transparent client accountability.
                 </p>
             </div>
 
-            <div class="testimonials-grid" style="display: flex; gap: 24px; width: 100%;">
-                <!-- Testimonial 1 -->
-                <div class="testimonial" id="testimonial-wanyama">
-                    <div>
-                        <img src="Customer_A.png" alt="Stephen Wanyama">
-                        <div class="star-rating" aria-label="5 out of 5 stars">★★★★★</div>
-                        <p>"Harrison's IT support is unparalleled! He restored our entire inventory system, set up automated daily cloud backups, and our store checkout downtime is now zero. Dependable and deeply knowledgeable."</p>
+            <div class="standards-grid">
+                <div class="standard-card">
+                    <div class="standard-card-header">
+                        <div class="standard-icon-box">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                                <rect x="9" y="9" width="6" height="6"></rect>
+                                <line x1="9" y1="1" x2="9" y2="4"></line>
+                                <line x1="15" y1="1" x2="15" y2="4"></line>
+                                <line x1="9" y1="20" x2="9" y2="23"></line>
+                                <line x1="15" y1="20" x2="15" y2="23"></line>
+                                <line x1="20" y1="9" x2="23" y2="9"></line>
+                                <line x1="20" y1="14" x2="23" y2="14"></line>
+                                <line x1="1" y1="9" x2="4" y2="9"></line>
+                                <line x1="1" y1="14" x2="4" y2="14"></line>
+                            </svg>
+                        </div>
+                        <span class="standard-badge">Diagnostics</span>
                     </div>
-                    <div class="testimonial-author-meta">
-                        <h4 class="testimonial-author-name">Stephen Wanyama</h4>
-                        <p class="testimonial-author-role">Managing Director, Busia Commercial Enterprises</p>
-                        <span class="section-pill-tag" style="margin-top: 12px; display: inline-block; font-size: 0.78rem;">Verified Client ✓</span>
-                    </div>
+                    <h3 class="standard-title">Component-Level Hardware Verification</h3>
+                    <p class="standard-desc">
+                        Rigorous hardware inspection using multimeters, diagnostic boot environments, and stress benchmarks before and after repairs. No guesswork, no superficial component swaps.
+                    </p>
                 </div>
 
-                <!-- Testimonial 2 -->
-                <div class="testimonial" id="testimonial-achieng">
-                    <div>
-                        <img src="Customer_B.png" alt="Brenda Achieng">
-                        <div class="star-rating" aria-label="5 out of 5 stars">★★★★★</div>
-                        <p>"I learned so much from Harrison's software training. He demystified complex Excel formulas, pivot tables, and Google Workspace automations for our entire logistics department. Highly recommended!"</p>
+                <div class="standard-card">
+                    <div class="standard-card-header">
+                        <div class="standard-icon-box">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                <polyline points="9 12 11 14 15 10"></polyline>
+                            </svg>
+                        </div>
+                        <span class="standard-badge">Security</span>
                     </div>
-                    <div class="testimonial-author-meta">
-                        <h4 class="testimonial-author-name">Brenda Achieng</h4>
-                        <p class="testimonial-author-role">Executive Assistant, Lake Region Logistics</p>
-                        <span class="section-pill-tag" style="margin-top: 12px; display: inline-block; font-size: 0.78rem;">Verified Client ✓</span>
-                    </div>
+                    <h3 class="standard-title">Hardened Web &amp; FinTech Architecture</h3>
+                    <p class="standard-desc">
+                        Zero exposure of administrative keys on client side, strict SQL query parameterization to prevent injection, and cryptographic HMAC verification on all M-Pesa webhook endpoints.
+                    </p>
                 </div>
 
-                <!-- Testimonial 3 -->
-                <div class="testimonial" id="testimonial-omondi">
-                    <div>
-                        <img src="Customer_C.png" alt="Kevin Omondi">
-                        <div class="star-rating" aria-label="5 out of 5 stars">★★★★★</div>
-                        <p>"The brand identity and marketing graphics Harrison created for my company were simply outstanding. Crisp, modern, and aligned with our target market. Our customer trust surged immediately."</p>
+                <div class="standard-card">
+                    <div class="standard-card-header">
+                        <div class="standard-icon-box">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                        </div>
+                        <span class="standard-badge">Privacy</span>
                     </div>
-                    <div class="testimonial-author-meta">
-                        <h4 class="testimonial-author-name">Kevin Omondi</h4>
-                        <p class="testimonial-author-role">Founder, Apex Dynamics Solutions</p>
-                        <span class="section-pill-tag" style="margin-top: 12px; display: inline-block; font-size: 0.78rem;">Verified Client ✓</span>
-                    </div>
+                    <h3 class="standard-title">Kenya DPA 2019 Compliance</h3>
+                    <p class="standard-desc">
+                        Full compliance with Kenya Data Protection Act 2019 guidelines. All customer diagnostic data and records are handled with strict confidentiality, encrypted at rest, and never shared.
+                    </p>
                 </div>
             </div>
         </section>
@@ -505,7 +483,7 @@
         <!-- Quick Contact & Office Strip -->
         <section class="quick-contact-section" id="contact">
             <div class="section-header">
-                <span class="section-pill-tag">⚡ Fast Direct Response</span>
+                <span class="section-pill-tag">Direct Response</span>
                 <h2 class="section-title">Let's Connect &amp; Solve It</h2>
                 <p class="section-subtitle">
                     Have an urgent IT system issue, need a custom software quote, or want to schedule software training? Visit our Busia office or send an instant inquiry below.
@@ -538,13 +516,13 @@
                             <div class="select-wrapper">
                                 <select id="service" name="service" required>
                                     <option value="" disabled selected>Select a service or requirement...</option>
-                                    <option value="IT Systems Support & PC Diagnostics">💻 IT Systems Support &amp; PC Diagnostics</option>
-                                    <option value="Custom Full-Stack Web Development">🌐 Custom Full-Stack Web Development</option>
-                                    <option value="Cybertech POS & Retail System Implementation">🛒 Cybertech POS &amp; Retail Systems</option>
-                                    <option value="M-Pesa FinTech & Payment Gateway">💳 M-Pesa FinTech &amp; Payment Gateway</option>
-                                    <option value="Graphic Design & Branding">🎨 Graphic Design &amp; Brand Identity</option>
-                                    <option value="Software Tutoring & Corporate Training">📚 Software Tutoring &amp; Corporate Training</option>
-                                    <option value="General Technical Consultation">📩 General Technical Consultation</option>
+                                    <option value="IT Systems Support & PC Diagnostics">IT Systems Support &amp; PC Diagnostics</option>
+                                    <option value="Custom Full-Stack Web Development">Custom Full-Stack Web Development</option>
+                                    <option value="Cybertech POS & Retail System Implementation">Cybertech POS &amp; Retail Systems</option>
+                                    <option value="M-Pesa FinTech & Payment Gateway">M-Pesa FinTech &amp; Payment Gateway</option>
+                                    <option value="Graphic Design & Branding">Graphic Design &amp; Brand Identity</option>
+                                    <option value="Software Tutoring & Corporate Training">Software Tutoring &amp; Corporate Training</option>
+                                    <option value="General Technical Consultation">General Technical Consultation</option>
                                 </select>
                             </div>
                         </div>
@@ -556,15 +534,15 @@
 
                         <button type="submit" class="btn-submit-inquiry" id="btn-submit-inquiry">
                             <span>Submit Direct Inquiry</span>
-                            <span class="btn-arrow">&rarr;</span>
+                            <svg class="btn-arrow-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </button>
 
                         <div class="form-trust-strip">
-                            <span>🔒 Encrypted Data</span>
+                            <span>Encrypted Data</span>
                             <span class="trust-dot">•</span>
-                            <span>⚡ Offline Resilient</span>
+                            <span>Offline Resilient</span>
                             <span class="trust-dot">•</span>
-                            <span>⏱️ 24h Response</span>
+                            <span>24h Response</span>
                         </div>
                     </form>
                 </div>
@@ -574,20 +552,21 @@
                     <div class="office-header-bar">
                         <div>
                             <div class="office-badge-title">
-                                <span class="office-title-icon">🏢</span>
                                 <h3>Physical Headquarters</h3>
                             </div>
                             <p class="office-sub">htechnologies</p>
                         </div>
                         <span class="office-status-pill">
-                            <span class="pulse-dot"></span> Open Mon – Sat
+                            <span class="pulse-dot"></span> Open Mon - Sat
                         </span>
                     </div>
 
                     <div class="office-cards-stack">
                         <!-- Office Location -->
                         <div class="office-card-item">
-                            <div class="card-item-icon">📍</div>
+                            <div class="card-item-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            </div>
                             <div class="card-item-body">
                                 <span class="card-item-label">Office Location</span>
                                 <div class="card-item-value">
@@ -599,7 +578,9 @@
 
                         <!-- Direct Lines -->
                         <div class="office-card-item">
-                            <div class="card-item-icon">📞</div>
+                            <div class="card-item-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            </div>
                             <div class="card-item-body">
                                 <span class="card-item-label">Direct Phone Lines</span>
                                 <div class="card-item-value phone-links">
@@ -612,7 +593,9 @@
 
                         <!-- Official Email -->
                         <div class="office-card-item">
-                            <div class="card-item-icon">✉️</div>
+                            <div class="card-item-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            </div>
                             <div class="card-item-body">
                                 <span class="card-item-label">Official Email</span>
                                 <div class="card-item-value">
@@ -623,17 +606,19 @@
 
                         <!-- Operating Hours -->
                         <div class="office-card-item">
-                            <div class="card-item-icon">🕒</div>
+                            <div class="card-item-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </div>
                             <div class="card-item-body">
                                 <span class="card-item-label">Operating Hours</span>
                                 <div class="hours-schedule">
                                     <div class="sched-row">
-                                        <span class="sched-day">Monday – Friday:</span>
-                                        <span class="sched-time">8:00 am – 7:00 pm</span>
+                                        <span class="sched-day">Monday - Friday:</span>
+                                        <span class="sched-time">8:00 am - 7:00 pm</span>
                                     </div>
                                     <div class="sched-row">
                                         <span class="sched-day">Saturday:</span>
-                                        <span class="sched-time">9:00 am – 6:00 pm</span>
+                                        <span class="sched-time">9:00 am - 6:00 pm</span>
                                     </div>
                                     <div class="sched-row">
                                         <span class="sched-day">Sunday:</span>
@@ -646,13 +631,16 @@
 
                     <div class="office-quick-actions">
                         <a href="tel:+254798830470" class="office-action-btn call-btn">
-                            📞 Call Now
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <span>Call Now</span>
                         </a>
                         <a href="https://wa.me/+254798830470" target="_blank" rel="noopener" class="office-action-btn wa-btn">
-                            💬 WhatsApp Chat
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                            <span>WhatsApp Chat</span>
                         </a>
                         <a href="https://maps.google.com/?q=ABSA+Bank+Busia+Kenya" target="_blank" rel="noopener" class="office-action-btn map-btn">
-                            📍 Google Maps
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                            <span>Google Maps</span>
                         </a>
                     </div>
                 </div>
@@ -662,59 +650,83 @@
 
     <!-- Unified Modern 4-Column Footer -->
     <footer>
-        <div class="footer-section">
-            <h3>Follow Us</h3>
-            <p>
-                <a href="https://wa.me/+254798830470" target="_blank" rel="noopener">
-                    <img src="whatsapp-svgrepo-com.svg" alt="WhatsApp" style="height: 20px; vertical-align: middle;"> WhatsApp
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=61553165412647" target="_blank" rel="noopener">
-                    <img src="facebook-svgrepo-com.svg" alt="Facebook" style="height: 20px; vertical-align: middle;"> Facebook
-                </a>
-                <a href="https://www.youtube.com/channel/UCPw_hJpTrNnYbvwcvfyyv2Q" target="_blank" rel="noopener">
-                    <img src="youtube-color-svgrepo-com.svg" alt="YouTube" style="height: 20px; vertical-align: middle;"> YouTube
-                </a>
+        <!-- Column 1: Brand & Positioning -->
+        <div class="footer-section footer-brand-section">
+            <a href="index.html" class="footer-brand-logo" aria-label="htechnologies home">
+                <img src="htechnologies-logo.png" alt="htechnologies logo" class="footer-logo-img">
+            </a>
+            <p class="footer-brand-tagline">
+                Mission-critical enterprise diagnostics, Safaricom Daraja M-Pesa integration, high-reliability POS platforms, and hardened web engineering.
             </p>
-            <p>Stay connected on social media for tech updates &amp; guides.</p>
+            <div class="footer-social-bar">
+                <a href="https://wa.me/+254798830470" target="_blank" rel="noopener" class="footer-social-badge" title="WhatsApp Direct Desk">
+                    <img src="whatsapp-svgrepo-com.svg" alt="WhatsApp">
+                    <span>WhatsApp</span>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61553165412647" target="_blank" rel="noopener" class="footer-social-badge" title="Facebook Page">
+                    <img src="facebook-svgrepo-com.svg" alt="Facebook">
+                    <span>Facebook</span>
+                </a>
+                <a href="https://www.youtube.com/channel/UCPw_hJpTrNnYbvwcvfyyv2Q" target="_blank" rel="noopener" class="footer-social-badge" title="YouTube Channel">
+                    <img src="youtube-color-svgrepo-com.svg" alt="YouTube">
+                    <span>YouTube</span>
+                </a>
+            </div>
         </div>
 
-        <div class="footer-section">
-            <h3>Subscribe to Newsletter</h3>
-            <form action="#" method="post">
-                <input type="email" name="email" placeholder="Enter your email" required>
+        <!-- Column 2: Platform & Systems Navigation -->
+        <div class="footer-section footer-nav-section">
+            <h3>Platform &amp; Navigation</h3>
+            <ul class="footer-nav-list">
+                <li><a href="#flagship-projects">Flagship Systems</a></li>
+                <li><a href="#bio">Profile &amp; Technical Matrix</a></li>
+                <li><a href="#standards">Engineering Standards</a></li>
+                <li><a href="#contact">Direct Service Desk</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 3: Headquarters & Operations Desk -->
+        <div class="footer-section footer-contact-section">
+            <h3>Operations &amp; Desk</h3>
+            <div class="footer-contact-item">
+                <svg class="footer-contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span>ABSA Bank Building, Busia Branch, Busia (K)</span>
+            </div>
+            <div class="footer-contact-item">
+                <img src="phone-call-communication-svgrepo-com.svg" alt="" class="footer-contact-icon-img">
+                <a href="tel:+254798830470">+254 798 830 470</a> / <a href="tel:+254775953282">+254 775 953 282</a>
+            </div>
+            <div class="footer-contact-item">
+                <img src="email-opened-svgrepo-com.svg" alt="" class="footer-contact-icon-img">
+                <a href="mailto:contact.htechnologies@gmail.com">contact.htechnologies@gmail.com</a>
+            </div>
+            <div class="footer-contact-item">
+                <span class="footer-schedule-pill">Mon - Sat: 8:00 AM - 7:00 PM EAT</span>
+            </div>
+        </div>
+
+        <!-- Column 4: Engineering Bulletin Newsletter -->
+        <div class="footer-section footer-newsletter-section">
+            <h3>Engineering Bulletin</h3>
+            <p>Subscribe for hardware diagnostics advisories, security updates, and system architecture releases.</p>
+            <form action="#" method="post" class="footer-newsletter-form">
+                <input type="email" name="email" placeholder="Enter business email" required aria-label="Newsletter email address">
                 <button type="submit">Subscribe</button>
             </form>
-            <p>Get the latest cybersecurity insights and system optimization tips.</p>
+            <p class="footer-privacy-note">Zero spam. Protected under Kenya DPA 2019 standards.</p>
         </div>
 
-        <div class="footer-section">
-            <h3>Get in Touch</h3>
-            <p>Have questions or need emergency support?<br>Contact our desk anytime.</p>
-            <p>
-                <img src="phone-call-communication-svgrepo-com.svg" alt="Phone" style="height: 18px; vertical-align: middle; margin-right: 5px;">
-                <a href="tel:+254798830470">+254 798 830 470</a><br>
-                <img src="email-opened-svgrepo-com.svg" alt="Email" style="height: 18px; vertical-align: middle; margin-right: 5px;">
-                <a href="mailto:contact.htechnologies@gmail.com">contact.htechnologies@gmail.com</a>
-            </p>
-        </div>
-
-        <div class="footer-section">
-            <h3>Need Help?</h3>
-            <p>We're here to assist with diagnostics &amp; solutions.</p>
-            <p>
-                <a href="https://wa.me/+254798830470" target="_blank" rel="noopener">
-                    <img src="live-chat-headset-svgrepo-com.svg" alt="Live Chat" style="height: 18px; vertical-align: middle; margin-right: 5px;">
-                    Start a Live Chat
-                </a>
-            </p>
-        </div>
-
+        <!-- Footer Bottom Utility Bar with Hidden Stealth Portal Links -->
         <div class="footer-bottom">
-            <p>
-                &copy; <span id="current-year">2026</span> htechnologies. All rights reserved.
-                <a href="login/login.html" class="stealth-login-lock" title="Staff Portal" aria-label="Portal Access">🔒</a>
-            </p>
-            <p>Crafted with engineering precision <a href="login/login.html" class="stealth-login-dot" title="Staff Portal" aria-label="Portal Access">&bull;</a> Busia, Kenya</p>
+            <div class="footer-bottom-copy">
+                &copy; <span id="current-year">2026</span> htechnologies. All rights reserved. Registered &amp; operating in Busia, Kenya. <a href="login/login.html" class="stealth-login-lock" title="Staff Portal" aria-label="Portal Access"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></a>
+            </div>
+            <div class="footer-bottom-links">
+                <a href="privacy.html" class="footer-legal-link">Privacy Policy</a>
+                <span class="footer-divider" aria-hidden="true">&bull;</span>
+                <a href="terms.html" class="footer-legal-link">Terms &amp; Conditions</a>
+                <a href="login/login.html" class="stealth-login-dot" title="Staff Portal" aria-label="Portal Access">&bull;</a>
+            </div>
         </div>
     </footer>
 </body>
