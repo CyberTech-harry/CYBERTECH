@@ -41,7 +41,6 @@ Allow: /
 # General Directives
 User-agent: *
 Allow: /
-Disallow: /other/
 
 # Sitemap Reference
 Sitemap: https://cybertechcomps.com/sitemap.xml
