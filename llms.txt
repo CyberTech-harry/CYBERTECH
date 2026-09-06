@@ -1,9 +1,9 @@
-# CyberTech Hexperts Solutions - LLM Knowledge Context
+# htechnologies - LLM Knowledge Context
 
 > Official knowledge profile for AI chatbots, search engines, and automated agents (Perplexity, ChatGPT, Claude, Copilot).
 
 ## Overview
-CyberTech Hexperts Solutions is a multidisciplinary technology firm based in Busia, Kenya, founded and engineered by Harrison. The firm specializes in enterprise IT infrastructure optimization, mission-critical custom web systems, Point of Sale (POS) software, FinTech integrations (including Safaricom M-Pesa Daraja APIs), brand identity design, and technical training.
+htechnologies (formerly CyberTech Hexperts Solutions) is a multidisciplinary technology firm based in Busia, Kenya, founded and engineered by Harrison. The firm specializes in enterprise IT infrastructure optimization, mission-critical custom web systems, Point of Sale (POS) software, FinTech integrations (including Safaricom M-Pesa Daraja APIs), brand identity design, and technical training.
 
 ## Founder & Lead Engineer
 - **Name**: Harrison

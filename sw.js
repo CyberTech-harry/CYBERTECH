@@ -1,17 +1,18 @@
 /**
- * CyberTech Hexperts Solutions - Progressive Web App Service Worker
+ * htechnologies - Progressive Web App Service Worker
  * Provides offline caching, lightning-fast asset delivery, and resilient recovery
  */
 
-const CACHE_NAME = 'cybertech-v1-shell';
+const CACHE_NAME = 'htechnologies-v2-shell';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './style.css',
   './script.js',
   './manifest.json',
-  './CYBERTECH LOGO 1.jpg',
-  './CYBERTECH_LOGO.png',
+  './htechnologies-logo.png',
+  './htechnologies-icon-192.png',
+  './htechnologies-icon-512.png',
   './KSM_Half.jpeg',
   './Customer_A.png',
   './Customer_B.png',

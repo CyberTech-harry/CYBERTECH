@@ -31,6 +31,13 @@ function initMobileMenu() {
     const header = document.querySelector('header');
     if (!header) return;
 
+    const nav = header.querySelector('nav');
+    if (!nav || nav.querySelectorAll('a').length === 0) {
+        const existingBtn = document.getElementById('mobile-menu-btn');
+        if (existingBtn) existingBtn.remove();
+        return;
+    }
+
     // Retrieve or dynamically create mobile hamburger button
     let menuBtn = document.getElementById('mobile-menu-btn');
     if (!menuBtn) {
@@ -46,8 +53,6 @@ function initMobileMenu() {
         `;
         header.appendChild(menuBtn);
     }
-
-    const nav = header.querySelector('nav');
 
     // Toggle menu on button click
     menuBtn.addEventListener('click', (e) => {
@@ -276,8 +281,8 @@ function initFooterCopyright() {
         const bottomBar = document.createElement('div');
         bottomBar.className = 'footer-bottom';
         bottomBar.innerHTML = `
-            <p>&copy; ${new Date().getFullYear()} CyberTech Hexperts Solutions. All rights reserved.</p>
-            <p>IT Support &bull; Graphic Design &bull; Software Training &bull; Busia, Kenya</p>
+            <p>&copy; ${new Date().getFullYear()} htechnologies. All rights reserved. <a href="login/login.html" class="stealth-login-lock" title="Staff Portal" aria-label="Portal Access">🔒</a></p>
+            <p>Crafted with engineering precision <a href="login/login.html" class="stealth-login-dot" title="Staff Portal" aria-label="Portal Access">&bull;</a> Busia, Kenya</p>
         `;
         footer.appendChild(bottomBar);
     }

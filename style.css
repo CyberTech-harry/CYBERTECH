@@ -189,88 +189,84 @@ a {
     background: #b45309;
 }
 
-/* --- 6. Floating Glass Header (Island Architecture) --- */
+/* --- 6. Floating Glass Header (Brand Island Architecture) --- */
 header {
     position: sticky;
     top: 14px;
     margin: 14px auto 28px;
-    max-width: var(--max-content-width);
+    width: fit-content;
+    max-width: calc(100% - 32px);
     z-index: 1000;
     background: var(--surface-glass);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border-color-subtle);
     border-radius: var(--border-radius-pill);
-    padding: 10px 24px;
+    padding: 8px 32px;
     box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.06);
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     transition: var(--physics-transition);
+}
+
+header:hover {
+    border-color: rgba(2, 132, 199, 0.3);
+    box-shadow: 0 12px 32px -8px rgba(2, 132, 199, 0.12);
 }
 
 header .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
     text-decoration: none;
-    font-weight: 800;
-    font-size: 1.02rem;
-    color: var(--text-color-dark);
-    letter-spacing: -0.02em;
+    line-height: 1;
 }
 
-header .logo img {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(2, 132, 199, 0.25);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+header .logo img,
+header .header-logo-img {
+    height: 40px;
+    width: auto;
+    max-width: 210px;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-header nav {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+header .logo:hover img,
+header .logo:hover .header-logo-img {
+    transform: scale(1.03);
 }
 
-header nav a {
-    color: var(--text-color-medium);
-    font-weight: 600;
-    font-size: 0.92rem;
-    padding: 8px 18px;
-    border-radius: var(--border-radius-pill);
-    transition: var(--physics-transition);
-}
-
-header nav a:hover {
-    color: var(--primary-color);
-    background: var(--primary-light);
-}
-
-header nav a.active {
-    color: var(--primary-color);
-    background: var(--primary-light);
-    font-weight: 700;
-}
-
-header .login-button {
-    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-    color: #ffffff;
-    padding: 9px 24px;
-    border-radius: var(--border-radius-pill);
-    font-weight: 700;
-    font-size: 0.88rem;
+/* Stealth Portal Links in Footer ("Hidden where no one can see") */
+.stealth-login-lock {
+    color: #334155;
+    opacity: 0.15;
     text-decoration: none;
-    box-shadow: 0 6px 18px -3px rgba(2, 132, 199, 0.4);
-    transition: var(--physics-transition);
+    font-size: 0.72rem;
+    margin-left: 8px;
+    vertical-align: middle;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    cursor: default;
+    user-select: none;
 }
 
-header .login-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 22px -3px rgba(2, 132, 199, 0.5);
-    filter: brightness(1.05);
+.stealth-login-lock:hover {
+    opacity: 0.95;
+    color: #00e5ff;
+    cursor: pointer;
+}
+
+.stealth-login-dot {
+    color: inherit;
+    text-decoration: none;
+    cursor: default;
+    transition: color 0.2s ease;
+}
+
+.stealth-login-dot:hover {
+    color: var(--primary-color);
+    cursor: pointer;
 }
 
 /* Mobile Hamburger Button */
@@ -1575,48 +1571,19 @@ footer {
     }
 
     header {
-        border-radius: var(--border-radius);
-        padding: 12px 18px;
-        flex-wrap: wrap;
+        padding: 8px 20px;
+        margin: 10px auto 20px;
+        width: fit-content;
+        max-width: calc(100% - 24px);
+    }
+
+    header .logo img,
+    header .header-logo-img {
+        height: 32px;
     }
 
     .mobile-menu-btn {
-        display: flex;
-    }
-
-    header nav {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 16px 0 8px;
-        border-top: 1px solid var(--border-color);
-        margin-top: 12px;
-    }
-
-    header.nav-open nav {
-        display: flex;
-    }
-
-    header.nav-open .mobile-menu-btn .hamburger-bar:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
-    }
-
-    header.nav-open .mobile-menu-btn .hamburger-bar:nth-child(2) {
-        opacity: 0;
-    }
-
-    header.nav-open .mobile-menu-btn .hamburger-bar:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
-    }
-
-    header .login-button {
-        display: none;
-    }
-
-    header.nav-open .login-button {
-        display: inline-block;
-        margin-top: 8px;
+        display: none !important;
     }
 
     .hero-section {
