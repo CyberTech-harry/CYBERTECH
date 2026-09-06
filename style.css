@@ -76,7 +76,7 @@ html {
 body {
     font-family: var(--font-family);
     margin: 0;
-    padding: 0 0 60px;
+    padding: 0;
     background-color: var(--background-color-body);
     color: var(--text-color-medium);
     line-height: 1.65;
@@ -407,7 +407,7 @@ header .header-logo-img {
     align-items: center;
     gap: 14px;
     flex-wrap: wrap;
-    margin-bottom: 32px;
+    margin-bottom: 0;
 }
 
 .btn,
@@ -474,12 +474,13 @@ header .header-logo-img {
     display: none;
 }
 
-/* --- Technical Architecture & Capabilities Spec Strip (.hero-spec-strip) --- */
+/* --- Technical Architecture & Capabilities Spec Strip (.flagship-spec-strip, .hero-spec-strip) --- */
+.flagship-spec-strip,
 .hero-spec-strip {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 18px;
-    margin-top: 48px;
+    margin-top: 36px;
     text-align: left;
 }
 
@@ -1494,15 +1495,17 @@ header .header-logo-img {
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
-/* --- 12. Unified Modern 4-Column Footer --- */
+/* --- 12. Unified Modern 4-Column Footer (Edge-to-Edge Full Viewport Width) --- */
 footer {
     background: var(--surface-dark);
     color: #94a3b8;
     border-top: 1px solid var(--border-dark);
-    border-radius: var(--border-radius-lg);
-    padding: 60px 48px 32px;
-    margin: 56px auto 0;
-    max-width: var(--max-content-width);
+    border-radius: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 64px 0 0;
+    padding: 64px 40px 32px;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: 1.2fr 1fr 1fr 0.8fr;
     gap: 40px;
@@ -1610,6 +1613,7 @@ footer {
         gap: 24px;
     }
 
+    .flagship-spec-strip,
     .hero-spec-strip {
         grid-template-columns: repeat(2, 1fr);
         gap: 14px;
@@ -1634,13 +1638,17 @@ footer {
     footer {
         grid-template-columns: repeat(2, 1fr);
         gap: 32px;
-        padding: 44px 28px 24px;
+        padding: 48px 28px 24px;
+        border-radius: 0;
+        margin: 48px 0 0;
+        width: 100%;
+        max-width: 100%;
     }
 }
 
 @media screen and (max-width: 768px) {
     body {
-        padding: 0 0 24px;
+        padding: 0;
     }
 
     header {
@@ -1708,6 +1716,7 @@ footer {
         width: 100%;
     }
 
+    .flagship-spec-strip,
     .hero-spec-strip {
         grid-template-columns: 1fr;
         gap: 12px;
@@ -1736,8 +1745,11 @@ footer {
     footer {
         grid-template-columns: 1fr;
         gap: 28px;
-        padding: 36px 20px 24px;
-        border-radius: var(--border-radius);
+        padding: 40px 20px 24px;
+        border-radius: 0;
+        margin: 40px 0 0;
+        width: 100%;
+        max-width: 100%;
     }
 
     .footer-bottom {
@@ -1815,5 +1827,21 @@ footer {
 .legal-content li {
     margin-bottom: 8px;
 }
+
+.legal-page footer {
+    display: block;
+    padding: 28px 40px;
+    margin-top: 48px;
+    border-radius: 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+.legal-page .footer-bottom {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
 
 

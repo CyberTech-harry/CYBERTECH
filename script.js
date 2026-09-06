@@ -631,7 +631,7 @@ function syncOfflineInquiries() {
 function initScrollReveal() {
     if (!('IntersectionObserver' in window)) return;
 
-    const targets = document.querySelectorAll('.hero-content, .bio-section, .flagship-card, .flagship-bottom-cta, .standards-section, .standard-card, .quick-contact-section, footer');
+    const targets = document.querySelectorAll('.hero-content, .bio-section, .flagship-card, .flagship-spec-strip, .hero-spec-strip, .standards-section, .standard-card, .quick-contact-section, footer');
     
     targets.forEach(target => {
         target.classList.add('reveal-on-scroll');
