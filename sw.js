@@ -3,27 +3,26 @@
  * Provides offline caching, lightning-fast asset delivery, and resilient recovery
  */
 
-const CACHE_NAME = 'htechnologies-v2-shell';
+const CACHE_NAME = 'htechnologies-v3-shell';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './privacy.html',
+  './terms.html',
   './style.css',
   './script.js',
   './manifest.json',
+  './favicon.ico',
   './htechnologies-logo.png',
   './htechnologies-logo-white.png',
   './htechnologies-icon-192.png',
   './htechnologies-icon-512.png',
   './KSM_Half.jpeg',
-  './Customer_A.png',
-  './Customer_B.png',
-  './Customer_C.png',
   './phone-call-communication-svgrepo-com.svg',
   './email-opened-svgrepo-com.svg',
   './whatsapp-svgrepo-com.svg',
   './facebook-svgrepo-com.svg',
-  './youtube-color-svgrepo-com.svg',
-  './live-chat-headset-svgrepo-com.svg'
+  './youtube-color-svgrepo-com.svg'
 ];
 
 // Install Event: Pre-cache Core Shell Assets
