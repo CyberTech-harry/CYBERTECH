@@ -1507,16 +1507,16 @@ footer {
     padding: 64px 40px 32px;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr 0.8fr;
+    grid-template-columns: 1.3fr 1fr 1.1fr 1fr;
     gap: 40px;
 }
 
 .footer-section h3 {
     color: #ffffff;
-    font-size: 1.1rem;
-    font-weight: 800;
-    margin: 0 0 16px;
-    letter-spacing: -0.02em;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 18px;
+    letter-spacing: -0.01em;
 }
 
 .footer-section p {
@@ -1535,13 +1535,162 @@ footer {
     color: var(--accent-cyan);
 }
 
-.footer-section form {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
+/* Footer Brand Column */
+.footer-brand-logo {
+    display: inline-block;
+    margin-bottom: 14px;
+    line-height: 1;
 }
 
-.footer-section input[type="email"] {
+.footer-logo-img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.footer-brand-tagline {
+    font-size: 0.86rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin: 0 0 16px;
+}
+
+.footer-social-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+.footer-social-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.footer-social-badge img {
+    height: 16px;
+    width: 16px;
+    display: block;
+}
+
+.footer-social-badge:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: rgba(2, 132, 199, 0.5);
+    transform: translateY(-1px);
+}
+
+/* Footer Navigation Column with Returned Login Link */
+.footer-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-nav-list li a {
+    color: #cbd5e1;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.15s ease;
+}
+
+.footer-nav-list li a:hover {
+    color: #38bdf8;
+    transform: translateX(3px);
+}
+
+.footer-portal-item {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-portal-link {
+    color: #38bdf8 !important;
+    font-weight: 600 !important;
+    background: rgba(2, 132, 199, 0.12);
+    border: 1px solid rgba(2, 132, 199, 0.3);
+    padding: 6px 14px;
+    border-radius: 6px;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.15s ease;
+}
+
+.footer-portal-link:hover {
+    background: var(--primary-color);
+    color: #ffffff !important;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+    transform: translateY(-1px) !important;
+}
+
+/* Footer Contact Column */
+.footer-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 0.88rem;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+.footer-contact-icon,
+.footer-contact-icon-img {
+    flex-shrink: 0;
+    margin-top: 3px;
+    height: 16px;
+    width: 16px;
+}
+
+.footer-contact-item a {
+    color: #cbd5e1;
+    text-decoration: none;
+}
+
+.footer-contact-item a:hover {
+    color: #38bdf8;
+}
+
+.footer-schedule-pill {
+    display: inline-block;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-top: 4px;
+}
+
+/* Footer Newsletter Form */
+.footer-newsletter-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.footer-newsletter-form input[type="email"] {
     flex: 1;
     padding: 10px 14px;
     background: rgba(255, 255, 255, 0.06);
@@ -1552,13 +1701,13 @@ footer {
     font-family: inherit;
 }
 
-.footer-section input[type="email"]:focus {
+.footer-newsletter-form input[type="email"]:focus {
     outline: none;
     border-color: var(--primary-color);
     background: rgba(255, 255, 255, 0.1);
 }
 
-.footer-section button[type="submit"] {
+.footer-newsletter-form button[type="submit"] {
     background: var(--primary-color);
     color: #ffffff;
     border: none;
@@ -1570,10 +1719,17 @@ footer {
     transition: var(--physics-transition);
 }
 
-.footer-section button[type="submit"]:hover {
+.footer-newsletter-form button[type="submit"]:hover {
     background: var(--primary-color-darker);
 }
 
+.footer-privacy-note {
+    font-size: 0.76rem;
+    color: #64748b;
+    margin: 6px 0 0;
+}
+
+/* Redesigned Footer Bottom Utility Bar */
 .footer-bottom {
     grid-column: 1 / -1;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -1583,13 +1739,60 @@ footer {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
-    font-size: 0.82rem;
+    gap: 16px;
+    font-size: 0.84rem;
     color: #64748b;
 }
 
-.footer-bottom p {
+.footer-bottom-copy {
     margin: 0;
+}
+
+.footer-bottom-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.footer-legal-link {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.84rem;
+    transition: color 0.15s ease;
+}
+
+.footer-legal-link:hover {
+    color: #ffffff;
+}
+
+.footer-divider {
+    color: #475569;
+    font-size: 0.8rem;
+    user-select: none;
+}
+
+.footer-auth-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: #cbd5e1;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.footer-auth-badge:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+    transform: translateY(-1px);
 }
 
 /* --- 13. Responsive Media Queries (Mobile & Tablet) --- */

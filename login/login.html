@@ -353,79 +353,289 @@
 
     </script>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Light gray background */
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #702846;
+            background-image: url('login-backdrop.jpg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            position: relative;
         }
-        .form-container {
-            background-color: white;
-            padding: 2rem; /* 32px */
-            border-radius: 0.75rem; /* 12px */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+        /* Ambient overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 35%, rgba(196, 113, 127, 0.2) 0%, rgba(74, 21, 41, 0.65) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .auth-container {
+            position: relative;
+            z-index: 10;
             width: 100%;
-            max-width: 28rem; /* 448px */
+            max-width: 416px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .form-title {
-            font-size: 1.875rem; /* 30px */
-            font-weight: 700;
-            color: #1f2937; /* gray-800 */
-            margin-bottom: 1.5rem; /* 24px */
-            text-align: center;
-        }
-        .input-field {
+
+        .back-nav-bar {
             width: 100%;
-            padding: 0.75rem 1rem; /* 12px 16px */
-            border: 1px solid #d1d5db; /* gray-300 */
-            border-radius: 0.5rem; /* 8px */
-            margin-bottom: 1rem; /* 16px */
-            font-size: 1rem; /* 16px */
-            transition: border-color 0.2s;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .input-field:focus {
-            outline: none;
-            border-color: #3b82f6; /* blue-500 */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-        .submit-button {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #2563eb; /* blue-600 */
-            color: white;
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
             font-weight: 600;
-            border-radius: 0.5rem; /* 8px */
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .submit-button:hover {
-            background-color: #1d4ed8; /* blue-700 */
-        }
-        .link-button {
-            color: #2563eb; /* blue-600 */
             text-decoration: none;
-            font-size: 0.875rem; /* 14px */
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.15s ease;
         }
-        .link-button:hover {
+
+        .back-link:hover {
+            background: rgba(0, 0, 0, 0.55);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateX(-2px);
+        }
+
+        /* The Exact Card from Mockup */
+        .login-card {
+            width: 100%;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px -12px rgba(45, 18, 48, 0.5), 0 10px 25px -5px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Card Top Banner (Scenery + Elephant + "Welcome to the Website") */
+        .login-card-banner {
+            width: 100%;
+            position: relative;
+            display: block;
+            line-height: 0;
+            overflow: hidden;
+            background: #2b1233;
+        }
+
+        .login-card-banner img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Card White Body */
+        .login-card-body {
+            padding: 30px 32px 34px;
+            background: #ffffff;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            color: #2d1838;
+            text-align: center;
+            margin: 0 0 22px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .card-title strong {
+            font-weight: 800;
+        }
+
+        /* Capsule / Pill Input Group */
+        .input-capsule {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(90deg, #c797a6 0%, #e2b3b9 100%);
+            border-radius: 9999px;
+            padding: 5px 6px;
+            margin-bottom: 16px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .input-capsule:focus-within {
+            transform: scale(1.015);
+            box-shadow: 0 0 0 3px rgba(199, 151, 166, 0.45);
+        }
+
+        .capsule-icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        .capsule-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 8px 14px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 500;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .capsule-input::placeholder {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+
+        .capsule-input:focus {
+            outline: none;
+        }
+
+        /* Forgot Password Link */
+        .forgot-link-wrapper {
+            text-align: center;
+            margin: 4px 0 16px;
+        }
+
+        .forgot-link {
+            color: #7d6580;
+            font-size: 0.84rem;
+            text-decoration: none;
+            transition: color 0.15s ease;
+            font-weight: 500;
+        }
+
+        .forgot-link:hover {
+            color: #2d1838;
             text-decoration: underline;
         }
+
+        /* Deep Plum Pill Button */
+        .btn-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 14px;
+        }
+
+        .pill-submit-btn {
+            background: linear-gradient(180deg, #3d214a 0%, #2b1437 100%);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.96rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 13px 56px;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 20px -3px rgba(43, 20, 55, 0.45);
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .pill-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 26px -2px rgba(43, 20, 55, 0.6);
+            background: linear-gradient(180deg, #482757 0%, #341942 100%);
+        }
+
+        .auth-switch-box {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 0.86rem;
+            color: #64748b;
+        }
+
+        .auth-switch-link {
+            color: #0284c7;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+
+        .auth-switch-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Feedback Message Area */
         .message-area {
-            padding: 0.75rem;
-            border-radius: 0.5rem; /* 8px */
-            margin-bottom: 1rem; /* 16px */
-            font-size: 0.875rem; /* 14px */
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 0.86rem;
+            font-weight: 500;
+            text-align: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-container {
+            padding: 8px 0;
+        }
+
+        .logged-in-header {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 10px;
             text-align: center;
         }
-        .logged-in-header {
-            font-size: 1.5rem; /* 24px */
-            font-weight: 600;
-            color: #1f2937; /* gray-800 */
-            margin-bottom: 1rem; /* 16px */
-        }
+
         .file-list-container {
-            margin-top: 1.5rem; /* 24px */
-            padding: 1rem; /* 16px */
-            background-color: #f9fafb; /* gray-50 */
-            border-radius: 0.5rem; /* 8px */
+            margin-top: 1.25rem;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Branding Tag below card */
+        .auth-footer-tag {
+            margin-top: 18px;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            letter-spacing: 0.02em;
+        }
+
+        .auth-footer-tag strong {
+            color: #ffffff;
         }
     </style>
 </head>
@@ -436,76 +646,172 @@
         <button onclick="window.location.reload()" class="ml-3 bg-white/20 hover:bg-white text-white hover:text-gray-900 text-xs px-2.5 py-1 rounded font-semibold transition">Refresh</button>
     </div>
 
-    <div class="form-container">
-        <div class="mb-4 text-left">
-            <a href="../index.html" class="text-sm text-blue-600 hover:underline inline-flex items-center gap-1 font-medium">
-                &larr; Back to Portfolio
+    <div class="auth-container">
+        <!-- Top Navigation -->
+        <div class="back-nav-bar">
+            <a href="../index.html" class="back-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span>Back to Portfolio</span>
             </a>
+            <span style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.85); font-weight: 500;">htechnologies secure portal</span>
         </div>
-        <div id="messageArea" class="message-area hidden"></div>
 
-        <form id="signupForm" class="hidden">
-            <h2 class="form-title">Create Account</h2>
-            <input type="email" id="signupEmail" placeholder="Email address" class="input-field" required>
-            <input type="password" id="signupPassword" placeholder="Password (min. 6 characters)" class="input-field" required>
-            <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" class="input-field" required>
-            <button type="submit" class="submit-button">Sign Up</button>
-            <p class="mt-4 text-center text-sm text-gray-600">
-                Already have an account? 
-                <a href="#" id="showLoginLinkFromSignup" class="link-button">Log In</a>
-            </p>
-        </form>
-
-        <form id="loginForm">
-            <h2 class="form-title">Welcome Back!</h2>
-            <input type="email" id="loginEmail" placeholder="Email address" class="input-field" required>
-            <input type="password" id="loginPassword" placeholder="Password" class="input-field" required>
-            <button type="submit" class="submit-button">Log In</button>
-            <div class="mt-4 flex justify-between items-center text-sm">
-                <a href="#" id="showResetLink" class="link-button">Forgot Password?</a>
-                <a href="#" id="showSignupLink" class="link-button">Create Account</a>
+        <!-- The Exact Card from Mockup -->
+        <div class="login-card">
+            <!-- Top Banner (Sunset mountains, acacia trees, walking elephant, "Welcome to the Website") -->
+            <div class="login-card-banner">
+                <img src="login-banner.jpg" alt="Welcome to the Website">
             </div>
-        </form>
 
-        <form id="resetForm" class="hidden">
-            <h2 class="form-title">Reset Password</h2>
-            <p class="text-center text-sm text-gray-600 mb-4">Enter your email address and we'll send you a link to reset your password.</p>
-            <input type="email" id="resetEmail" placeholder="Email address" class="input-field" required>
-            <button type="submit" class="submit-button">Send Reset Link</button>
-            <p class="mt-4 text-center">
-                <a href="#" id="showLoginLinkFromReset" class="link-button">Back to Log In</a>
-            </p>
-        </form>
+            <!-- Card White Body -->
+            <div class="login-card-body">
+                <div id="messageArea" class="message-area hidden"></div>
 
-        <div id="loggedInSection" class="hidden">
-            <h2 class="logged-in-header">Dashboard</h2>
-            <p id="userInfo" class="mb-2 text-gray-700"></p>
-            
-            <!-- Customer Service & Environment Status Telemetry Widget -->
-            <div class="mt-3 mb-4 p-4 bg-slate-900 text-white rounded-lg shadow-sm border border-cyan-500/25">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Environment Status</span>
-                    <span class="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> All Systems Operational
-                    </span>
+                <!-- 1. LOGIN FORM (Matches Mockup) -->
+                <form id="loginForm">
+                    <h2 class="card-title">USER <strong>LOGIN</strong></h2>
+                    
+                    <!-- Username / Email Input Pill -->
+                    <div class="input-capsule">
+                        <span class="capsule-icon-box" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
+                                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                            </svg>
+                        </span>
+                        <input type="email" id="loginEmail" placeholder="Username or Email" class="capsule-input" required autocomplete="username" aria-label="Username or Email">
+                    </div>
+
+                    <!-- Password Input Pill -->
+                    <div class="input-capsule">
+                        <span class="capsule-icon-box" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
+                                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                            </svg>
+                        </span>
+                        <input type="password" id="loginPassword" placeholder="Password" class="capsule-input" required autocomplete="current-password" aria-label="Password">
+                    </div>
+
+                    <!-- Forgot Password Link -->
+                    <div class="forgot-link-wrapper">
+                        <a href="#" id="showResetLink" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <!-- Deep Plum LOGIN Button -->
+                    <div class="btn-wrapper">
+                        <button type="submit" class="pill-submit-btn">LOGIN</button>
+                    </div>
+
+                    <!-- Switch to Sign Up -->
+                    <div class="auth-switch-box">
+                        <span>Don't have an account?</span>
+                        <a href="#" id="showSignupLink" class="auth-switch-link">Sign Up</a>
+                    </div>
+                </form>
+
+                <!-- 2. SIGN UP FORM -->
+                <form id="signupForm" class="hidden">
+                    <h2 class="card-title">USER <strong>REGISTRATION</strong></h2>
+
+                    <div class="input-capsule">
+                        <span class="capsule-icon-box" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
+                                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                            </svg>
+                        </span>
+                        <input type="email" id="signupEmail" placeholder="Email address" class="capsule-input" required autocomplete="email" aria-label="Email address">
+                    </div>
+
+                    <div class="input-capsule">
+                        <span class="capsule-icon-box" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
+                                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                            </svg>
+                        </span>
+                        <input type="password" id="signupPassword" placeholder="Password (min. 6 characters)" class="capsule-input" required autocomplete="new-password" aria-label="Password">
+                    </div>
+
+                    <div class="input-capsule">
+                        <span class="capsule-icon-box" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
+                                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                            </svg>
+                        </span>
+                        <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" class="capsule-input" required autocomplete="new-password" aria-label="Confirm Password">
+                    </div>
+
+                    <div class="btn-wrapper">
+                        <button type="submit" class="pill-submit-btn">SIGN UP</button>
+                    </div>
+
+                    <div class="auth-switch-box">
+                        <span>Already have an account?</span>
+                        <a href="#" id="showLoginLinkFromSignup" class="auth-switch-link">Log In</a>
+                    </div>
+                </form>
+
+                <!-- 3. RESET PASSWORD FORM -->
+                <form id="resetForm" class="hidden">
+                    <h2 class="card-title">PASSWORD <strong>RECOVERY</strong></h2>
+                    <p style="text-align: center; font-size: 0.85rem; color: #64748b; margin-bottom: 16px;">
+                        Enter your registered email address to receive password reset instructions.
+                    </p>
+
+                    <div class="input-capsule">
+                        <span class="capsule-icon-box" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
+                                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                            </svg>
+                        </span>
+                        <input type="email" id="resetEmail" placeholder="Registered email address" class="capsule-input" required autocomplete="email" aria-label="Registered email address">
+                    </div>
+
+                    <div class="btn-wrapper">
+                        <button type="submit" class="pill-submit-btn">SEND RESET LINK</button>
+                    </div>
+
+                    <div class="auth-switch-box">
+                        <a href="#" id="showLoginLinkFromReset" class="auth-switch-link">&larr; Back to Log In</a>
+                    </div>
+                </form>
+
+                <!-- 4. LOGGED IN / DASHBOARD SECTION -->
+                <div id="loggedInSection" class="hidden dashboard-container">
+                    <h2 class="logged-in-header">Dashboard</h2>
+                    <p id="userInfo" class="mb-2 text-gray-700 text-center text-sm font-medium"></p>
+                    
+                    <!-- Customer Service & Environment Status Telemetry Widget -->
+                    <div class="mt-3 mb-4 p-4 bg-slate-900 text-white rounded-lg shadow-sm border border-cyan-500/25">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Environment Status</span>
+                            <span class="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> All Systems Operational
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
+                            <div>POS Cloud: <span class="text-emerald-400 font-medium">99.9% (42ms)</span></div>
+                            <div>FixIt Portal: <span class="text-emerald-400 font-medium">100% (35ms)</span></div>
+                            <div>Biashara Hub: <span class="text-emerald-400 font-medium">99.8% (48ms)</span></div>
+                            <div>M-Pesa Gateway: <span class="text-emerald-400 font-medium">99.9% (61ms)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="file-list-container">
+                        <h3 class="text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">Available Files (PDFs):</h3>
+                        <ul id="fileList" class="list-disc list-inside text-sm">
+                        </ul>
+                    </div>
+
+                    <div class="btn-wrapper mt-4">
+                        <button id="logoutButton" class="pill-submit-btn" style="background: #dc2626; box-shadow: 0 8px 20px -3px rgba(220, 38, 38, 0.4);">LOG OUT</button>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
-                    <div>POS Cloud: <span class="text-emerald-400 font-medium">99.9% (42ms)</span></div>
-                    <div>FixIt Portal: <span class="text-emerald-400 font-medium">100% (35ms)</span></div>
-                    <div>Biashara Hub: <span class="text-emerald-400 font-medium">99.8% (48ms)</span></div>
-                    <div>M-Pesa Gateway: <span class="text-emerald-400 font-medium">99.9% (61ms)</span></div>
-                </div>
             </div>
+        </div>
 
-            <div class="file-list-container">
-                <h3 class="text-lg font-semibold text-gray-700 mb-3">Available Files (PDFs):</h3>
-                <ul id="fileList" class="list-disc list-inside">
-                </ul>
-            </div>
-
-            <button id="logoutButton" class="submit-button mt-6 bg-red-600 hover:bg-red-700">Log Out</button>
+        <!-- Footer credit line -->
+        <div class="auth-footer-tag">
+            <strong>htechnologies</strong> &bull; Secure Authentication Portal
         </div>
     </div>
-
 </body>
 </html>
