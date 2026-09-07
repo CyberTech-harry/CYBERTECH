@@ -27,6 +27,7 @@ The **htechnologies** platform is architected around the principles of **grounde
 Cybertech Portfolio/
 ├── .gitignore                                 # Git ignore directives
 ├── ARCHITECTURE.md                            # Complete Codebase Architecture & Technical Guide
+├── CNAME                                      # GitHub Pages custom domain routing (htechnologies.co.ke)
 ├── README.md                                  # High-level repository overview and quickstart
 ├── favicon.ico                                # Standard 32x32 browser tab icon
 ├── htechnologies-icon-192.png                 # PWA application icon (192x192)
@@ -153,7 +154,7 @@ Contains all business logic, input sanitizers, and background services:
 
 ### 3.6. SEO, Crawlers & AI Discoverability (`robots.txt`, `sitemap.xml`, `llms.txt`)
 * **`robots.txt`:** Fully open to search engine crawlers (Googlebot, Bingbot) and explicitly permits leading AI retrieval agents (**GPTBot**, **ClaudeBot**, **PerplexityBot**, **Applebot-Extended**).
-* **`sitemap.xml`:** Lists canonical endpoints (`https://cybertechcomps.com/`, `privacy.html`, `terms.html`).
+* **`sitemap.xml`:** Lists canonical endpoints (`https://htechnologies.co.ke/`, `privacy.html`, `terms.html`).
 * **`llms.txt`:** Implements the emerging standard for LLM context ingestion, summarizing Harrison's credentials, production systems, and physical office location for LLM agents.
 * **Schema.org Structured Data:** Embedded JSON-LD in `index.html` modeling the business as a `LocalBusiness`, Harrison as a `Person` with technical skills, and the site as an authoritative `WebSite`.
 

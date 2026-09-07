@@ -2,7 +2,7 @@
 
 **Lead Engineer:** Harrison (Busia, Kenya)  
 **Official Repository:** [https://github.com/CyberTech-harry/CYBERTECH.git](https://github.com/CyberTech-harry/CYBERTECH.git)  
-**Live Canonical Domain:** [https://cybertechcomps.com/](https://cybertechcomps.com/)  
+**Live Canonical Domain:** [https://htechnologies.co.ke/](https://htechnologies.co.ke/)  
 
 ---
 
@@ -30,6 +30,7 @@ For comprehensive architectural design decisions, directory topology, security m
 ```
 .
 ├── ARCHITECTURE.md            # Complete Codebase Architecture & Technical Guide
+├── CNAME                      # GitHub Pages custom domain routing (htechnologies.co.ke)
 ├── index.html                 # Main landing experience & enterprise systems showcase
 ├── privacy.html               # Kenya DPA 2019 Privacy Policy
 ├── terms.html                 # Operational Terms of Service

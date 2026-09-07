@@ -43,4 +43,4 @@ User-agent: *
 Allow: /
 
 # Sitemap Reference
-Sitemap: https://cybertechcomps.com/sitemap.xml
+Sitemap: https://htechnologies.co.ke/sitemap.xml
