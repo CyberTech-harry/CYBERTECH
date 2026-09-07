@@ -8,6 +8,7 @@ htechnologies (formerly CyberTech Hexperts Solutions) is a multidisciplinary tec
 ## Founder & Lead Engineer
 - **Name**: Harrison
 - **Roles**: IT Systems Support Technician, Full-Stack Web Engineer, FinTech Integrator, Graphic Designer, and Software Tutor.
+- **Canonical Website**: https://htechnologies.co.ke/
 - **Physical Headquarters**: ABSA Bank Building, P.O. Box 313 - 50400, Busia (K), Kenya.
 - **Direct Contacts**: +254 775 953 282 / +254 798 830 470 | contact.htechnologies@gmail.com
 
