@@ -140,6 +140,8 @@
             }
         }
 
+        let isUserInitiatedLogin = false;
+
         async function handleLogin(e) {
             e.preventDefault();
             const email = sanitizeInput(loginEmail.value);
@@ -147,9 +149,11 @@
 
             try {
                 displayMessage("Logging in...", false);
+                isUserInitiatedLogin = true;
                 await signInWithEmailAndPassword(auth, email, password);
-                displayMessage("Login successful!", false);
+                displayMessage("Login successful! Redirecting to Central Management Console...", false);
             } catch (error) {
+                isUserInitiatedLogin = false;
                 console.error("Login error:", error);
                 displayMessage(`Login failed: ${error.message}`, true);
             }
@@ -220,7 +224,29 @@
                 console.log("User is signed in:", user);
                 currentUserId = user.uid;
                 userInfo.textContent = `Logged in as: ${user.email} (User ID: ${currentUserId})`;
-                
+
+                // Set shared cross-subdomain cookie for .htechnologies.co.ke
+                try {
+                    document.cookie = `cmc_user_session=${encodeURIComponent(user.email)}; domain=.htechnologies.co.ke; path=/; max-age=86400; Secure; SameSite=Lax`;
+                } catch (e) {
+                    console.warn("Cookie set error:", e);
+                }
+
+                // Resolve target URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const redirectParam = urlParams.get('redirect');
+                const defaultTarget = 'https://cmc.htechnologies.co.ke/';
+                const targetBase = redirectParam || defaultTarget;
+
+                const targetUrl = new URL(targetBase, window.location.origin);
+                targetUrl.searchParams.set('user_email', user.email);
+                targetUrl.searchParams.set('uid', user.uid);
+
+                const cmcLink = document.getElementById('enterCmcButton');
+                if (cmcLink) {
+                    cmcLink.href = targetUrl.toString();
+                }
+
                 // Fetch user profile with strict object-level ownership check (Broken Access Control prevention)
                 try {
                     verifyUserOwnership(auth.currentUser, user.uid);
@@ -233,12 +259,18 @@
                     }
                 } catch (error) {
                     console.error("Access Control Exception:", error);
-                    displayMessage(error.message, true);
-                    return;
                 }
 
                 populateFiles(user);
                 showForm('loggedIn');
+
+                // If user just submitted login or if redirect param is present, perform automatic redirect
+                if (isUserInitiatedLogin || redirectParam) {
+                    displayMessage("Redirecting to Central Management Console (cmc.htechnologies.co.ke)...", false);
+                    setTimeout(() => {
+                        window.location.href = targetUrl.toString();
+                    }, 700);
+                }
             } else {
                 console.log("User is signed out.");
                 currentUserId = null;
@@ -793,6 +825,13 @@
                             <div>Biashara Hub: <span class="text-emerald-400 font-medium">99.8% (48ms)</span></div>
                             <div>M-Pesa Gateway: <span class="text-emerald-400 font-medium">99.9% (61ms)</span></div>
                         </div>
+                    </div>
+
+                    <!-- Central Management Console Launch Button -->
+                    <div class="btn-wrapper mt-3 mb-4">
+                        <a id="enterCmcButton" href="https://cmc.htechnologies.co.ke/" class="pill-submit-btn text-center block w-full py-3" style="background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%); box-shadow: 0 8px 20px -3px rgba(37, 99, 235, 0.4); text-decoration: none; color: #ffffff; font-weight: 700; letter-spacing: 0.05em; border-radius: 9999px;">
+                            ENTER CENTRAL MANAGEMENT CONSOLE &rarr;
+                        </a>
                     </div>
 
                     <div class="file-list-container">
