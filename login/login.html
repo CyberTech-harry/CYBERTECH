@@ -20,19 +20,8 @@
             signInAnonymously,
             signInWithCustomToken,
             setPersistence,
-            browserLocalPersistence,
-            GoogleAuthProvider,
-            signInWithPopup
+            browserLocalPersistence
         } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc, 
-            getDoc,
-            collection,
-            serverTimestamp,
-            setLogLevel
-        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -50,10 +39,7 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const auth = getAuth(app);
-        const db = getFirestore(app);
         const appId = firebaseConfig.appId;
-        const googleProvider = new GoogleAuthProvider();
-        setLogLevel('debug'); // For detailed Firestore logs in the console
 
         // --- DOM Elements ---
         let loginForm, resetForm, loggedInSection, fileList, userInfo;
@@ -62,7 +48,6 @@
         let messageArea;
         let showLoginLinkFromReset, showResetLink;
         let logoutButton;
-        let googleLoginBtn;
         let currentUserId = null; // To store the current user's ID
 
         // --- UI State Management ---
@@ -113,35 +98,25 @@
             e.preventDefault();
             const email = sanitizeInput(loginEmail.value);
             const password = loginPassword.value;
+            const submitBtn = loginForm ? loginForm.querySelector('button[type="submit"]') : null;
 
             try {
-                displayMessage("Logging in...", false);
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "AUTHENTICATING...";
+                }
+                displayMessage("Authenticating...", false);
                 isUserInitiatedLogin = true;
                 await signInWithEmailAndPassword(auth, email, password);
-                displayMessage("Login successful! Redirecting to Central Management Console...", false);
+                displayMessage("Login successful! Opening Central Management Console...", false);
             } catch (error) {
                 isUserInitiatedLogin = false;
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "LOGIN";
+                }
                 console.error("Login error:", error);
                 displayMessage(`Login failed: ${error.message}`, true);
-            }
-        }
-
-        async function handleGoogleLogin() {
-            try {
-                displayMessage("Connecting to Google...", false);
-                isUserInitiatedLogin = true;
-                await signInWithPopup(auth, googleProvider);
-                displayMessage("Google sign-in successful! Redirecting to Central Management Console...", false);
-            } catch (error) {
-                isUserInitiatedLogin = false;
-                console.error("Google sign-in error:", error);
-                if (error.code === 'auth/popup-closed-by-user') {
-                    displayMessage("Sign-in cancelled.", true);
-                } else if (error.code === 'auth/popup-blocked') {
-                    displayMessage("Popup blocked by browser. Please allow popups for this site.", true);
-                } else {
-                    displayMessage(`Google sign-in failed: ${error.message}`, true);
-                }
             }
         }
 
@@ -191,9 +166,6 @@
                 link.classList.add('text-blue-600', 'hover:text-blue-800', 'hover:underline', 'transition-colors', 'duration-150');
                 link.setAttribute('download', file.name); // Simulate download
                 link.addEventListener('click', (e) => {
-                    // In a real app, you might verify access or log the download
-                    // For this demo, we just show a message.
-                    // Prevent default if it's a '#' link to avoid page jump
                     if (link.getAttribute('href') === '#') {
                         e.preventDefault();
                     }
@@ -205,7 +177,7 @@
         }
         
         // --- Auth State Observer ---
-        onAuthStateChanged(auth, async (user) => {
+        onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log("User is signed in:", user);
                 currentUserId = user.uid;
@@ -233,30 +205,15 @@
                     cmcLink.href = targetUrl.toString();
                 }
 
-                // Fetch user profile with strict object-level ownership check (Broken Access Control prevention)
-                try {
-                    verifyUserOwnership(auth.currentUser, user.uid);
-                    const userDocRef = doc(db, `artifacts/${appId}/users/${user.uid}/userData`, "profile");
-                    const docSnap = await getDoc(userDocRef);
-                    if (docSnap.exists()) {
-                        console.log("User profile data verified for UID:", user.uid, docSnap.data());
-                    } else {
-                        console.log("No profile document found for UID:", user.uid);
-                    }
-                } catch (error) {
-                    console.error("Access Control Exception:", error);
+                // If user just submitted login or if redirect param is present, perform immediate redirect
+                if (isUserInitiatedLogin || redirectParam) {
+                    displayMessage("Redirecting to Central Management Console...", false);
+                    window.location.replace(targetUrl.toString());
+                    return;
                 }
 
                 populateFiles(user);
                 showForm('loggedIn');
-
-                // If user just submitted login or if redirect param is present, perform automatic redirect
-                if (isUserInitiatedLogin || redirectParam) {
-                    displayMessage("Redirecting to Central Management Console (cmc.htechnologies.co.ke)...", false);
-                    setTimeout(() => {
-                        window.location.href = targetUrl.toString();
-                    }, 700);
-                }
             } else {
                 console.log("User is signed out.");
                 currentUserId = null;
@@ -320,15 +277,11 @@
             showLoginLinkFromReset = document.getElementById('showLoginLinkFromReset');
             showResetLink = document.getElementById('showResetLink');
             logoutButton = document.getElementById('logoutButton');
-            googleLoginBtn = document.getElementById('googleLoginBtn');
 
             // Attach event listeners
             loginForm.addEventListener('submit', handleLogin);
             resetForm.addEventListener('submit', handlePasswordReset);
             logoutButton.addEventListener('click', handleLogout);
-            if (googleLoginBtn) {
-                googleLoginBtn.addEventListener('click', handleGoogleLogin);
-            }
 
             showLoginLinkFromReset.addEventListener('click', (e) => { e.preventDefault(); showForm('login'); });
             showResetLink.addEventListener('click', (e) => { e.preventDefault(); showForm('reset'); });
@@ -600,67 +553,6 @@
             transform: translateY(-1px);
         }
 
-        /* OR Divider */
-        .auth-divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 18px 0;
-            color: #94a3b8;
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-        }
-
-        .auth-divider::before,
-        .auth-divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .auth-divider span {
-            padding: 0 12px;
-        }
-
-        /* Google Sign In Button */
-        .google-auth-btn {
-            width: 100%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: #ffffff;
-            color: #1e293b;
-            font-family: inherit;
-            font-size: 0.92rem;
-            font-weight: 600;
-            padding: 11px 20px;
-            border-radius: 6px;
-            border: 1px solid #cbd5e1;
-            cursor: pointer;
-            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-            transition: all 0.15s ease;
-        }
-
-        .google-auth-btn:hover {
-            background: #f8fafc;
-            border-color: #94a3b8;
-            box-shadow: 0 3px 6px rgba(15, 23, 42, 0.08);
-            transform: translateY(-1px);
-        }
-
-        .google-auth-btn:active {
-            transform: translateY(0);
-            background: #f1f5f9;
-        }
-
-        .google-icon {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-        }
-
         .auth-switch-box {
             text-align: center;
             margin-top: 18px;
@@ -786,24 +678,6 @@
                     <!-- LOGIN Button -->
                     <div class="btn-wrapper">
                         <button type="submit" class="pill-submit-btn">LOGIN</button>
-                    </div>
-
-                    <!-- Divider -->
-                    <div class="auth-divider">
-                        <span>OR</span>
-                    </div>
-
-                    <!-- Sign In with Google -->
-                    <div class="btn-wrapper">
-                        <button type="button" id="googleLoginBtn" class="google-auth-btn">
-                            <svg class="google-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
-                                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
-                                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.16 0 9.97 0 12s.45 3.84 1.25 5.42l4.03-3.15z"/>
-                                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-                            </svg>
-                            <span>Sign in with Google</span>
-                        </button>
                     </div>
 
                 </form>
