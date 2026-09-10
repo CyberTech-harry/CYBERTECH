@@ -20,7 +20,9 @@
             signInAnonymously,
             signInWithCustomToken,
             setPersistence,
-            browserLocalPersistence
+            browserLocalPersistence,
+            GoogleAuthProvider,
+            signInWithPopup
         } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
         import { 
             getFirestore, 
@@ -50,6 +52,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         const appId = firebaseConfig.appId;
+        const googleProvider = new GoogleAuthProvider();
         setLogLevel('debug'); // For detailed Firestore logs in the console
 
         // --- DOM Elements ---
@@ -59,6 +62,7 @@
         let messageArea;
         let showLoginLinkFromReset, showResetLink;
         let logoutButton;
+        let googleLoginBtn;
         let currentUserId = null; // To store the current user's ID
 
         // --- UI State Management ---
@@ -119,6 +123,25 @@
                 isUserInitiatedLogin = false;
                 console.error("Login error:", error);
                 displayMessage(`Login failed: ${error.message}`, true);
+            }
+        }
+
+        async function handleGoogleLogin() {
+            try {
+                displayMessage("Connecting to Google...", false);
+                isUserInitiatedLogin = true;
+                await signInWithPopup(auth, googleProvider);
+                displayMessage("Google sign-in successful! Redirecting to Central Management Console...", false);
+            } catch (error) {
+                isUserInitiatedLogin = false;
+                console.error("Google sign-in error:", error);
+                if (error.code === 'auth/popup-closed-by-user') {
+                    displayMessage("Sign-in cancelled.", true);
+                } else if (error.code === 'auth/popup-blocked') {
+                    displayMessage("Popup blocked by browser. Please allow popups for this site.", true);
+                } else {
+                    displayMessage(`Google sign-in failed: ${error.message}`, true);
+                }
             }
         }
 
@@ -297,11 +320,15 @@
             showLoginLinkFromReset = document.getElementById('showLoginLinkFromReset');
             showResetLink = document.getElementById('showResetLink');
             logoutButton = document.getElementById('logoutButton');
+            googleLoginBtn = document.getElementById('googleLoginBtn');
 
             // Attach event listeners
             loginForm.addEventListener('submit', handleLogin);
             resetForm.addEventListener('submit', handlePasswordReset);
             logoutButton.addEventListener('click', handleLogout);
+            if (googleLoginBtn) {
+                googleLoginBtn.addEventListener('click', handleGoogleLogin);
+            }
 
             showLoginLinkFromReset.addEventListener('click', (e) => { e.preventDefault(); showForm('login'); });
             showResetLink.addEventListener('click', (e) => { e.preventDefault(); showForm('reset'); });
@@ -347,12 +374,13 @@
 
         body {
             font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #702846;
-            background-image: url('login-backdrop.jpg');
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-            background-attachment: fixed;
+            background-color: #0b1329;
+            background-image: 
+                radial-gradient(circle at 50% 12%, rgba(2, 132, 199, 0.16) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(2, 132, 199, 0.08) 0%, transparent 40%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -362,7 +390,7 @@
             position: relative;
         }
 
-        /* Ambient overlay */
+        /* Ambient subtle contrast layer */
         body::before {
             content: '';
             position: fixed;
@@ -370,7 +398,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 50% 35%, rgba(196, 113, 127, 0.2) 0%, rgba(74, 21, 41, 0.65) 100%);
+            background: radial-gradient(circle at 50% 35%, rgba(2, 132, 199, 0.06) 0%, rgba(11, 19, 41, 0.65) 100%);
             pointer-events: none;
             z-index: 1;
         }
@@ -379,7 +407,7 @@
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 416px;
+            max-width: 420px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -397,115 +425,125 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: rgba(255, 255, 255, 0.9);
+            color: #e2e8f0;
             font-size: 0.85rem;
             font-weight: 600;
             text-decoration: none;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             padding: 6px 14px;
-            border-radius: 9999px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             transition: all 0.15s ease;
         }
 
         .back-link:hover {
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(15, 23, 42, 0.95);
             color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.4);
+            border-color: #0284c7;
             transform: translateX(-2px);
         }
 
-        /* The Exact Card from Mockup */
+        /* High-Trust Card Architecture */
         .login-card {
             width: 100%;
             background: #ffffff;
-            border-radius: 20px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 25px 60px -12px rgba(45, 18, 48, 0.5), 0 10px 25px -5px rgba(0, 0, 0, 0.35);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
         }
 
-        /* Card Top Banner (Scenery + Elephant + "Welcome to the Website") */
+        /* Card Top Banner (Official htechnologies Brand Display) */
         .login-card-banner {
             width: 100%;
             position: relative;
-            display: block;
-            line-height: 0;
-            overflow: hidden;
-            background: #2b1233;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 28px 20px;
+            background: #ffffff;
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .login-card-banner img {
             width: 100%;
+            max-width: 250px;
             height: auto;
             display: block;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         /* Card White Body */
         .login-card-body {
-            padding: 30px 32px 34px;
+            padding: 28px 32px 32px;
             background: #ffffff;
         }
 
         .card-title {
-            font-size: 1.25rem;
-            color: #2d1838;
+            font-size: 1.15rem;
+            color: #0f172a;
             text-align: center;
             margin: 0 0 22px;
-            font-weight: 400;
-            letter-spacing: 0.05em;
+            font-weight: 500;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
         }
 
         .card-title strong {
             font-weight: 800;
+            color: #0284c7;
         }
 
-        /* Capsule / Pill Input Group */
+        /* High-Precision Input Group (6px radius, clear contrast, accessible) */
         .input-capsule {
             display: flex;
             align-items: center;
-            background: linear-gradient(90deg, #c797a6 0%, #e2b3b9 100%);
-            border-radius: 9999px;
-            padding: 5px 6px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 4px 6px;
             margin-bottom: 16px;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            transition: all 0.15s ease;
         }
 
         .input-capsule:focus-within {
-            transform: scale(1.015);
-            box-shadow: 0 0 0 3px rgba(199, 151, 166, 0.45);
+            background: #ffffff;
+            border-color: #0284c7;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
         }
 
         .capsule-icon-box {
             width: 36px;
             height: 36px;
-            border-radius: 50%;
-            background: #ffffff;
+            border-radius: 4px;
+            background: #e0f2fe;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        .capsule-icon-box svg {
+            fill: #0284c7;
         }
 
         .capsule-input {
             flex: 1;
             border: none;
             background: transparent;
-            padding: 8px 14px;
-            color: #ffffff;
-            font-size: 0.95rem;
+            padding: 8px 12px;
+            color: #0f172a;
+            font-size: 0.94rem;
             font-weight: 500;
             outline: none;
             font-family: inherit;
         }
 
         .capsule-input::placeholder {
-            color: rgba(255, 255, 255, 0.9);
+            color: #94a3b8;
             font-weight: 400;
         }
 
@@ -515,24 +553,24 @@
 
         /* Forgot Password Link */
         .forgot-link-wrapper {
-            text-align: center;
-            margin: 4px 0 16px;
+            text-align: right;
+            margin: -6px 0 18px;
         }
 
         .forgot-link {
-            color: #7d6580;
+            color: #0284c7;
             font-size: 0.84rem;
             text-decoration: none;
             transition: color 0.15s ease;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .forgot-link:hover {
-            color: #2d1838;
+            color: #0369a1;
             text-decoration: underline;
         }
 
-        /* Deep Plum Pill Button */
+        /* Enterprise Action Button (6px radius, sapphire) */
         .btn-wrapper {
             display: flex;
             justify-content: center;
@@ -540,24 +578,87 @@
         }
 
         .pill-submit-btn {
-            background: linear-gradient(180deg, #3d214a 0%, #2b1437 100%);
+            width: 100%;
+            background: #0284c7;
             color: #ffffff;
             font-weight: 700;
-            font-size: 0.96rem;
-            letter-spacing: 0.08em;
+            font-size: 0.94rem;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
-            padding: 13px 56px;
-            border-radius: 9999px;
-            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            border: 1px solid #0369a1;
             cursor: pointer;
-            box-shadow: 0 8px 20px -3px rgba(43, 20, 55, 0.45);
-            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3);
+            transition: all 0.15s ease;
         }
 
         .pill-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 26px -2px rgba(43, 20, 55, 0.6);
-            background: linear-gradient(180deg, #482757 0%, #341942 100%);
+            background: #0369a1;
+            border-color: #075985;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.35);
+            transform: translateY(-1px);
+        }
+
+        /* OR Divider */
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 18px 0;
+            color: #94a3b8;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .auth-divider span {
+            padding: 0 12px;
+        }
+
+        /* Google Sign In Button */
+        .google-auth-btn {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #ffffff;
+            color: #1e293b;
+            font-family: inherit;
+            font-size: 0.92rem;
+            font-weight: 600;
+            padding: 11px 20px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            transition: all 0.15s ease;
+        }
+
+        .google-auth-btn:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+            box-shadow: 0 3px 6px rgba(15, 23, 42, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .google-auth-btn:active {
+            transform: translateY(0);
+            background: #f1f5f9;
+        }
+
+        .google-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
         }
 
         .auth-switch-box {
@@ -581,7 +682,7 @@
         /* Feedback Message Area */
         .message-area {
             padding: 10px 14px;
-            border-radius: 8px;
+            border-radius: 6px;
             margin-bottom: 16px;
             font-size: 0.86rem;
             font-weight: 500;
@@ -607,7 +708,7 @@
             margin-top: 1.25rem;
             padding: 1rem;
             background-color: #f9fafb;
-            border-radius: 12px;
+            border-radius: 6px;
             border: 1px solid #e2e8f0;
         }
 
@@ -615,13 +716,13 @@
         .auth-footer-tag {
             margin-top: 18px;
             font-size: 0.82rem;
-            color: rgba(255, 255, 255, 0.85);
+            color: #94a3b8;
             text-align: center;
             letter-spacing: 0.02em;
         }
 
         .auth-footer-tag strong {
-            color: #ffffff;
+            color: #e2e8f0;
         }
     </style>
 </head>
@@ -642,35 +743,35 @@
             <span style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.85); font-weight: 500;">htechnologies secure portal</span>
         </div>
 
-        <!-- The Exact Card from Mockup -->
+        <!-- The Card -->
         <div class="login-card">
-            <!-- Top Banner (Sunset mountains, acacia trees, walking elephant, "Welcome to the Website") -->
+            <!-- Top Banner (Official htechnologies logo) -->
             <div class="login-card-banner">
-                <img src="login-banner.jpg" alt="Welcome to the Website">
+                <img src="htechnologies-logo.png" alt="htechnologies">
             </div>
 
             <!-- Card White Body -->
             <div class="login-card-body">
                 <div id="messageArea" class="message-area hidden"></div>
 
-                <!-- 1. LOGIN FORM (Matches Mockup) -->
+                <!-- 1. LOGIN FORM -->
                 <form id="loginForm">
-                    <h2 class="card-title">USER <strong>LOGIN</strong></h2>
+                    <h2 class="card-title">ACCOUNT <strong>LOGIN</strong></h2>
                     
-                    <!-- Username / Email Input Pill -->
+                    <!-- Username / Email Input -->
                     <div class="input-capsule">
                         <span class="capsule-icon-box" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#0284c7">
                                 <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
                             </svg>
                         </span>
                         <input type="email" id="loginEmail" placeholder="Username or Email" class="capsule-input" required autocomplete="username" aria-label="Username or Email">
                     </div>
 
-                    <!-- Password Input Pill -->
+                    <!-- Password Input -->
                     <div class="input-capsule">
                         <span class="capsule-icon-box" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#0284c7">
                                 <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
                             </svg>
                         </span>
@@ -682,14 +783,32 @@
                         <a href="#" id="showResetLink" class="forgot-link">Forgot Password?</a>
                     </div>
 
-                    <!-- Deep Plum LOGIN Button -->
+                    <!-- LOGIN Button -->
                     <div class="btn-wrapper">
                         <button type="submit" class="pill-submit-btn">LOGIN</button>
                     </div>
 
+                    <!-- Divider -->
+                    <div class="auth-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <!-- Sign In with Google -->
+                    <div class="btn-wrapper">
+                        <button type="button" id="googleLoginBtn" class="google-auth-btn">
+                            <svg class="google-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.16 0 9.97 0 12s.45 3.84 1.25 5.42l4.03-3.15z"/>
+                                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                            </svg>
+                            <span>Sign in with Google</span>
+                        </button>
+                    </div>
+
                 </form>
 
-                <!-- 3. RESET PASSWORD FORM -->
+                <!-- 2. RESET PASSWORD FORM -->
                 <form id="resetForm" class="hidden">
                     <h2 class="card-title">PASSWORD <strong>RECOVERY</strong></h2>
                     <p style="text-align: center; font-size: 0.85rem; color: #64748b; margin-bottom: 16px;">
@@ -698,7 +817,7 @@
 
                     <div class="input-capsule">
                         <span class="capsule-icon-box" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#0284c7">
                                 <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
                             </svg>
                         </span>
@@ -714,7 +833,7 @@
                     </div>
                 </form>
 
-                <!-- 4. LOGGED IN / DASHBOARD SECTION -->
+                <!-- 3. LOGGED IN / DASHBOARD SECTION -->
                 <div id="loggedInSection" class="hidden dashboard-container">
                     <h2 class="logged-in-header">Dashboard</h2>
                     <p id="userInfo" class="mb-2 text-gray-700 text-center text-sm font-medium"></p>
@@ -737,7 +856,7 @@
 
                     <!-- Central Management Console Launch Button -->
                     <div class="btn-wrapper mt-3 mb-4">
-                        <a id="enterCmcButton" href="https://cmc.htechnologies.co.ke/" class="pill-submit-btn text-center block w-full py-3" style="background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%); box-shadow: 0 8px 20px -3px rgba(37, 99, 235, 0.4); text-decoration: none; color: #ffffff; font-weight: 700; letter-spacing: 0.05em; border-radius: 9999px;">
+                        <a id="enterCmcButton" href="https://cmc.htechnologies.co.ke/" class="pill-submit-btn text-center block w-full py-3" style="background: #0284c7; border: 1px solid #0369a1; border-radius: 6px; text-decoration: none; color: #ffffff; font-weight: 700; letter-spacing: 0.05em;">
                             ENTER CENTRAL MANAGEMENT CONSOLE &rarr;
                         </a>
                     </div>
@@ -749,7 +868,7 @@
                     </div>
 
                     <div class="btn-wrapper mt-4">
-                        <button id="logoutButton" class="pill-submit-btn" style="background: #dc2626; box-shadow: 0 8px 20px -3px rgba(220, 38, 38, 0.4);">LOG OUT</button>
+                        <button id="logoutButton" class="pill-submit-btn" style="background: #dc2626; border: 1px solid #b91c1c; border-radius: 6px;">LOG OUT</button>
                     </div>
                 </div>
             </div>
