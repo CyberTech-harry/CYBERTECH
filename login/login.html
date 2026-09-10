@@ -8,7 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script type="module">
         // Firebase App (the core Firebase SDK) is always required and must be listed first
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
         // Add SDKs for Firebase products that you want to use
         import { 
             getAuth, 
@@ -20,8 +21,8 @@
             signInAnonymously,
             signInWithCustomToken,
             setPersistence,
-            browserLocalPersistence // Or browserSessionPersistence
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+            browserLocalPersistence
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
         import { 
             getFirestore, 
             doc, 
@@ -30,24 +31,26 @@
             collection,
             serverTimestamp,
             setLogLevel
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        // --- Firebase Configuration ---
+        // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-            apiKey: "AIzaSyDw_ehujc9oDBXcnx8hX12REbvkil6h488",
-            authDomain: "cybertech-login-c28d3.firebaseapp.com",
-            projectId: "cybertech-login-c28d3",
-            storageBucket: "cybertech-login-c28d3.appspot.com",
-            messagingSenderId: "236317834415",
-            appId: "1:236317834415:web:2dfd7fbe8e5eb37329285a",
-            measurementId: "G-QZ632WLKK2"
+            apiKey: "AIzaSyDpYN7vT1sreCWG5lnvyTGNRiK13zxlHGs",
+            authDomain: "htechnologies-47c0e.firebaseapp.com",
+            projectId: "htechnologies-47c0e",
+            storageBucket: "htechnologies-47c0e.firebasestorage.app",
+            messagingSenderId: "948345560439",
+            appId: "1:948345560439:web:5b555655bd714437fb5572",
+            measurementId: "G-039Z14QPK3"
         };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const appId = firebaseConfig.appId;
         setLogLevel('debug'); // For detailed Firestore logs in the console
 
         // --- DOM Elements ---
