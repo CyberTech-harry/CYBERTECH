@@ -42,13 +42,12 @@
         const appId = firebaseConfig.appId;
 
         // --- DOM Elements ---
-        let loginForm, resetForm, loggedInSection, fileList, userInfo;
+        let loginForm, resetForm, loggedInSection, userInfo;
         let loginEmail, loginPassword;
         let resetEmail;
         let messageArea;
         let showLoginLinkFromReset, showResetLink;
         let logoutButton;
-        let currentUserId = null; // To store the current user's ID
 
         // --- UI State Management ---
         function showForm(formToShow) {
@@ -80,16 +79,6 @@
                 .replace(/(\b(SELECT|UNION|DROP|INSERT|DELETE|UPDATE|ALTER|CREATE|EXEC|WHERE|OR|AND)\b|--|\/\*|\*\/)/gi, '') // Strip dangerous SQL tokens
                 .replace(/\s+/g, ' ')
                 .trim();
-        }
-
-        // --- Security Pillar 1: Broken Access Control Guard ---
-        // Prompt Fix: "Check that the logged-in user actually owns the data before handing anything back."
-        function verifyUserOwnership(currentUser, targetUserId) {
-            if (!currentUser || currentUser.uid !== targetUserId) {
-                console.error(`[Security Alert] Access Denied: User ${currentUser ? currentUser.uid : 'Anonymous'} attempted to access data belonging to ${targetUserId}`);
-                throw new Error("Broken Access Control Violation: You are not authorized to view or access this account's records.");
-            }
-            return true;
         }
 
         let isUserInitiatedLogin = false;
@@ -145,80 +134,34 @@
                 displayMessage(`Logout failed: ${error.message}`, true);
             }
         }
-
-        // --- File Download Simulation ---
-        function populateFiles(user) {
-            fileList.innerHTML = ''; // Clear previous files
-            if (!user) return;
-
-            const files = [
-                { name: "Company Report 2024.pdf", url: "#" },
-                { name: "Product Catalog.pdf", url: "#" },
-                { name: "User Manual - Device X.pdf", url: "#" }
-            ];
-
-            files.forEach(file => {
-                const listItem = document.createElement('li');
-                listItem.classList.add('mb-2');
-                const link = document.createElement('a');
-                link.href = file.url;
-                link.textContent = file.name;
-                link.classList.add('text-blue-600', 'hover:text-blue-800', 'hover:underline', 'transition-colors', 'duration-150');
-                link.setAttribute('download', file.name); // Simulate download
-                link.addEventListener('click', (e) => {
-                    if (link.getAttribute('href') === '#') {
-                        e.preventDefault();
-                    }
-                    displayMessage(`Downloading ${file.name}... (simulation)`, false);
-                });
-                listItem.appendChild(link);
-                fileList.appendChild(listItem);
-            });
-        }
         
         // --- Auth State Observer ---
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log("User is signed in:", user);
-                currentUserId = user.uid;
-                userInfo.textContent = `Logged in as: ${user.email} (User ID: ${currentUserId})`;
+                if (userInfo) userInfo.textContent = `Authenticated as ${user.email}`;
 
                 // Set shared cross-subdomain cookie for .htechnologies.co.ke
                 try {
                     document.cookie = `cmc_user_session=${encodeURIComponent(user.email)}; domain=.htechnologies.co.ke; path=/; max-age=86400; Secure; SameSite=Lax`;
-                } catch (e) {
-                    console.warn("Cookie set error:", e);
-                }
+                } catch (e) {}
 
-                // Resolve target URL
+                // Resolve target URL without sensitive query parameters
                 const urlParams = new URLSearchParams(window.location.search);
                 const redirectParam = urlParams.get('redirect');
                 const defaultTarget = 'https://cmc.htechnologies.co.ke/';
-                const targetBase = redirectParam || defaultTarget;
-
-                const targetUrl = new URL(targetBase, window.location.origin);
-                targetUrl.searchParams.set('user_email', user.email);
-                targetUrl.searchParams.set('uid', user.uid);
+                const targetUrl = redirectParam || defaultTarget;
 
                 const cmcLink = document.getElementById('enterCmcButton');
                 if (cmcLink) {
-                    cmcLink.href = targetUrl.toString();
+                    cmcLink.href = targetUrl;
                 }
 
-                // If user just submitted login or if redirect param is present, perform immediate redirect
-                if (isUserInitiatedLogin || redirectParam) {
-                    displayMessage("Redirecting to Central Management Console...", false);
-                    window.location.replace(targetUrl.toString());
-                    return;
-                }
-
-                populateFiles(user);
-                showForm('loggedIn');
+                // Automatically forward authenticated session directly to Central Management Console
+                displayMessage("Authenticated. Opening Central Management Console...", false);
+                window.location.replace(targetUrl);
+                return;
             } else {
-                console.log("User is signed out.");
-                currentUserId = null;
-                userInfo.textContent = '';
-                fileList.innerHTML = '';
+                if (userInfo) userInfo.textContent = '';
                 showForm('login'); // Default to login form when logged out
             }
         });
@@ -228,35 +171,8 @@
             try {
                 // Set persistence to local to keep user signed in across sessions
                 await setPersistence(auth, browserLocalPersistence);
-
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    console.log("Attempting to sign in with custom token...");
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                    console.log("Successfully signed in with custom token.");
-                } else {
-                    console.log("No custom token found, checking current user or signing in anonymously if needed for some scenarios (not strictly for this app flow but good practice).");
-                    // For this app, we want users to explicitly log in or sign up.
-                    // If auth.currentUser is null, onAuthStateChanged will handle showing the login form.
-                    if (!auth.currentUser) {
-                         console.log("No active user session found.");
-                         // Optionally, you could attempt signInAnonymously if your app has features for guests
-                         // await signInAnonymously(auth);
-                         // console.log("Signed in anonymously for initial access.");
-                    }
-                }
             } catch (error) {
-                console.error("Initial auth error:", error);
-                displayMessage(`Authentication initialization failed: ${error.message}`, true);
-                // Fallback for critical auth failure: sign in anonymously if it makes sense for the app
-                // or ensure login form is shown. onAuthStateChanged should handle the UI.
-                if (!auth.currentUser) {
-                    try {
-                        // await signInAnonymously(auth); // Example fallback
-                        console.warn("Could not authenticate with token, user needs to login/signup.");
-                    } catch (anonError) {
-                        console.error("Anonymous sign-in fallback failed:", anonError);
-                    }
-                }
+                console.error("Auth init error:", error);
             }
         }
 
@@ -266,7 +182,6 @@
             loginForm = document.getElementById('loginForm');
             resetForm = document.getElementById('resetForm');
             loggedInSection = document.getElementById('loggedInSection');
-            fileList = document.getElementById('fileList');
             userInfo = document.getElementById('userInfo');
             messageArea = document.getElementById('messageArea');
 
@@ -707,38 +622,16 @@
                     </div>
                 </form>
 
-                <!-- 3. LOGGED IN / DASHBOARD SECTION -->
+                <!-- 3. LOGGED IN SECTION -->
                 <div id="loggedInSection" class="hidden dashboard-container">
-                    <h2 class="logged-in-header">Dashboard</h2>
-                    <p id="userInfo" class="mb-2 text-gray-700 text-center text-sm font-medium"></p>
-                    
-                    <!-- Customer Service & Environment Status Telemetry Widget -->
-                    <div class="mt-3 mb-4 p-4 bg-slate-900 text-white rounded-lg shadow-sm border border-cyan-500/25">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Environment Status</span>
-                            <span class="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> All Systems Operational
-                            </span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
-                            <div>POS Cloud: <span class="text-emerald-400 font-medium">99.9% (42ms)</span></div>
-                            <div>FixIt Portal: <span class="text-emerald-400 font-medium">100% (35ms)</span></div>
-                            <div>Biashara Hub: <span class="text-emerald-400 font-medium">99.8% (48ms)</span></div>
-                            <div>M-Pesa Gateway: <span class="text-emerald-400 font-medium">99.9% (61ms)</span></div>
-                        </div>
-                    </div>
+                    <h2 class="card-title">AUTHENTICATED <strong>SESSION</strong></h2>
+                    <p id="userInfo" class="mb-4 text-slate-700 text-center text-sm font-medium"></p>
 
                     <!-- Central Management Console Launch Button -->
                     <div class="btn-wrapper mt-3 mb-4">
                         <a id="enterCmcButton" href="https://cmc.htechnologies.co.ke/" class="pill-submit-btn text-center block w-full py-3" style="background: #0284c7; border: 1px solid #0369a1; border-radius: 6px; text-decoration: none; color: #ffffff; font-weight: 700; letter-spacing: 0.05em;">
                             ENTER CENTRAL MANAGEMENT CONSOLE &rarr;
                         </a>
-                    </div>
-
-                    <div class="file-list-container">
-                        <h3 class="text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">Available Files (PDFs):</h3>
-                        <ul id="fileList" class="list-disc list-inside text-sm">
-                        </ul>
                     </div>
 
                     <div class="btn-wrapper mt-4">
