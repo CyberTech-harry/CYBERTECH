@@ -13,7 +13,6 @@
         // Add SDKs for Firebase products that you want to use
         import { 
             getAuth, 
-            createUserWithEmailAndPassword, 
             signInWithEmailAndPassword, 
             sendPasswordResetEmail, 
             signOut, 
@@ -54,24 +53,21 @@
         setLogLevel('debug'); // For detailed Firestore logs in the console
 
         // --- DOM Elements ---
-        let signupForm, loginForm, resetForm, loggedInSection, fileList, userInfo;
-        let signupEmail, signupPassword, signupConfirmPassword;
+        let loginForm, resetForm, loggedInSection, fileList, userInfo;
         let loginEmail, loginPassword;
         let resetEmail;
         let messageArea;
-        let showSignupLink, showLoginLinkFromSignup, showLoginLinkFromReset, showResetLink;
+        let showLoginLinkFromReset, showResetLink;
         let logoutButton;
         let currentUserId = null; // To store the current user's ID
 
         // --- UI State Management ---
         function showForm(formToShow) {
-            signupForm.classList.add('hidden');
             loginForm.classList.add('hidden');
             resetForm.classList.add('hidden');
             loggedInSection.classList.add('hidden');
 
-            if (formToShow === 'signup') signupForm.classList.remove('hidden');
-            else if (formToShow === 'login') loginForm.classList.remove('hidden');
+            if (formToShow === 'login') loginForm.classList.remove('hidden');
             else if (formToShow === 'reset') resetForm.classList.remove('hidden');
             else if (formToShow === 'loggedIn') loggedInSection.classList.remove('hidden');
         }
@@ -105,42 +101,6 @@
                 throw new Error("Broken Access Control Violation: You are not authorized to view or access this account's records.");
             }
             return true;
-        }
-
-        // --- Authentication Logic with Sanitization & Defense ---
-        async function handleSignup(e) {
-            e.preventDefault();
-            const email = sanitizeInput(signupEmail.value);
-            const password = signupPassword.value;
-            const confirmPassword = signupConfirmPassword.value;
-
-            if (password !== confirmPassword) {
-                displayMessage("Passwords do not match.", true);
-                return;
-            }
-            if (password.length < 6) {
-                displayMessage("Password should be at least 6 characters.", true);
-                return;
-            }
-
-            try {
-                displayMessage("Creating account...", false);
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                
-                // Store user data in Firestore with strict UID ownership scoping
-                verifyUserOwnership(user, user.uid);
-                const userDocRef = doc(db, `artifacts/${appId}/users/${user.uid}/userData`, "profile");
-                await setDoc(userDocRef, {
-                    email: user.email,
-                    createdAt: serverTimestamp()
-                });
-
-                displayMessage("Signup successful! You are now logged in.", false);
-            } catch (error) {
-                console.error("Signup error:", error);
-                displayMessage(`Signup failed: ${error.message}`, true);
-            }
         }
 
         let isUserInitiatedLogin = false;
@@ -323,7 +283,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             // Assign DOM elements
-            signupForm = document.getElementById('signupForm');
             loginForm = document.getElementById('loginForm');
             resetForm = document.getElementById('resetForm');
             loggedInSection = document.getElementById('loggedInSection');
@@ -331,27 +290,19 @@
             userInfo = document.getElementById('userInfo');
             messageArea = document.getElementById('messageArea');
 
-            signupEmail = document.getElementById('signupEmail');
-            signupPassword = document.getElementById('signupPassword');
-            signupConfirmPassword = document.getElementById('signupConfirmPassword');
             loginEmail = document.getElementById('loginEmail');
             loginPassword = document.getElementById('loginPassword');
             resetEmail = document.getElementById('resetEmail');
             
-            showSignupLink = document.getElementById('showSignupLink');
-            showLoginLinkFromSignup = document.getElementById('showLoginLinkFromSignup');
             showLoginLinkFromReset = document.getElementById('showLoginLinkFromReset');
             showResetLink = document.getElementById('showResetLink');
             logoutButton = document.getElementById('logoutButton');
 
             // Attach event listeners
-            signupForm.addEventListener('submit', handleSignup);
             loginForm.addEventListener('submit', handleLogin);
             resetForm.addEventListener('submit', handlePasswordReset);
             logoutButton.addEventListener('click', handleLogout);
 
-            showSignupLink.addEventListener('click', (e) => { e.preventDefault(); showForm('signup'); });
-            showLoginLinkFromSignup.addEventListener('click', (e) => { e.preventDefault(); showForm('login'); });
             showLoginLinkFromReset.addEventListener('click', (e) => { e.preventDefault(); showForm('login'); });
             showResetLink.addEventListener('click', (e) => { e.preventDefault(); showForm('reset'); });
 
@@ -736,52 +687,6 @@
                         <button type="submit" class="pill-submit-btn">LOGIN</button>
                     </div>
 
-                    <!-- Switch to Sign Up -->
-                    <div class="auth-switch-box">
-                        <span>Don't have an account?</span>
-                        <a href="#" id="showSignupLink" class="auth-switch-link">Sign Up</a>
-                    </div>
-                </form>
-
-                <!-- 2. SIGN UP FORM -->
-                <form id="signupForm" class="hidden">
-                    <h2 class="card-title">USER <strong>REGISTRATION</strong></h2>
-
-                    <div class="input-capsule">
-                        <span class="capsule-icon-box" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
-                                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
-                            </svg>
-                        </span>
-                        <input type="email" id="signupEmail" placeholder="Email address" class="capsule-input" required autocomplete="email" aria-label="Email address">
-                    </div>
-
-                    <div class="input-capsule">
-                        <span class="capsule-icon-box" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
-                                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-                            </svg>
-                        </span>
-                        <input type="password" id="signupPassword" placeholder="Password (min. 6 characters)" class="capsule-input" required autocomplete="new-password" aria-label="Password">
-                    </div>
-
-                    <div class="input-capsule">
-                        <span class="capsule-icon-box" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#c797a6">
-                                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-                            </svg>
-                        </span>
-                        <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" class="capsule-input" required autocomplete="new-password" aria-label="Confirm Password">
-                    </div>
-
-                    <div class="btn-wrapper">
-                        <button type="submit" class="pill-submit-btn">SIGN UP</button>
-                    </div>
-
-                    <div class="auth-switch-box">
-                        <span>Already have an account?</span>
-                        <a href="#" id="showLoginLinkFromSignup" class="auth-switch-link">Log In</a>
-                    </div>
                 </form>
 
                 <!-- 3. RESET PASSWORD FORM -->
