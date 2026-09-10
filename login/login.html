@@ -49,8 +49,25 @@
         let showLoginLinkFromReset, showResetLink;
         let logoutButton;
 
+        // Check URL parameters for explicit logout requests
+        const urlParams = new URLSearchParams(window.location.search);
+        const isLogoutAction = urlParams.get('action') === 'logout' || urlParams.get('logout') === 'true';
+
+        function clearSessionCookies() {
+            try {
+                document.cookie = 'cmc_user_session=; domain=.htechnologies.co.ke; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Secure; SameSite=Lax';
+                document.cookie = 'cmc_user_session=; domain=htechnologies.co.ke; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Secure; SameSite=Lax';
+                document.cookie = 'cmc_user_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+            } catch (e) {}
+        }
+
+        if (isLogoutAction) {
+            clearSessionCookies();
+        }
+
         // --- UI State Management ---
         function showForm(formToShow) {
+            if (!loginForm || !resetForm || !loggedInSection) return;
             loginForm.classList.add('hidden');
             resetForm.classList.add('hidden');
             loggedInSection.classList.add('hidden');
@@ -61,16 +78,17 @@
         }
 
         function displayMessage(message, isError = false) {
+            if (!messageArea) return;
             messageArea.textContent = message;
             messageArea.classList.remove('text-green-600', 'text-red-600', 'hidden');
             messageArea.classList.add(isError ? 'text-red-600' : 'text-green-600');
             setTimeout(() => {
-                messageArea.classList.add('hidden');
+                if (messageArea) messageArea.classList.add('hidden');
             }, 5000);
         }
 
         // --- Security Pillar 2: Database Injection Prevention (SQL / NoSQL) ---
-        // Prompt Fix: "Parameterize every query so whatever people type into my forms is treated as data, not code."
+        // Parameterize every query so whatever people type into my forms is treated as data, not code.
         function sanitizeInput(raw) {
             if (typeof raw !== 'string') return '';
             return raw
@@ -82,6 +100,7 @@
         }
 
         let isUserInitiatedLogin = false;
+        let isProcessingLogout = isLogoutAction;
 
         async function handleLogin(e) {
             e.preventDefault();
@@ -127,8 +146,12 @@
         async function handleLogout() {
             try {
                 await signOut(auth);
-                displayMessage("Logged out successfully.", false);
-                // onAuthStateChanged will handle UI update
+                clearSessionCookies();
+                if (loginEmail) loginEmail.value = '';
+                if (loginPassword) loginPassword.value = '';
+                if (userInfo) userInfo.textContent = '';
+                displayMessage("Signed out successfully.", false);
+                showForm('login');
             } catch (error) {
                 console.error("Logout error:", error);
                 displayMessage(`Logout failed: ${error.message}`, true);
@@ -136,7 +159,26 @@
         }
         
         // --- Auth State Observer ---
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
+            if (isProcessingLogout) {
+                try {
+                    await signOut(auth);
+                } catch (e) {
+                    console.error("Signout error during logout processing:", e);
+                }
+                clearSessionCookies();
+                if (window.history && window.history.replaceState) {
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+                isProcessingLogout = false;
+                if (userInfo) userInfo.textContent = '';
+                if (loginEmail) loginEmail.value = '';
+                if (loginPassword) loginPassword.value = '';
+                displayMessage("Signed out successfully.", false);
+                showForm('login');
+                return;
+            }
+
             if (user) {
                 if (userInfo) userInfo.textContent = `Authenticated as ${user.email}`;
 
@@ -146,8 +188,8 @@
                 } catch (e) {}
 
                 // Resolve target URL without sensitive query parameters
-                const urlParams = new URLSearchParams(window.location.search);
-                const redirectParam = urlParams.get('redirect');
+                const params = new URLSearchParams(window.location.search);
+                const redirectParam = params.get('redirect');
                 const defaultTarget = 'https://cmc.htechnologies.co.ke/';
                 const targetUrl = redirectParam || defaultTarget;
 
@@ -156,13 +198,19 @@
                     cmcLink.href = targetUrl;
                 }
 
-                // Automatically forward authenticated session directly to Central Management Console
-                displayMessage("Authenticated. Opening Central Management Console...", false);
-                window.location.replace(targetUrl);
-                return;
+                // ONLY auto-forward to CMC if user explicitly submitted the login form in this session
+                if (isUserInitiatedLogin) {
+                    isUserInitiatedLogin = false;
+                    displayMessage("Login successful! Opening Central Management Console...", false);
+                    window.location.replace(targetUrl);
+                    return;
+                }
+
+                // If arriving with an existing session, display authenticated session options
+                showForm('loggedIn');
             } else {
                 if (userInfo) userInfo.textContent = '';
-                showForm('login'); // Default to login form when logged out
+                showForm('login');
             }
         });
 
@@ -171,6 +219,19 @@
             try {
                 // Set persistence to local to keep user signed in across sessions
                 await setPersistence(auth, browserLocalPersistence);
+                if (isLogoutAction) {
+                    await signOut(auth);
+                    clearSessionCookies();
+                    if (window.history && window.history.replaceState) {
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }
+                    isProcessingLogout = false;
+                    if (userInfo) userInfo.textContent = '';
+                    if (loginEmail) loginEmail.value = '';
+                    if (loginPassword) loginPassword.value = '';
+                    displayMessage("Signed out successfully.", false);
+                    showForm('login');
+                }
             } catch (error) {
                 console.error("Auth init error:", error);
             }
@@ -201,12 +262,20 @@
             showLoginLinkFromReset.addEventListener('click', (e) => { e.preventDefault(); showForm('login'); });
             showResetLink.addEventListener('click', (e) => { e.preventDefault(); showForm('reset'); });
 
+            // If logout action was requested via URL, immediately display notification and ensure login view
+            if (isLogoutAction) {
+                if (loginEmail) loginEmail.value = '';
+                if (loginPassword) loginPassword.value = '';
+                displayMessage("Signed out successfully.", false);
+                showForm('login');
+            }
+
             // Decoupled Frontend & Backend Outage Monitor
             initOutageMonitor();
 
             // Initialize authentication and UI
             initializeAuth().then(() => {
-                console.log("Firebase Auth initialized. Waiting for onAuthStateChanged.");
+                console.log("Firebase Auth initialized.");
             });
         });
 
